@@ -8,6 +8,7 @@ class Student(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     number = models.CharField(max_length=10)
+    password = models.CharField(max_length=20)
     dept = models.CharField(max_length=30)
     grade = models.CharField(max_length=30)
 
@@ -15,6 +16,7 @@ class Teacher(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     number = models.CharField(max_length=10)
+    password = models.CharField(max_length=20)
     title = models.CharField(max_length=20)
     mobile = models.CharField(max_length=20, null=True)
 
@@ -22,6 +24,7 @@ class EduAdmin(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     number = models.CharField(max_length=10)
+    password = models.CharField(max_length=20)
     title = models.CharField(max_length=20)
     mobile = models.CharField(max_length=20, null=True)
 
