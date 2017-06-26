@@ -77,11 +77,9 @@ WSGI_APPLICATION = 'EducationalAdministrationSystem.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'EducationalSystem',
-        'USER': 'storm',
-        'PASSWORD': 'stormteam',
-        'HOST': '115.28.162.52',
-        'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': '/home/GreatBeast/my.cnf',
+        },
     }
 }
 
