@@ -110,102 +110,103 @@
 				</footer>
 
         <!--Login-->
-        <div class="modal fade" id="loginTable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-         <div class="modal-dialog">
-            <div class="modal-content">
+        <form method="post" action="EducationalSystem/test">
+            <div class="modal fade" id="loginTable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+             <div class="modal-dialog">
+                <div class="modal-content">
 
-               <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                        &times;
-                  </button>
-                  <h4 class="modal-title" id="myModalLabel">
-                      登录
-                  </h4>
-               </div>
+                   <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                      </button>
+                      <h4 class="modal-title" id="myModalLabel">
+                          登录
+                      </h4>
+                   </div>
 
-               <div class="modal-body" id="modal-body">
+                   <div class="modal-body" id="modal-body">
 
-                <div class="row">
-                  <div class="col-md-10 col-md-offset-1">
                     <div class="row">
+                      <div class="col-md-10 col-md-offset-1">
+                        <div class="row">
 
-                      <div class="form-group has-feedback form-time col-md-12">
-                        <label class="control-label">用户名</label>
-                        <input type="text" class="form-control" id="login_username">
-                      </div>
+                          <div class="form-group has-feedback form-time col-md-12">
+                            <label class="control-label">用户名</label>
+                            <input type="text" class="form-control" id="name" name="name">
+                          </div>
 
-                      <div class="form-group has-feedback form-time col-md-12">
-                        <label class="control-label">密码</label>
-                        <input type="password" class="form-control" id="login_password">
-                      </div>
-                      
-                      <!---->
-                      <div class="form-group has-feedback form-time col-md-12">
-                          <label class="control-label">登录类型</label><br>
-                          <label class="demo--label">
-                              <input class="demo--radio" type="radio" name="demo-radio" checked>
-                              <span class="demo--radioInput"></span>学生
-                          </label>
-                          <label class="demo--label">
-                              <input class="demo--radio" type="radio" name="demo-radio">
-                              <span class="demo--radioInput"></span>教师
-                          </label>
-                          <label class="demo--label">
-                              <input class="demo--radio" type="radio" name="demo-radio">
-                              <span class="demo--radioInput"></span>教务管理员
-                          </label>
-                      </div>
-                      <!--
-                      <div class="form-group radio-beauty-container">
-                          <label class="control-label">登录类型</label>
-                          <label>
-                              <input type="radio" name="radioName" id="radioName1" checked/>
-                              <span class="radio-name">前端工程师</span>
-                              <label for="radioName1" class="radio-beauty"></label>
-                          </label>
-                          <label>
-                              <input type="radio" name="radioName" id="radioName2" />
-                              <span class="radio-name">后端工程师</span>                              
-                              <label for="radioName2" class="radio-beauty"></label>
-                          </label>
-                          <label>
-                              <input type="radio" name="radioName" id="radioName3" />
-                              <span class="radio-name">全栈工程师</span>
-                              <label for="radioName3" class="radio-beauty"></label>
-                          </label>
-                      </div>
+                          <div class="form-group has-feedback form-time col-md-12">
+                            <label class="control-label">密码</label>
+                            <input type="password" class="form-control" id="password" name="possword">
+                          </div>
 
-                      <div>
-                        <label class="control-label">登录类型</label>
-                        <span class="pay_list_c1 on">
-                          <input type="radio" class="radioclass" name="usertype" value="student" checked>学生
-                          <input type="radio" class="radioclass" name="usertype" value="teacher">教师
-                          <input type="radio" class="radioclass" name="usertype" value="manager">教务管理员
-                        </span>
+                          <!---->
+                          <div class="form-group has-feedback form-time col-md-12">
+                              <label class="control-label">登录类型</label><br>
+                              <label class="demo--label">
+                                  <input class="demo--radio" type="radio" name="type" value="student" checked>
+                                  <span class="demo--radioInput"></span>学生
+                              </label>
+                              <label class="demo--label">
+                                  <input class="demo--radio" type="radio" name="type" value="teacher">
+                                  <span class="demo--radioInput"></span>教师
+                              </label>
+                              <label class="demo--label">
+                                  <input class="demo--radio" type="radio" name="type" value="manager">
+                                  <span class="demo--radioInput"></span>教务管理员
+                              </label>
+                          </div>
+                          <!--
+                          <div class="form-group radio-beauty-container">
+                              <label class="control-label">登录类型</label>
+                              <label>
+                                  <input type="radio" name="radioName" id="radioName1" checked/>
+                                  <span class="radio-name">前端工程师</span>
+                                  <label for="radioName1" class="radio-beauty"></label>
+                              </label>
+                              <label>
+                                  <input type="radio" name="radioName" id="radioName2" />
+                                  <span class="radio-name">后端工程师</span>
+                                  <label for="radioName2" class="radio-beauty"></label>
+                              </label>
+                              <label>
+                                  <input type="radio" name="radioName" id="radioName3" />
+                                  <span class="radio-name">全栈工程师</span>
+                                  <label for="radioName3" class="radio-beauty"></label>
+                              </label>
+                          </div>
 
-                        <input type="radio" name="usertype" value="student" checked>学生
-                        <input type="radio" name="usertype" value="teacher">教师
-                        <input type="radio" name="usertype" value="manager">教务管理员
+                          <div>
+                            <label class="control-label">登录类型</label>
+                            <span class="pay_list_c1 on">
+                              <input type="radio" class="radioclass" name="usertype" value="student" checked>学生
+                              <input type="radio" class="radioclass" name="usertype" value="teacher">教师
+                              <input type="radio" class="radioclass" name="usertype" value="manager">教务管理员
+                            </span>
+
+                            <input type="radio" name="usertype" value="student" checked>学生
+                            <input type="radio" name="usertype" value="teacher">教师
+                            <input type="radio" name="usertype" value="manager">教务管理员
+                          </div>
+                        -->
+                        </div>
                       </div>
-                    -->
                     </div>
-                  </div>
-                </div>
 
-                 </div>
-                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                       data-dismiss="modal">关闭
-                    </button>
-                    <button id="login" type="button" class="btn btn-primary">
-                       登录
-                    </button>
-                 </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                           data-dismiss="modal">关闭
+                        </button>
+                        <button id="login" type="button" class="btn btn-primary">
+                           登录
+                        </button>
+                     </div>
 
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </form>
         <!--/. LOGIN -->
 
     </div>
