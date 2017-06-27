@@ -291,3 +291,7 @@ def deleteAssignment(request):
 
         Assignment.objects.get(id=asn_id).delete()
 
+#头部
+def header(request):
+	return render_to_response('header.html')
+
