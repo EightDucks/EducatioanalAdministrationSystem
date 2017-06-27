@@ -289,5 +289,12 @@ def deleteAssignment(request):
     if 'asn_id' in request.GET and request.GET['asn_id']:
         asn_id = request.GET['asn_id']
 
+        TA = Team_Assignment.objects.filter(asn_id__id=asn_id)
+
+        Assignment_Resource.objects.filter(team_asn_id__in=TA.id).delete()
+        Student_Grade.objects.filter(team_asn_id__in=TA.id).delete()
+
+        TA.delete()
+
         Assignment.objects.get(id=asn_id).delete()
 
