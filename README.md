@@ -10,8 +10,12 @@
 
 ## 任务分工
 
-* Scrum Manager
+* Scrum Manager: @GreatBeast
 
-* Business Analysis
+* Business Analysis: @warlockhjn
 
-* Development Team
+* Development Team:
+
+ * Web Development: @JQ1112 @kindeQi @Liangfeng Zheng @WindfuryBulb
+
+ * Server Development: @GreatBeast @HelianthusYUKI @warlockhjn @zycai2016
