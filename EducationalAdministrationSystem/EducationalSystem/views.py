@@ -23,6 +23,10 @@ from django.contrib import messages
 def index(request):
 	return render_to_response('index.html')
 
+#
+def jiaowu(request):
+	return render_to_response('jiaowu.html')
+
 #登陆功能
 def login(request):
 	if 'name' in request.POST and request.POST['name'] \
@@ -151,11 +155,13 @@ def displayCourseForStudent(request):
 			course_id = student_course.course_id__id
 			ret_course = Course(term_id__id=term_id, id__in=course_id)
 
-#展示所有资源：教师
+#展示所有资源：教师/学生
 def displayAllResource(request):
-	if 'course_id' in request.GET and request.GET['course_id']:
-		cou_id = request.GET['course_id']
-		all_resource = Resource(course_id__id=cou_id)
+	if 'course_id' in request.GET and request.GET['course_id'] and \
+		'virtual_path' in request.GET and request.GET['virtual_path']:
+		course_id = request.GET['course_id']
+		virtual_path = request.GET['virtual_path']
+		res = Resource.objects.filter(course_id__id=course_id, virtual_path=virtual_path)
 
 #上传资源：教师
 def addResource(request):
@@ -167,7 +173,7 @@ def addResource(request):
 		course_id = request.GET['course_id']
 		name = request.GET['name']
 		path = request.GET['path']
-		virtual_path = request.GET['virtual_path'] + name
+		virtual_path = request.GET['virtual_path']
 
 		Resource_tmp = Resource(name=name, path=path, virtual_path=virtual_path, course_id=course_id)
 		Resource_tmp.save()
@@ -215,5 +221,73 @@ def displayAssignmentsForStudents(request):
 		stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved = True, team_id__course_id=ass_info.course_id)
 		ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id = stu_team.id)
 
+#评论学生作业：教师
+def setTeamAssignmentComment(request):
+    if 'TA_id' in request.GET and request.GET['TA_id'] and \
+        'comment' in request.GET and request.GET['comment']:
+        TA_id = request.GET['TA_id']
+        comment = request.GET['comment']
 
+        TA_tmp = Team_Assignment(id=TA_id)
+        TA_tmp.comment = comment
+        TA_tmp.save()
+
+#给作业成绩：教师
+def setTeamAssignmentMark(request):
+    if 'TA_id' in request.GET and request.GET['TA_id'] and \
+        'mark' in request.GET and request.GET['mark']:
+        TA_id = request.GET['TA_id']
+        mark = request.GET['mark']
+
+        TA_tmp = Team_Assignment(id=TA_id)
+        TA_tmp.mark = mark
+        TA_tmp.save()
+
+#给评价与成绩：教师
+def setTeamAssignmentCommentMark(request):
+    if 'TA_id' in request.GET and request.GET['TA_id'] and \
+        'comment' in request.GET and request.GET['comment'] and \
+        'mark' in request.GET and request.GET['mark']:
+        TA_id = request.GET['TA_id']
+        comment = request.GET['comment']
+        mark = request.GET['mark']
+
+        TA_tmp = Team_Assignment(id=TA_id)
+        TA_tmp.comment = comment
+        TA_tmp.mark = mark
+        TA_tmp.save()
+
+#修改作业
+def modifyAssignment(request):
+    if 'asn_id' in request.GET and request.GET['asn_id'] and \
+        'name' in request.GET and request.GET['name'] and \
+        'requirement' in request.GET and \
+        'starttime' in request.GET and request.GET['starttime'] and \
+        'duetime' in request.GET and request.GET['duetime'] and \
+        'submit_limits' in request.GET and request.GET['submit_limits'] and \
+        'weight' in request.GET and request.GET['weight']:
+
+        asn_id = request.GET['asn_id']
+        name = request.GET['name']
+        requirement = request.GET['requirement']
+        starttime = request.GET['starttime']
+        duetime = request.GET['duetime']
+        submit_limits = request.GET['submit_limits']
+        weight = request.GET['weight']
+
+        asn = Assignment.objects.GET(id=asn_id)
+        asn.name = name
+        asn.requirement = requirement
+        asn.starttime = starttime
+        asn.duetime = duetime
+        asn.submit_limits = submit_limits
+        asn.weight = weight
+        asn.save()
+
+#删除作业
+def deleteAssignment(request):
+    if 'asn_id' in request.GET and request.GET['asn_id']:
+        asn_id = request.GET['asn_id']
+
+        Assignment.objects.get(id=asn_id).delete()
 
