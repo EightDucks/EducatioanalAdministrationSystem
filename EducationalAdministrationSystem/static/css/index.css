@@ -1,0 +1,31 @@
+.radio-beauty-container {
+  font-size: 0;
+}
+.radio-beauty-container .radio-beauty:hover, .radio-beauty-container input[type="radio"]:checked + .radio-beauty {
+  padding: 2px;
+  background-color: green;
+  background-clip: content-box;
+}
+.radio-beauty-container .radio-name {
+  vertical-align: middle;
+  font-size: 16px;
+}
+.radio-beauty-container .radio-beauty {
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  display: inline-block;
+  border: 1px solid green;
+  vertical-align: middle;
+  margin: 0 15px 0 3px;
+  border-radius: 50%;
+}
+.radio-beauty-container .radio-beauty:hover {
+  box-shadow: 0 0 7px green;
+}
+
+.demo--label{margin:20px 20px 0 0;display:inline-block}
+.demo--radio{display:none}
+.demo--radioInput{background-color:#fff;border:1px solid rgba(0,0,0,0.15);border-radius:100%;display:inline-block;height:16px;margin-right:10px;margin-top:-1px;vertical-align:middle;width:16px;line-height:1}
+.demo--radio:checked + .demo--radioInput:after{background-color:#57ad68;border-radius:100%;content:"";display:inline-block;height:12px;margin:2px;width:12px}
+.demo--checkbox.demo--radioInput,.demo--radio:checked + .demo--checkbox.demo--radioInput:after{border-radius:0}
