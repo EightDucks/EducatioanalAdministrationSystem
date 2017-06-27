@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from .models import *
 
-def login(request):
+def index(request):
 	if 'name' in request.GET and request.GET['name']:
 		if 'password' in request.GET and request.GET['password']:
 			if 'kind' in request.GET and request.GET['kind']:
