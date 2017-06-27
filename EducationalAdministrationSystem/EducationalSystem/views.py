@@ -2,6 +2,13 @@ from django.shortcuts import render
 
 from .models import *
 
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import Template, Context
+from django.db import connection
+from django.shortcuts import render_to_response
+from django.shortcuts import render
+
+#登陆功能
 def login(request):
 	if 'name' in request.GET and request.GET['name']:
 		if 'password' in request.GET and request.GET['password']:
@@ -22,7 +29,7 @@ def login(request):
                     ea = EduAdmin.objects.filter(number = userName, password = userPassword)
                     if not ea:
                         return
-
+#展示个人信息
 def displayUserInfo(request):
     if 'id' in request.GET and request.GET['id']:
         if 'kind' in request.GET and request.GET['kind']:
@@ -36,6 +43,7 @@ def displayUserInfo(request):
             elif userKind == 'e':
                 ea = EduAdmin.objects.get(id = user_id)
 
+#保存学期信息
 def saveTermInfo(request):
     if 'name' in request.GET and 'start' in request.GET \
         and 'end' in request.GET and 'week' in request.GET \
@@ -50,6 +58,7 @@ def saveTermInfo(request):
         term_tmp = Term(name=name, start=start, end=end, week=week)
         term_tmp.save()
 
+#关闭学期
 def closeTerm(request):
     if 'id' in request.GET and request.GET['id']:
         name = request.GET['id']
@@ -57,6 +66,7 @@ def closeTerm(request):
         term.is_over = True
         term.save()
 
+#添加课程
 def addCourse(request):
     if 'name' in request.GET and 'credit' in request.GET \
         and 'time' in request.GET and 'location' in request.GET \
@@ -77,8 +87,85 @@ def addCourse(request):
         Course_tmp = Course(name=name, credit=credit, time=time, location=location, team_uplimit=team_uplimit, team_downlimit=team_downlimit, term_id=term_id)
         Course_tmp.save()
 
+#展示课程：教务
 def displayCourseForEA(request):
     if 'id' in request.GET and request.GET['id']:
         course = Course.objects.get(id=id)
 
 def setTeacher(request):
+
+#czy
+#展示课程：学生
+def displayCourseForStudent(request):
+    if 'id' in request.GET and request.GET['id']:
+        if 'term_id' in request.GET and request.GET['term_id']:
+            stu_id = request.GET['id']
+            term_id = request.GET['term_id']
+            student_course = Course_Student.objects.filter(student_id__id=id)
+            course_id = student_course.course_id__id
+            ret_course = Course(term_id__id=term_id, id__in=course_id)
+
+#展示所有资源：教师
+def displayAllResource(request):
+    if 'course_id' in request.GET and request.GET['course_id']:
+        cou_id = request.GET['course_id']
+        all_resource = Resource(course_id__id=cou_id)
+
+#上传资源：教师
+def addResource(request):
+    if 'name' in request.GET and request.GET['name'] and \
+        'path' in request.GET and request.GET['path'] and \
+        'virtual_path' in request.GET and request.GET['virtual_path'] and \
+        'course_id' in request.GET and request.GET['course_id']:
+
+        course_id = request.GET['course_id']
+        name = request.GET['name']
+        path = request.GET['path']
+        virtual_path = request.GET['virtual_path'] + name
+
+        Resource_tmp = Resource(name=name, path=path, virtual_path=virtual_path, course_id=course_id)
+        Resource_tmp.save()
+
+#mine
+#展示学期信息
+def displayTermInfo(request):
+    if 'term_id' in request.GET and request.GET['term_id']:
+        term_id = request.GET['term_id']
+        term = Term.objects.GET(id=term_id)
+
+#展示课程：学生
+def displayCourseForTeacher(request):
+    if 'id' in request.session and request.session['id']:
+        tea_id = request.session['id']
+        tea_course = Course_Teacher.objects.filter(teacher_id = tea_id, course_id__term_id__is_over = False)
+        course = Course.objects.filter(id__in = tea_course.course_id)
+
+#展示课程信息
+def displayCourseInfo(request):
+    if 'id' in request.GET and request.GET['id']:
+        cou_id = request.GET['id']
+        course = Course.objects.get(id=cou_id)
+
+#展示所有作业
+def displayCourseAssignments(request):
+    if 'id' in request.GET and request.GET['id']:
+        cur_id = request.GET['id']
+        cur_ass = Assignment.objects.GET(course_id=cur_id)
+
+#展示作业信息：教师
+def displayAssignmentsForTeacher(request):
+    if 'id' in request.GET and request.GET['id']:
+        ass_id = request.GET['id']
+        stu_ass = Assignment_Resource.objects.filter(team_asn_id__asn_id__id=ass_id)
+        ass_info = Assignment.objects.GET(id = ass_id)
+
+#展示作业信息：学生
+def displayAssignmentsForStudents(request):
+    if 'id' in request.GET and request.GET['id']\
+        and 'id' in request.session and request.session['id']:
+        ass_id = request.GET['id']
+        stu_id = request.session['id']
+        ass_info = Assignment.objects.GET(id = ass_id)
+        stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved = True, team_id__course_id=ass_info.course_id)
+        ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id = stu_team.id)
+
