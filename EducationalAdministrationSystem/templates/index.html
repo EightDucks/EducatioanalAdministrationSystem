@@ -110,7 +110,7 @@
 				</footer>
 
         <!--Login-->
-        <form method="post" action="EducationalSystem/test">
+        <form method="post" action="/EducationalSystem/login/">
             <div class="modal fade" id="loginTable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
              <div class="modal-dialog">
                 <div class="modal-content">
@@ -137,22 +137,22 @@
 
                           <div class="form-group has-feedback form-time col-md-12">
                             <label class="control-label">密码</label>
-                            <input type="password" class="form-control" id="password" name="possword">
+                            <input type="password" class="form-control" id="password" name="password">
                           </div>
 
                           <!---->
                           <div class="form-group has-feedback form-time col-md-12">
                               <label class="control-label">登录类型</label><br>
                               <label class="demo--label">
-                                  <input class="demo--radio" type="radio" name="type" value="student" checked>
+                                  <input class="demo--radio" type="radio" name="type" value="s" checked>
                                   <span class="demo--radioInput"></span>学生
                               </label>
                               <label class="demo--label">
-                                  <input class="demo--radio" type="radio" name="type" value="teacher">
+                                  <input class="demo--radio" type="radio" name="type" value="t">
                                   <span class="demo--radioInput"></span>教师
                               </label>
                               <label class="demo--label">
-                                  <input class="demo--radio" type="radio" name="type" value="manager">
+                                  <input class="demo--radio" type="radio" name="type" value="e">
                                   <span class="demo--radioInput"></span>教务管理员
                               </label>
                           </div>
@@ -198,7 +198,7 @@
                         <button type="button" class="btn btn-default"
                            data-dismiss="modal">关闭
                         </button>
-                        <button id="login" type="button" class="btn btn-primary">
+                        <button id="login" type="submit" class="btn btn-primary">
                            登录
                         </button>
                      </div>
