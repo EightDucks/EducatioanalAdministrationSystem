@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^login/$', views.login, name='login'),
     url(r'^jiaowu/$', views.jiaowu, name='jiaowu'),
     # 教务、学生、教师页头部
-	url(r'^header.html$', views.header, name = 'header'),
+    url(r'^header.html$', views.header, name = 'header'),
 ]
