@@ -1,10 +1,12 @@
 # coding=utf-8
+import os
+
 from django.shortcuts import render
 
 from .models import *
 
 
-
+from django.http import StreamingHttpResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Template, Context
 from django.db import connection
@@ -221,75 +223,108 @@ def displayAssignmentsForStudents(request):
 		stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved = True, team_id__course_id=ass_info.course_id)
 		ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id = stu_team.id)
 
+
+def uploadFiles(request):
+	if request.method == 'POST' and request.session['cid']:
+		cur_id = request.session['cid']
+		myFiles = request.FILES.getlist("mylists", None)
+		if not myFiles:
+			dstatus = ("No file to upload")
+		for f in myFiles:
+			destination = open('E:/upload/', 'wb+')
+			res = Resource(name = f.name, path = destination, course_id = cur_id, virtual_path= destination)
+			res.save()
+			for chunk in f.chunks():
+				destination.write(chunk)
+			destination.close()
+		return HttpResponse("upload over!")
+
+def downloadFiles(request):
+	if 'id' in request.GET and request.GET['id']:
+		fid = request.GET['id']
+		fname = Resource.objects.GET(id = fid)
+		fpath = Resource.objects.GET(id = fid)
+		with open(fname, 'rb') as f:
+			while True:
+				c = f.read(512)
+				if c:
+					yield c
+				else:
+					break
+	#response = StreamingHttpResponse(file_iterator(fpath))
+#Warlockhjn 6.27
+
+
+
 #评论学生作业：教师
 def setTeamAssignmentComment(request):
-    if 'TA_id' in request.GET and request.GET['TA_id'] and \
-        'comment' in request.GET and request.GET['comment']:
-        TA_id = request.GET['TA_id']
-        comment = request.GET['comment']
+	if 'TA_id' in request.GET and request.GET['TA_id'] and \
+		'comment' in request.GET and request.GET['comment']:
+		TA_id = request.GET['TA_id']
+		comment = request.GET['comment']
 
-        TA_tmp = Team_Assignment(id=TA_id)
-        TA_tmp.comment = comment
-        TA_tmp.save()
+		TA_tmp = Team_Assignment(id=TA_id)
+		TA_tmp.comment = comment
+		TA_tmp.save()
 
 #给作业成绩：教师
 def setTeamAssignmentMark(request):
-    if 'TA_id' in request.GET and request.GET['TA_id'] and \
-        'mark' in request.GET and request.GET['mark']:
-        TA_id = request.GET['TA_id']
-        mark = request.GET['mark']
+	if 'TA_id' in request.GET and request.GET['TA_id'] and \
+		'mark' in request.GET and request.GET['mark']:
+		TA_id = request.GET['TA_id']
+		mark = request.GET['mark']
 
-        TA_tmp = Team_Assignment(id=TA_id)
-        TA_tmp.mark = mark
-        TA_tmp.save()
+		TA_tmp = Team_Assignment(id=TA_id)
+		TA_tmp.mark = mark
+		TA_tmp.save()
 
 #给评价与成绩：教师
 def setTeamAssignmentCommentMark(request):
-    if 'TA_id' in request.GET and request.GET['TA_id'] and \
-        'comment' in request.GET and request.GET['comment'] and \
-        'mark' in request.GET and request.GET['mark']:
-        TA_id = request.GET['TA_id']
-        comment = request.GET['comment']
-        mark = request.GET['mark']
+	if 'TA_id' in request.GET and request.GET['TA_id'] and \
+		'comment' in request.GET and request.GET['comment'] and \
+		'mark' in request.GET and request.GET['mark']:
+		TA_id = request.GET['TA_id']
+		comment = request.GET['comment']
+		mark = request.GET['mark']
 
-        TA_tmp = Team_Assignment(id=TA_id)
-        TA_tmp.comment = comment
-        TA_tmp.mark = mark
-        TA_tmp.save()
+		TA_tmp = Team_Assignment(id=TA_id)
+		TA_tmp.comment = comment
+		TA_tmp.mark = mark
+		TA_tmp.save()
 
 #修改作业
 def modifyAssignment(request):
-    if 'asn_id' in request.GET and request.GET['asn_id'] and \
-        'name' in request.GET and request.GET['name'] and \
-        'requirement' in request.GET and \
-        'starttime' in request.GET and request.GET['starttime'] and \
-        'duetime' in request.GET and request.GET['duetime'] and \
-        'submit_limits' in request.GET and request.GET['submit_limits'] and \
-        'weight' in request.GET and request.GET['weight']:
+	if 'asn_id' in request.GET and request.GET['asn_id'] and \
+		'name' in request.GET and request.GET['name'] and \
+		'requirement' in request.GET and \
+		'starttime' in request.GET and request.GET['starttime'] and \
+		'duetime' in request.GET and request.GET['duetime'] and \
+		'submit_limits' in request.GET and request.GET['submit_limits'] and \
+		'weight' in request.GET and request.GET['weight']:
 
-        asn_id = request.GET['asn_id']
-        name = request.GET['name']
-        requirement = request.GET['requirement']
-        starttime = request.GET['starttime']
-        duetime = request.GET['duetime']
-        submit_limits = request.GET['submit_limits']
-        weight = request.GET['weight']
+		asn_id = request.GET['asn_id']
+		name = request.GET['name']
+		requirement = request.GET['requirement']
+		starttime = request.GET['starttime']
+		duetime = request.GET['duetime']
+		submit_limits = request.GET['submit_limits']
+		weight = request.GET['weight']
 
-        asn = Assignment.objects.GET(id=asn_id)
-        asn.name = name
-        asn.requirement = requirement
-        asn.starttime = starttime
-        asn.duetime = duetime
-        asn.submit_limits = submit_limits
-        asn.weight = weight
-        asn.save()
+		asn = Assignment.objects.GET(id=asn_id)
+		asn.name = name
+		asn.requirement = requirement
+		asn.starttime = starttime
+		asn.duetime = duetime
+		asn.submit_limits = submit_limits
+		asn.weight = weight
+		asn.save()
 
 #删除作业
 def deleteAssignment(request):
-    if 'asn_id' in request.GET and request.GET['asn_id']:
-        asn_id = request.GET['asn_id']
+	if 'asn_id' in request.GET and request.GET['asn_id']:
+		asn_id = request.GET['asn_id']
 
-        Assignment.objects.get(id=asn_id).delete()
+		Assignment.objects.get(id=asn_id).delete()
 
 #头部
 def header(request):
