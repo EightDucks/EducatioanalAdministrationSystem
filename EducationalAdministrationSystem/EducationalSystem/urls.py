@@ -29,5 +29,10 @@ urlpatterns = {
     url(r'^teacher/displayHwMd/', views.displayHwMd, name='displayHwMd'),
     url(r'^teacher/displayHwDt/', views.displayHwDt, name='displayHwDt'),
 
+
+    #url(r'^teacher_set_course_basicinfo/$', views.displaySetCourseInfo, name='teacher_set_course_basicinfo'),
+    url(r'^teacher_set_course_basicinfo/(\d+)/save/$', views.setCourseInfo, name='save_course_info'),
+    url(r'^teacher_set_course_basicinfo/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
+
 }
 

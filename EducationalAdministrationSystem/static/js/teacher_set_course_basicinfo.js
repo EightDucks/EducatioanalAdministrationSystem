@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-    $("button").click(function () {
+    $("#submit_buttom").click(function () {
         $("#form_limit").submit();
         $("#form_limit_other").submit();
     })
