@@ -24,10 +24,13 @@ def index(request):
 	return render_to_response('index.html')
 
 #
-def jiaowu(request):
-	return render_to_response('jiaowu.html')
+def jiaowu_addcourse(request):
+	return render_to_response('jiaowu_addcourse.html')
 
-#登陆功能
+def jiaowu_addsemester(request):
+    return render_to_response('jiaowu_addsemester.html')
+
+#登陆功能，处理函数
 def login(request):
 	if 'name' in request.POST and request.POST['name'] \
 		and 'password' in request.POST and request.POST['password'] \
@@ -56,10 +59,12 @@ def login(request):
 			# else:
 			# 	return render_to_response('index.html')
 		elif userKind == "e":
-			ea = EduAdmin.objects.filter(number = userName, password = userPassword)
+			ea = EduAdmin.objects.get(number = userName, password = userPassword)
 			if ea:
 				print('successE')
-				return HttpResponseRedirect("/EducationalSystem")
+				request.session["id"] = ea.id
+				request.session["type"] = "e"
+				return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 			return HttpResponseRedirect("/EducationalSystem/")
 			# if ea:
 			# 	return render_to_response('index.html')
@@ -69,15 +74,28 @@ def login(request):
 			return HttpResponseRedirect("/EducationalSystem/")
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
-	# 			else:
-	# 				return render_to_response('index.html')
-	# 		else:
-	# 			return render_to_response('index.html')
-	# 	else:
-	# 		return render_to_response('index.html')
-	# else:
-	# 	return render_to_response('index.html')
 
+# 展示所有课程：教务 单独页面
+def displayCourseForEA(request):
+	if 'id' in request.session and request.session['id'] \
+			and 'type' in request.session and request.session['type'] == 'e':
+		ea_id = request.session['id']
+		ea = EduAdmin.objects.get(id=ea_id)
+		terms = Term.objects.order_by("-id")
+		thisTerm = terms[0].id
+		cou = Course.objects.filter(term_id__id = thisTerm)
+		if len(cou) < 3:
+			cou1 = cou[0:len(cou)]
+			cou2 = None
+		elif len(cou) < 6:
+			cou1 = cou[0:4]
+			cou2 = cou[3:len(cou)]
+		else:
+			cou1 = cou[0:4]
+			cou2 = cou[3:7]
+		return render(request, "jiaowu.html", {'ea':ea, 'terms':terms, 'cou1':cou1, 'cou2':cou2})
+	else:
+		return HttpResponseRedirect("/EducationalSystem/")
 
 #展示个人信息
 def displayUserInfo(request):
@@ -136,11 +154,6 @@ def addCourse(request):
 
 		Course_tmp = Course(name=name, credit=credit, time=time, location=location, team_uplimit=team_uplimit, team_downlimit=team_downlimit, term_id=term_id)
 		Course_tmp.save()
-
-#展示课程：教务
-def displayCourseForEA(request):
-	if 'id' in request.GET and request.GET['id']:
-		course = Course.objects.get(id=id)
 
 # def setTeacher(request):
 
@@ -223,78 +236,78 @@ def displayAssignmentsForStudents(request):
 
 #评论学生作业：教师
 def setTeamAssignmentComment(request):
-    if 'TA_id' in request.GET and request.GET['TA_id'] and \
-        'comment' in request.GET and request.GET['comment']:
-        TA_id = request.GET['TA_id']
-        comment = request.GET['comment']
+	if 'TA_id' in request.GET and request.GET['TA_id'] and \
+		'comment' in request.GET and request.GET['comment']:
+		TA_id = request.GET['TA_id']
+		comment = request.GET['comment']
 
-        TA_tmp = Team_Assignment(id=TA_id)
-        TA_tmp.comment = comment
-        TA_tmp.save()
+		TA_tmp = Team_Assignment(id=TA_id)
+		TA_tmp.comment = comment
+		TA_tmp.save()
 
 #给作业成绩：教师
 def setTeamAssignmentMark(request):
-    if 'TA_id' in request.GET and request.GET['TA_id'] and \
-        'mark' in request.GET and request.GET['mark']:
-        TA_id = request.GET['TA_id']
-        mark = request.GET['mark']
+	if 'TA_id' in request.GET and request.GET['TA_id'] and \
+		'mark' in request.GET and request.GET['mark']:
+		TA_id = request.GET['TA_id']
+		mark = request.GET['mark']
 
-        TA_tmp = Team_Assignment(id=TA_id)
-        TA_tmp.mark = mark
-        TA_tmp.save()
+		TA_tmp = Team_Assignment(id=TA_id)
+		TA_tmp.mark = mark
+		TA_tmp.save()
 
 #给评价与成绩：教师
 def setTeamAssignmentCommentMark(request):
-    if 'TA_id' in request.GET and request.GET['TA_id'] and \
-        'comment' in request.GET and request.GET['comment'] and \
-        'mark' in request.GET and request.GET['mark']:
-        TA_id = request.GET['TA_id']
-        comment = request.GET['comment']
-        mark = request.GET['mark']
+	if 'TA_id' in request.GET and request.GET['TA_id'] and \
+		'comment' in request.GET and request.GET['comment'] and \
+		'mark' in request.GET and request.GET['mark']:
+		TA_id = request.GET['TA_id']
+		comment = request.GET['comment']
+		mark = request.GET['mark']
 
-        TA_tmp = Team_Assignment(id=TA_id)
-        TA_tmp.comment = comment
-        TA_tmp.mark = mark
-        TA_tmp.save()
+		TA_tmp = Team_Assignment(id=TA_id)
+		TA_tmp.comment = comment
+		TA_tmp.mark = mark
+		TA_tmp.save()
 
 #修改作业
 def modifyAssignment(request):
-    if 'asn_id' in request.GET and request.GET['asn_id'] and \
-        'name' in request.GET and request.GET['name'] and \
-        'requirement' in request.GET and \
-        'starttime' in request.GET and request.GET['starttime'] and \
-        'duetime' in request.GET and request.GET['duetime'] and \
-        'submit_limits' in request.GET and request.GET['submit_limits'] and \
-        'weight' in request.GET and request.GET['weight']:
+	if 'asn_id' in request.GET and request.GET['asn_id'] and \
+		'name' in request.GET and request.GET['name'] and \
+		'requirement' in request.GET and \
+		'starttime' in request.GET and request.GET['starttime'] and \
+		'duetime' in request.GET and request.GET['duetime'] and \
+		'submit_limits' in request.GET and request.GET['submit_limits'] and \
+		'weight' in request.GET and request.GET['weight']:
 
-        asn_id = request.GET['asn_id']
-        name = request.GET['name']
-        requirement = request.GET['requirement']
-        starttime = request.GET['starttime']
-        duetime = request.GET['duetime']
-        submit_limits = request.GET['submit_limits']
-        weight = request.GET['weight']
+		asn_id = request.GET['asn_id']
+		name = request.GET['name']
+		requirement = request.GET['requirement']
+		starttime = request.GET['starttime']
+		duetime = request.GET['duetime']
+		submit_limits = request.GET['submit_limits']
+		weight = request.GET['weight']
 
-        asn = Assignment.objects.GET(id=asn_id)
-        asn.name = name
-        asn.requirement = requirement
-        asn.starttime = starttime
-        asn.duetime = duetime
-        asn.submit_limits = submit_limits
-        asn.weight = weight
-        asn.save()
+		asn = Assignment.objects.GET(id=asn_id)
+		asn.name = name
+		asn.requirement = requirement
+		asn.starttime = starttime
+		asn.duetime = duetime
+		asn.submit_limits = submit_limits
+		asn.weight = weight
+		asn.save()
 
 #删除作业
 def deleteAssignment(request):
-    if 'asn_id' in request.GET and request.GET['asn_id']:
-        asn_id = request.GET['asn_id']
+	if 'asn_id' in request.GET and request.GET['asn_id']:
+		asn_id = request.GET['asn_id']
 
-        TA = Team_Assignment.objects.filter(asn_id__id=asn_id)
+		TA = Team_Assignment.objects.filter(asn_id__id=asn_id)
 
-        Assignment_Resource.objects.filter(team_asn_id__in=TA.id).delete()
-        Student_Grade.objects.filter(team_asn_id__in=TA.id).delete()
+		Assignment_Resource.objects.filter(team_asn_id__in=TA.id).delete()
+		Student_Grade.objects.filter(team_asn_id__in=TA.id).delete()
 
-        TA.delete()
+		TA.delete()
 
-        Assignment.objects.get(id=asn_id).delete()
+		Assignment.objects.get(id=asn_id).delete()
 

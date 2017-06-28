@@ -35,11 +35,12 @@ class Term(models.Model):
     week = models.IntegerField()
     is_over = models.BooleanField(default=False)
 
-class Course(models.Model):
+class Course(models.Model):#课时
     name = models.CharField(max_length=50)
     credit = models.IntegerField()
     time = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
+    hour = models.IntegerField()
     team_uplimit = models.IntegerField()
     team_downlimit = models.IntegerField()
     term_id = models.ForeignKey(Term)
