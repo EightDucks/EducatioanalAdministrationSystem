@@ -49,62 +49,92 @@ def header(request):
 def teacher_left(request):
     return render_to_response('teacher_left.html')
 
-
 # 添加课程，单独页面
 def jiaowu_addcourse(request):
     tm = Term.objects.filter(is_over=False).order_by("-start")
     return render(request, "jiaowu_addcourse.html", {'tm': tm})
 
 
+# 添加学期，单独页面
 def jiaowu_addsemester(request):
     return render_to_response('jiaowu_addsemester.html')
 
+# 学生课程，单独页面
+def displayCourseForStudent(request):
+	if 'id' in request.session and request.session['id'] \
+			and 'type' in request.session and request.session['type'] == 's':
+		thisTerm = Term.objects.all()
+		sid = request.session['id']
+		student_course = Course_Student.objects.filter(student_id__id=sid)
+		cou_id = student_course.values("course_id")
+		cou = Course.objects.filter(term_id__id__in=thisTerm, id__in=cou_id)
+		if len(cou) < 3:
+			cou1 = cou[0:len(cou)]
+			cou2 = None
+		elif len(cou) < 6:
+			cou1 = cou[0:4]
+			cou2 = cou[3:len(cou)]
+		else:
+			cou1 = cou[0:4]
+			cou2 = cou[3:7]
+		return render(request, "student.html", {'cou1': cou1, 'cou2': cou2})
+	else:
+		return HttpResponseRedirect("/EducationalSystem/")
+	# if 'id' in request.GET and request.GET['id']:
+	# 	if 'term_id' in request.GET and request.GET['term_id']:
+	# 		stu_id = request.GET['id']
+	# 		term_id = request.GET['term_id']
+	# 		student_course = Course_Student.objects.filter(student_id__id=id)
+	# 		course_id = student_course.course_id__id
+	# 		ret_course = Course(term_id__id=term_id, id__in=course_id)
 
-# 登陆功能，处理函数
+
+#登陆功能，处理函数
 def login(request):
-    if 'name' in request.POST and request.POST['name'] \
-            and 'password' in request.POST and request.POST['password'] \
-            and 'type' in request.POST and request.POST['type']:
-        userName = request.POST['name']
-        userPassword = request.POST['password']
-        userKind = request.POST['type']
+	if 'name' in request.POST and request.POST['name'] \
+		and 'password' in request.POST and request.POST['password'] \
+		and 'type' in request.POST and request.POST['type']:
+		userName = request.POST['name']
+		userPassword = request.POST['password']
+		userKind = request.POST['type']
 
-        if userKind == 't':
-            tea = Teacher.objects.filter(number=userName, password=userPassword)
-            if tea:
-                print('successT')
-                return HttpResponseRedirect("/EducationalSystem")
-            return HttpResponseRedirect("/EducationalSystem/")
-        # if tea:
-        # 	return render_to_response('index.html')
-        # else:
-        # 	return render_to_response('index.html')
-        elif userKind == 's':
-            stu = Student.objects.filter(number=userName, password=userPassword)
-            if stu:
-                print('successS')
-                return HttpResponseRedirect("/EducationalSystem/")
-            return HttpResponseRedirect("/EducationalSystem/")
-        # return render_to_response('index.html')
-        # else:
-        # 	return render_to_response('index.html')
-        elif userKind == "e":
-            ea = EduAdmin.objects.get(number=userName, password=userPassword)
-            if ea:
-                print('successE')
-                request.session["id"] = ea.id
-                request.session["type"] = "e"
-                return HttpResponseRedirect("/EducationalSystem/jiaowu/")
-            return HttpResponseRedirect("/EducationalSystem/")
-        # if ea:
-        # 	return render_to_response('index.html')
-        # else:
-        # 	return render_to_response('index.html')
-        else:
-            return HttpResponseRedirect("/EducationalSystem/")
-    else:
-        return HttpResponseRedirect("/EducationalSystem/")
-
+		if userKind == 't':
+			tea = Teacher.objects.filter(number = userName, password = userPassword)
+			if tea:
+				print('successT')
+				return HttpResponseRedirect("/EducationalSystem")
+			return HttpResponseRedirect("/EducationalSystem/")
+			# if tea:
+			# 	return render_to_response('index.html')
+			# else:
+			# 	return render_to_response('index.html')
+		elif userKind == 's':
+			stu = Student.objects.get(number = userName, password = userPassword)
+			if stu:
+				print('successS')
+				request.session["id"] = stu.id
+				request.session["type"] = "s"
+				return HttpResponseRedirect("/EducationalSystem/student/")
+			return HttpResponseRedirect("/EducationalSystem/")
+			# 	return render_to_response('index.html')
+			# else:
+			# 	return render_to_response('index.html')
+		elif userKind == "e":
+			ea = EduAdmin.objects.get(number = userName, password = userPassword)
+			if ea:
+				print('successE')
+				request.session["id"] = ea.id
+				request.session["type"] = "e"
+				return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+			return HttpResponseRedirect("/EducationalSystem/")
+			# if ea:
+			# 	return render_to_response('index.html')
+			# else:
+			# 	return render_to_response('index.html')
+		else:
+			return HttpResponseRedirect("/EducationalSystem/")
+	else:
+		return HttpResponseRedirect("/EducationalSystem/")
 
 # 注销功能，处理函数
 def logout(request):
@@ -167,9 +197,11 @@ def saveTermInfo(request):
 
         term_tmp = Term(name=name, start=start, end=end, week=week, term_id=term)
         term_tmp.save()
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+	else:
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
-
-# 关闭学期
+#关闭学期
 def closeTerm(request):
     if 'id' in request.GET and request.GET['id']:
         name = request.GET['id']
@@ -215,8 +247,8 @@ def displayCourseForStudent(request):
             course_id = student_course.course_id__id
             ret_course = Course(term_id__id=term_id, id__in=course_id)
 
-
-# 展示所有资源：教师/学生
+#czy
+#展示所有资源：教师/学生
 def displayAllResource(request):
     if 'course_id' in request.GET and request.GET['course_id'] and \
                     'virtual_path' in request.GET and request.GET['virtual_path']:
@@ -306,25 +338,27 @@ def uploadFiles(request):
 
 
 def downloadFiles(request):
-    if 'id' in request.GET and request.GET['id']:
-        fid = request.GET['id']
-        fname = Resource.objects.GET(id=fid)
-        fpath = Resource.objects.GET(id=fid)
-        with open(fname, 'rb') as f:
-            while True:
-                c = f.read(512)
-                if c:
-                    yield c
-                else:
-                    break
-                    # response = StreamingHttpResponse(file_iterator(fpath))
+	if 'fid' in request.GET and request.GET['fid']:
+		fid = request.GET['fid']
+		myFile = Resource.objects.GET(id = fid)
+		fname = myFile.name
+		fpath = myFile.path
+		def fileIterator(fname, chunk_size = 512):
+			with open(fname) as f:
+				while(True):
+					c = f.read(chunk_size)
+					if c:
+						yield c
+					else:
+						break
+		response = StreamingHttpResponse(fileIterator(fname))
+		response['Content-Type'] = 'application/octet-stream'
+		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(fname)
+		return response
 
 
-# Warlockhjn 6.27
 
-
-
-# 评论学生作业：教师
+#评论学生作业：教师
 def setTeamAssignmentComment(request):
     if 'TA_id' in request.GET and request.GET['TA_id'] and \
                     'comment' in request.GET and request.GET['comment']:

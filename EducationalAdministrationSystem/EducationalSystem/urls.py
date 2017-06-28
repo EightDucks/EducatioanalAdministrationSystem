@@ -17,5 +17,7 @@ urlpatterns = {
     url(r'^addCourse/$', views.addCourse, name='addCourse'),
 
     # 教师页左半部
-    url(r'^teacher_left.html$', views.teacher_left, name='teacher_left'),s
+    url(r'^teacher_left.html$', views.teacher_left, name='teacher_left'),
+    url(r'^saveTermInfo/$', views.saveTermInfo, name='saveTermInfo'),
+    url(r'^student/$', views.displayCourseForStudent, name='student'),
 }
