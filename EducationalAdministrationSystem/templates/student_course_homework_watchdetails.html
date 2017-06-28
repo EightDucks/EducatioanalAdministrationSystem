@@ -14,6 +14,8 @@
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+   <!--本页引用css-->
+   <link href="/static/css/homework_watchdetails.css" rel="stylesheet" />
 
 
 
@@ -100,13 +102,22 @@
 
                                   <div class="form-group">
                                       <label class="col-sm-2 control-label">上传作业</label>
-                                      <div class="col-sm-2 input-group">
-                                        <input type="file" class="form-control"/>
+                                      <div class="col-sm-10">
+                                        <a class="btn btn-primary btn-sm" id="assignment_attachment_add"><span class="glyphicon glyphicon-plus"></span></a>
+                                        <a class="btn btn-danger btn-sm magry_hide" id="assignment_attachment_rm"><span class="glyphicon glyphicon-minus"></span></a>
                                       </div>
                                   </div>
+
+                                  <div class="form-group magry_assignment" id="assignment_attachment_holder_0">
+                                      <label class="col-sm-2 control-label"></label>
+                                      <input type="file" class="col-sm-6" id="assignment_attachment_0"/>
+                                  </div>
+
+                                  <div id="multi-assignment-holder"></div>
+
                                   <div class="form-group">
                                       <div class="col-sm-offset-2 col-sm-10">
-                                          <button type="submit" class="btn btn-default">提交</button>
+                                          <button type="submit" class="btn btn-default">上传并提交</button>
                                       </div>
                                   </div>
                               </form>
@@ -144,6 +155,33 @@
             $(document).ready(function () {
                 $('#dataTables-example').dataTable();
             });
+            /*多附件相关*/
+            //var cnt=1;
+            $('#assignment_attachment_add').click(function () {
+              var i=$('.magry_assignment').length;
+              var head = "<div class=\"form-group magry_assignment\" id=\"assignment_attachment_holder_"
+              var mid="\"><label class=\"col-sm-2 control-label\"></label><input type=\"file\" class=\"col-sm-6\" id=\"assignment_attachment_"
+              var tail = "\"/></div>"
+              var content = head;
+              content+=i;
+              content+=mid;
+              content+=i;
+              content+=tail;
+              $('#multi-assignment-holder').before(content);
+              if($('.magry_assignment').length>1){
+                $('#assignment_attachment_rm').removeClass('magry_hide');
+              }
+            })
+            $('#assignment_attachment_rm').click(function () {
+              var i=$('.magry_assignment').length-1;
+              var item = "#assignment_attachment_holder_"
+              item += i;
+              $(item).remove();
+              if($('.magry_assignment').length<=1){
+                $('#assignment_attachment_rm').addClass('magry_hide');
+              }
+            })
+
     </script>
     <!--添加学生页nav左边js-->
     <script src="/static/js/add_student_left.js"></script>

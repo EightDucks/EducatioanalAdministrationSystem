@@ -14,6 +14,8 @@
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+   <!--本页引用css-->
+   <link href="/static/css/homework_watchdetails.css" rel="stylesheet" />
 
 
 
@@ -119,8 +121,19 @@
                                 <label>
                                     提交作业管理
                                 </label>
-                                <button type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-save"></span>下载所有作业</button>
+                                <button type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-download"></span>下载所有作业</button>
+                                <button type="button" class="btn btn-default btn-sm" id="btn-multi-assignment-upload"><span class="glyphicon glyphicon-upload"></span>上传所有批改后作业</button>
+
                             </div>
+
+                            <div class="panel-body magry_hide" id="multi-assignment-upload">
+                              <div class="form-horizontal">
+                                <label class="col-sm-3 control-label"><span class="glyphicon glyphicon-upload"></span>上传所有批改后作业</label>
+                                <input type="file" class="col-sm-3"/>
+                                <button type="button" class="btn btn-default btn-sm">提交</button>
+                              </div>
+                            </div>
+
                             <div class="panel-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -130,6 +143,7 @@
                                                 <th>团队名称</th>
                                                 <th>提交状态</th>
                                                 <th>提交时间</th>
+                                                <th>批改状态</th>
                                                 <th>分数</th>
                                                 <th>操作</th>
                                             </tr>
@@ -137,15 +151,16 @@
                                         <tbody>
                                             <!--内容都在tbody里加-->
                                             <tr class="gradeA">
-                                                <td>10</td>
+                                                <td class="center">10</td>
                                                 <td>StormTeam</td>
                                                 <td class="center">已提交</td>
                                                 <td>2017-6-26 12:00:00</td>
+                                                <td class="center">未批改</td>
                                                 <td>-</td>
                                                 <td class="center">
                                                     <button type="button" class="btn btn-info btn-xs">详细信息</button>
                                                     <button type="button" class="btn btn-primary btn-xs">设置分数与评价</button>
-                                                    <button type="button" class="btn btn-success btn-xs">下载附件</button>
+                                                    <button type="button" class="btn btn-success btn-xs">下载原始作业附件</button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -182,10 +197,22 @@
     <!-- DATA TABLE SCRIPTS -->
     <script src="/static/4assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="/static/4assets/js/dataTables/dataTables.bootstrap.js"></script>
-        <script>
+    <script>
+            /*Table相关*/
             $(document).ready(function () {
                 $('#dataTables-example').dataTable();
             });
+
+            /*批量上传多个批改后作业的事件*/
+            $('#btn-multi-assignment-upload').click(function () {
+              if($('#multi-assignment-upload').is('.magry_hide')==true){
+                $('#multi-assignment-upload').removeClass('magry_hide');
+              }
+              else{
+                $('#multi-assignment-upload').addClass('magry_hide');
+              }
+            })
+
     </script>
 
 
