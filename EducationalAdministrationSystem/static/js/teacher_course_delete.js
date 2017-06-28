@@ -4,7 +4,7 @@
 
 $(".course_delete").click(function () {
     confirm("你是否要删除该课程？");
-    alert();
+    //alert();
     /*其他的还得加呀233*/
 })
 /*
