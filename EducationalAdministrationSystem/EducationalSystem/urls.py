@@ -35,5 +35,11 @@ urlpatterns = {
     url(r'^teacher_set_course_basicinfo/(\d+)/save/$', views.setCourseInfo, name='save_course_info'),
     url(r'^teacher_set_course_basicinfo/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
 
+    url(r'^teacher/setGd/$', views.displaySetGrade, name='displaySetGrade'),
+
+    url(r'^student/course/(\d+)/$', views.displayCouForStu, name='displayCouForStu'),
+    url(r'^student/CouAsn/(\d+)/$', views.displayHwForStu, name='displayHwForStu'),
+    url(r'student/Asn/(\d+)/$', views.displayStuHw, name='displayStuHw'),
+
 }
 

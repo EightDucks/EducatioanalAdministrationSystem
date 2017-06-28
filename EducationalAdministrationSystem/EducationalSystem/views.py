@@ -550,3 +550,23 @@ def deleteResource(request):
 		res_id = request.GET[res[num]]
 		Resource.objects.get(id=res_id).delete()
 
+def displaySetGrade(request):
+	return render_to_response("teacher_setgrade.html")
+
+#展示学生课程信息页面，单独页面
+def displayCouForStu(request, cou_id):
+	cou = Course.objects.get(id=cou_id)
+	term = cou.term_id
+	return render(request, "student_course_basicinfo.html", {'cou':cou, 'term':term})
+
+#展示学生所有作业页面，单独页面
+def displayHwForStu(request, cou_id):
+	cou = Course.objects.get(id=cou_id)
+	asn = Assignment.objects.filter(course_id=cou)
+	return render(request, "student_course_homework.html", {'cou':cou, 'asn':asn})
+
+#展示学生某一作业，单独页面
+def displayStuHw(request, asn_id):
+    asn = Assignment.objects.get(id=asn_id)
+    cou = asn.course_id
+    return render(request, "student_course_homework_watchdetails.html", {'cou':cou, 'asn':asn})
