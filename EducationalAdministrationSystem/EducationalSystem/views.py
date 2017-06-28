@@ -257,7 +257,8 @@ def addCourse(request):
 			and 'selectterm' in request.GET and 'course_timelength' in request.GET \
 			and request.GET['course_point'] and request.GET['course_time'] \
 			and request.GET['course_name'] and request.GET['course_timelength'] \
-			and request.GET['course_location'] and request.GET['selectterm']:
+			and request.GET['course_location'] and request.GET['selectterm'] \
+			and 'course_teacher' in request.GET and request.GET['course_teacher']:
 
 		name = request.GET['course_name']
 		credit = request.GET['course_point']
@@ -265,9 +266,12 @@ def addCourse(request):
 		hour = request.GET['course_timelength']
 		location = request.GET['course_location']
 		term_id = request.GET['selectterm']
-
+		tea_num = request.GET['course_teacher']
+		Tea = Teacher.objects.get(number=tea_num)
+		if not Tea:
+			return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 		term = Term.objects.get(id=term_id)
-		Course_tmp = Course(name=name, credit=credit, time=time, location=location, term_id=term, hour=hour)
+		Course_tmp = Course(name=name, credit=credit, time=time, location=location, term_id=term, hour=hour, tea_id=Tea)
 		Course_tmp.save()
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 	else:
@@ -571,6 +575,6 @@ def displayHwForStu(request, cou_id):
 
 #展示学生某一作业，单独页面
 def displayStuHw(request, asn_id):
-    asn = Assignment.objects.get(id=asn_id)
-    cou = asn.course_id
-    return render(request, "student_course_homework_watchdetails.html", {'cou':cou, 'asn':asn})
+	asn = Assignment.objects.get(id=asn_id)
+	cou = asn.course_id
+	return render(request, "student_course_homework_watchdetails.html", {'cou':cou, 'asn':asn})
