@@ -20,53 +20,9 @@
 <body>
     <!--wrapper 是根节点，最外层的div容器-->
     <div id="wrapper">
-        <!--navbar 这个是最上边的导航栏，他是根据navbar上下布局的-->
-        <nav class="navbar navbar-default top-navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html"><strong><i class="icon fa fa-plane"></i> BRILLIANT</strong></a>
 
-                <div id="sideNav" href="">
-
-                </div>
-            </div>
-
-            <div class="profile_details" style="padding-right: 20px;">
-                <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown profile_details_drop"  style="margin-top:-10px;">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="padding-bottom:5px;">
-                            <div class="profile_img">
-                                <span class="prfil-img"><img src="imgs/1.png" alt=""> </span>
-                                <div class="user-name">
-                                    <p style="padding-top:5px; margin:0 0 3px;">Wikolia</p>
-                                    <span>Administrator</span>
-                                </div>
-                                <i class="fa fa-angle-down lnr"></i>
-                                <i class="fa fa-angle-up lnr"></i>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                        <!--dropdown-User-Menu-->
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                            </li>
-                        </ul>
-                        <!--/. dropdown-User-Menu-->
-                    </li>
-                </ul>
-            </div>
-
-        </nav>
+        <!--最上面的导航栏集成于.headerer-->
+        <div class="headerer"></div>
 
 
         <!--这个nav是左边的东西-->
@@ -74,7 +30,7 @@
             <div class="sidebar-collapse">
                <ul class="nav" id="main-menu">
                 <li>
-                    <a  href="student.html"><i class="fa fa-fw fa-file"></i> 课程列表</a>
+                    <a  href="/EducationalSystem/student/"><i class="fa fa-fw fa-file"></i> 课程列表</a>
                 <!--</li>-->
                 <!--<li>-->
                     <!--<a  href="empty.html"><i class="fa fa-fw fa-file"></i> 课程</a>-->
@@ -96,76 +52,38 @@
                 
                 <!--</div>-->
                 <div class="row">
+                    {% for c in cou1 %}
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                课程名
+                                {{c.name}}
                             </div>
                             <div class="panel-body">
-                                <!--<P>hello</P>-->
-                                <!--<p>学分: 2</p>-->
-                                <!--<p>课时: 32</p>-->
-                                <!--<p>上课时间： 周一，23节</p>-->
-                                <!--<p>上课地点： 工程训练中心317</p>-->
-                                <div class="myfont">学分: 2</div>
-                                <div class="myfont">课时: 32</div>
-                                <div class="myfont">上课时间： 周一，23节</div>
-                                <div class="myfont" >上课地点： 工程训练中心317</div>
+                                <div class="myfont">学分: {{c.credit}}</div>
+                                <div class="myfont">课时: {{c.hour}}</div>
+                                <div class="myfont">上课时间： {{c.time}}</div>
+                                <div class="myfont" >上课地点： {{c.location}}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Default Panel
-                            </div>
-                            <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Default Panel
-                            </div>
-                            <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
                 <div class="row">
+                    {% for c in cou2 %}
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Default Panel
+                                {{c.name}}
                             </div>
                             <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                                <div class="myfont">学分: {{c.credit}}</div>
+                                <div class="myfont">课时: {{c.hour}}</div>
+                                <div class="myfont">上课时间： {{c.time}}</div>
+                                <div class="myfont" >上课地点： {{c.location}}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Default Panel
-                            </div>
-                            <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Default Panel
-                            </div>
-                            <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
                 <div class="row">
                     <ul class="pagination">
@@ -196,7 +114,8 @@
     <script src="/static/4assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
     <!--<script src="assets/js/custom-scripts.js"></script>-->
-
+    <!--添加教务、学生、教师页头部js-->
+    <script src="/static/js/addheader.js"></script>
 
 </body>
 </html>

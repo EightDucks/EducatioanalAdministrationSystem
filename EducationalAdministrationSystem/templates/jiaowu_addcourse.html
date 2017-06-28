@@ -33,7 +33,7 @@
               <!--左边栏的内容-->
               <ul class="nav" id="main-menu">
                   <li>
-                      <a href="#"><i class="fa fa-fw fa-file"></i> 教务管理</a>
+                      <a href=""><i class="fa fa-fw fa-file"></i> 教务管理</a>
                   </li>
               </ul>
             </div>
@@ -64,14 +64,17 @@
                                   </div>
                               </div>
                               <div class="panel-body">
-                                  <form class="form-horizontal">
+                                  <form class="form-horizontal" action="/EducationalSystem/addCourse/">
 
                                       <div class="form-group">
-                                          <label class="col-sm-2 control-label">当前学期</label>
-                                          <div class="col-sm-5">
-                                              <input type="text" class="form-control" name="semester_name" disabled>
-                                          </div>
+                                          <label class="col-sm-2 control-label">选择学期</label>
+                                          <select id="selectterm" class="selectpicker" name="selectterm">
+                                              {% for t in tm %}
+                                              <option value="{{t.id}}">{{t.name}}</option>
+                                              {% endfor %}
+                                          </select>
                                       </div>
+
                                       <!-- 日期时间控件待实现 -->
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label">课程名称</label>

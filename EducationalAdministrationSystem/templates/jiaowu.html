@@ -14,9 +14,7 @@
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
-
-
+    
 </head>
 <body>
     <!--wrapper 是根节点，最外层的div容器-->
@@ -32,7 +30,7 @@
                 <ul class="nav" id="main-menu">
                 <!--左边栏的内容-->
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-file"></i> 教务管理</a>
+                        <a href="/EducationalSystem/jiaowu/"><i class="fa fa-fw fa-file"></i> 教务管理</a>
                     </li>
                 </ul>
             </div>
@@ -54,15 +52,18 @@
                             <!--<div class="row">-->
                             <!---->
                             <!--</div>-->
-                            <button id="addcourse" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>新建本学期课程</button>
+                            <button id="addcourse" type="button" class="btn btn-primary" onclick="location.href='/EducationalSystem/jiaowu_addcourse/'"><span class="glyphicon glyphicon-plus"></span>新建本学期课程</button>
                             <div  id="termbutton">
-                                <button id="addterm" type="button" class="btn btn-primary">
+                                <button id="addterm" type="button" class="btn btn-primary" onclick="location.href='/EducationalSystem/jiaowu_addsemester/'">
                                     <span class="glyphicon glyphicon-plus"></span>新增学期</button>
                                 <label >选择学期：</label>
                                 <select id="selectterm" class="selectpicker">
-                                    <option>2017学年上学期</option>
-                                    <option>2017学年下学期</option>
-                                    <option>2018学年上学期</option>
+                                    <!--<option>2017学年上学期</option>-->
+                                    <!--<option>2017学年下学期</option>-->
+                                    <!--<option>2018学年上学期</option>-->
+                                    {% for t in terms %}
+                                    <option>{{t.name}}</option>
+                                    {% endfor %}
                                 </select>
                                 <div>
 
@@ -73,76 +74,88 @@
                     <!--hello world-->
                 <!--</div>-->
                 <div class="row">
+                    {% for c in cou1 %}
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                课程名
+                                {{c.name}}
                             </div>
                             <div class="panel-body">
-                                <!--<P>hello</P>-->
-                                <!--<p>学分: 2</p>-->
-                                <!--<p>课时: 32</p>-->
-                                <!--<p>上课时间： 周一，23节</p>-->
-                                <!--<p>上课地点： 工程训练中心317</p>-->
-                                <div class="myfont">学分: 2</div>
-                                <div class="myfont">课时: 32</div>
-                                <div class="myfont">上课时间： 周一，23节</div>
-                                <div class="myfont" >上课地点： 工程训练中心317</div>
+                                <div class="myfont">学分: {{c.credit}}</div>
+                                <div class="myfont">课时: {{c.hour}}</div>
+                                <div class="myfont">上课时间： {{c.time}}</div>
+                                <div class="myfont" >上课地点： {{c.location}}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Default Panel
-                            </div>
-                            <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Default Panel
-                            </div>
-                            <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+                    <!--<div class="col-md-4 col-sm-4">-->
+                        <!--<div class="panel panel-default">-->
+                            <!--<div class="panel-heading">-->
+                                <!--Default Panel-->
+                            <!--</div>-->
+                            <!--<div class="panel-body">-->
+                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-4 col-sm-4">-->
+                        <!--<div class="panel panel-default">-->
+                            <!--<div class="panel-heading">-->
+                                <!--Default Panel-->
+                            <!--</div>-->
+                            <!--<div class="panel-body">-->
+                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
                 <div class="row">
+                    {% for c in cou2 %}
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Default Panel
+                                {{c.name}}
                             </div>
                             <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                                <div class="myfont">学分: {{c.credit}}</div>
+                                <div class="myfont">课时: {{c.hour}}</div>
+                                <div class="myfont">上课时间： {{c.time}}</div>
+                                <div class="myfont" >上课地点： {{c.location}}317</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Default Panel
-                            </div>
-                            <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Default Panel
-                            </div>
-                            <div class="panel-body">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+                    <!--<div class="col-md-4 col-sm-4">-->
+                        <!--<div class="panel panel-default">-->
+                            <!--<div class="panel-heading">-->
+                                <!--Default Panel-->
+                            <!--</div>-->
+                            <!--<div class="panel-body">-->
+                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-4 col-sm-4">-->
+                        <!--<div class="panel panel-default">-->
+                            <!--<div class="panel-heading">-->
+                                <!--Default Panel-->
+                            <!--</div>-->
+                            <!--<div class="panel-body">-->
+                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-4 col-sm-4">-->
+                        <!--<div class="panel panel-default">-->
+                            <!--<div class="panel-heading">-->
+                                <!--Default Panel-->
+                            <!--</div>-->
+                            <!--<div class="panel-body">-->
+                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
                 <div class="row">
                     <ul class="pagination">
