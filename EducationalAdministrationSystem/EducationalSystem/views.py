@@ -21,7 +21,7 @@ from django.contrib import messages
 
 # 学生页左半部
 def student_left(request):
-	return rander_to_response('student_left.html')
+	return render_to_response('student_left.html')
 
 
 # 主页
@@ -187,11 +187,16 @@ def logout(request):
 
 
 # 展示所有课程：教务 单独页面
-def displayCourseForEA(request):
+def displayCourseForEA(request, t_id):
 	if 'id' in request.session and request.session['id'] \
 			and 'type' in request.session and request.session['type'] == 'e':
+		thisTerm = -1
 		terms = Term.objects.order_by("-id")
-		thisTerm = terms[0].id
+		if not t_id:
+			thisTerm = terms[0].id
+		else:
+			t = Term.objects.get(id=t_id)
+			thisTerm = t.id
 		cou = Course.objects.filter(term_id__id=thisTerm)
 		if len(cou) < 3:
 			cou1 = cou[0:len(cou)]
@@ -241,6 +246,13 @@ def saveTermInfo(request):
 	else:
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
+def changeTerm(request):
+	if 'term' in request.GET and request.GET['term']:
+		tid = request.GET['term']
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/" + str(tid))
+	else:
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+
 #关闭学期
 def closeTerm(request):
 	if 'id' in request.GET and request.GET['id']:
@@ -258,7 +270,7 @@ def addCourse(request):
 			and request.GET['course_point'] and request.GET['course_time'] \
 			and request.GET['course_name'] and request.GET['course_timelength'] \
 			and request.GET['course_location'] and request.GET['selectterm'] \
-			and 'course_teacher' in request.GET and request.GET['course_teacher']:
+			and 'course_teacherid' in request.GET and request.GET['course_teacherid']:
 
 		name = request.GET['course_name']
 		credit = request.GET['course_point']
@@ -266,12 +278,12 @@ def addCourse(request):
 		hour = request.GET['course_timelength']
 		location = request.GET['course_location']
 		term_id = request.GET['selectterm']
-		tea_num = request.GET['course_teacher']
+		tea_num = request.GET['course_teacherid']
 		Tea = Teacher.objects.get(number=tea_num)
 		if not Tea:
 			return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 		term = Term.objects.get(id=term_id)
-		Course_tmp = Course(name=name, credit=credit, time=time, location=location, term_id=term, hour=hour, tea_id=Tea)
+		Course_tmp = Course(name=name, credit=credit, time=time, location=location, term_id=term, hour=hour)
 		Course_tmp.save()
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 	else:

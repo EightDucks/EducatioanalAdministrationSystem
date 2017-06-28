@@ -10,7 +10,8 @@ urlpatterns = {
 
     url(r'^$', views.index, name='index'),
     url(r'^login/$', views.login, name='login'),
-    url(r'^jiaowu/$', views.displayCourseForEA, name='jiaowu'),
+    url(r'^jiaowu/(\d+)?', views.displayCourseForEA, name='jiaowu'),
+    url(r'^jiaowu_change/$', views.changeTerm, name='changeTerm'),
     url(r'^jiaowu_addcourse/$', views.jiaowu_addcourse, name='jiaowu_addcourse'),
     url(r'^jiaowu_addsemester/$', views.jiaowu_addsemester, name='jiaowu_addsemester'),
 
