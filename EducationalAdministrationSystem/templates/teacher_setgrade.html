@@ -71,13 +71,13 @@
                       <label class="col-sm-2 control-label">作业成绩</label>
                       <div class="col-sm-1">
                           <!--仅可输入数字和小数点-->
-                          <input type="text" class="form-control" name="homework_grade" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')">
+                          <input type="text" class="form-control" name="homework_grade" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" required>
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-sm-2 control-label">作业评价</label>
                       <div class="col-sm-5">
-                          <textarea class="form-control" name="homework_comment" placeholder="请输入评价"></textarea>
+                          <textarea class="form-control" rows="7" name="homework_comment" placeholder="请输入评价"></textarea>
                       </div>
                   </div>
                   <div class="form-group">
