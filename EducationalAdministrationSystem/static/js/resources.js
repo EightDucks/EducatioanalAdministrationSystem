@@ -15,8 +15,9 @@ $(function(){
     $carry.live('click' , function(){
         alert('确定新建文件夹？')
         setTimeout(
+
             function(){
-                $parent.append("<li><input type='text' class='changename'\ value='新建文件夹'/></li>");
+                $parent.append("<li><input type='text' class='changename'\ value='新建文件夹'/><input class='checkbox' type='checkbox' value='' /></li>");
             },500);
     });
 
