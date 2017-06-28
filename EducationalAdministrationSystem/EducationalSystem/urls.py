@@ -22,6 +22,5 @@ urlpatterns = {
     url(r'^student/$', views.displayCourseForStudent, name='student'),
     url(r'^teacher/$', views.displayCourseForTeacher, name='teacher'),
     url(r'^jiaowu/course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
-
 }
 

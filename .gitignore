@@ -2,5 +2,6 @@ document
 EducationalAdministrationSystem/.idea
 workspace.xml
 .idea
+.idea/workspace.xml
 my.cnf
 *.pyc
