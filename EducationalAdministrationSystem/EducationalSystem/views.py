@@ -265,6 +265,18 @@ def addCourse(request):
 	else:
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
+def displayHwForTea(request):
+    return render_to_response("teacher_course_homework.html")
+
+def displayHwAdd(request):
+    return render_to_response("teacher_course_homework_add.html")
+
+def displayHwMd(request):
+    return render_to_response("teacher_course_homework_modify.html")
+
+def displayHwDt(request):
+    return render_to_response("teacher_course_homework_watchdetails.html")
+
 
 # def setTeacher(request):
 
@@ -404,38 +416,61 @@ def setTeamAssignmentMark(request):
 		TA_tmp.mark = mark
 		TA_tmp.save()
 
+#给作业成绩页面：教师
+def displaySetGrade(request):
+	return render_to_response("teacher_setgrade.html")
 
-# 给评价与成绩：教师
-def setTeamAssignmentCommentMark(request):
-	if 'TA_id' in request.GET and request.GET['TA_id'] and \
-					'comment' in request.GET and request.GET['comment'] and \
-					'mark' in request.GET and request.GET['mark']:
-		TA_id = request.GET['TA_id']
-		comment = request.GET['comment']
-		mark = request.GET['mark']
+#给评价与成绩：教师
+def setTeamAssignmentCommentMark(request,TA_id):
+	if 'team_name' in request.GET and request.GET['team_name'] and\
+		'homework_name' in request.GET and request.GET['homework_name'] and \
+		'homework_grade' in request.GET and request.GET['homework_grade'] and \
+		'homework_comment' in request.GET and request.GET['homework_comment']:
+
+		comment = request.GET['homework_comment']
+		mark = request.GET['homework_grade']
+
 
 		TA_tmp = Team_Assignment(id=TA_id)
 		TA_tmp.comment = comment
 		TA_tmp.mark = mark
 		TA_tmp.save()
 
+#添加作业
+def addAssignment(request, asn_id):
+	if 	'assignment_name' in request.GET and request.GET['assignment_name'] and \
+		'assignment_requirement' in request.GET and request.GET['assignment_requirement'] and \
+		'assignment_starttime' in request.GET and request.GET['assignment_starttime'] and \
+		'assignment_duetime' in request.GET and request.GET['assignment_duetime'] and \
+		'maximum_submit' in request.GET and request.GET['maximum_submit'] and \
+		'grade_ratio' in request.GET and request.GET['grade_ratio']:
 
-# 修改作业
-def modifyAssignment(request):
-	if 'asn_id' in request.GET and request.GET['asn_id'] and \
-					'name' in request.GET and request.GET['name'] and \
-					'requirement' in request.GET and \
-					'starttime' in request.GET and request.GET['starttime'] and \
-					'duetime' in request.GET and request.GET['duetime'] and \
-					'submit_limits' in request.GET and request.GET['submit_limits'] and \
-					'weight' in request.GET and request.GET['weight']:
-		asn_id = request.GET['asn_id']
-		name = request.GET['name']
-		requirement = request.GET['requirement']
-		starttime = request.GET['starttime']
-		duetime = request.GET['duetime']
-		submit_limits = request.GET['submit_limits']
-		weight = request.GET['weight']
+		name = request.GET['assignment_name']
+		requirement = request.GET['assignment_requirement']
+		starttime = request.GET['assignment_starttime']
+		duetime = request.GET['assignment_duetime']
+		submit_limits = request.GET['maximum_submit']
+		weight = request.GET['grade_ratio']
+		asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=duetime, submit_limits =submit_limits, weight=weight )
+		asn.save()
+
+	return HttpResponseRedirect("/EducationalSystem/teacher/")
+
+#修改作业
+def modifyAssignment(request, asn_id):
+	if 'assignment_name' in request.GET and request.GET['assignment_name'] and \
+		'assignment_requirement' in request.GET['assignment_requirement'] and \
+		'assignment_starttime' in request.GET and request.GET['assignment_starttime'] and \
+		'assignment_duetime' in request.GET and request.GET['assignment_duetime'] and \
+		'maximum_submit' in request.GET and request.GET['maximum_submit'] and \
+		'grade_ratio' in request.GET and request.GET['grade_ratio']:
+
+		name = request.GET['assignment_name']
+		requirement = request.GET['assignment_requirement']
+		starttime = request.GET['assignment_starttime']
+		duetime = request.GET['assignment_duetime']
+		submit_limits = request.GET['maximum_submit']
+		weight = request.GET['grade_ratio']
 
 		asn = Assignment.objects.GET(id=asn_id)
 		asn.name = name
@@ -451,6 +486,15 @@ def modifyAssignment(request):
 def deleteAssignment(request):
 	if 'asn_id' in request.GET and request.GET['asn_id']:
 		asn_id = request.GET['asn_id']
+
+		TA = Team_Assignment.objects.filter(asn_id__id=asn_id)
+
+		Assignment_Resource.objects.filter(team_asn_id__in=TA.id).delete()
+		Student_Grade.objects.filter(team_asn_id__in=TA.id).delete()
+
+		TA.delete()
+
+		Assignment.objects.get(id=asn_id).delete()
 
 #从excel中添加课程学生表条目
 def addCourseStudent(request):
