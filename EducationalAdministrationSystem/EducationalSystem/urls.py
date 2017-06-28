@@ -24,7 +24,8 @@ urlpatterns = {
     url(r'^jiaowu/course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
 
     url(r'^teacher/displayHwForTea/', views.displayHwForTea, name='displayHwForTea'),
-    url(r'^teacher/displayHwAdd/', views.displayHwAdd, name='displayHwAdd'),
+    url(r'^teacher/addAsn/(\d+)/$', views.displayAddAsn, name='displayAddAsn'),
+    url(r'^teacher/addAsn/(\d+)/save/$', views.addAssignment, name='addAssignment'),
     url(r'^teacher/displayHwMd/', views.displayHwMd, name='displayHwMd'),
     url(r'^teacher/displayHwDt/', views.displayHwDt, name='displayHwDt'),
 
