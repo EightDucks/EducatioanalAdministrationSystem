@@ -265,6 +265,18 @@ def addCourse(request):
 	else:
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
+def displayHwForTea(request):
+    return render_to_response("teacher_course_homework.html")
+
+def displayHwAdd(request):
+    return render_to_response("teacher_course_homework_add.html")
+
+def displayHwMd(request):
+    return render_to_response("teacher_course_homework_modify.html")
+
+def displayHwDt(request):
+    return render_to_response("teacher_course_homework_watchdetails.html")
+
 
 # def setTeacher(request):
 
