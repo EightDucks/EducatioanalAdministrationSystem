@@ -27,5 +27,6 @@ urlpatterns = {
     url(r'^teacher/displayHwAdd/', views.displayHwAdd, name='displayHwAdd'),
     url(r'^teacher/displayHwMd/', views.displayHwMd, name='displayHwMd'),
     url(r'^teacher/displayHwDt/', views.displayHwDt, name='displayHwDt'),
+
 }
 
