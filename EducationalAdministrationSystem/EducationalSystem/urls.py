@@ -23,11 +23,16 @@ urlpatterns = {
     url(r'^teacher/$', views.displayCourseForTeacher, name='teacher'),
     url(r'^jiaowu/course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
 
-    url(r'^teacher/displayHwForTea/', views.displayHwForTea, name='displayHwForTea'),
+    url(r'^teacher/CouAsn/(\d+)/$', views.displayHwForTea, name='displayHwForTea'),
     url(r'^teacher/addAsn/(\d+)/$', views.displayAddAsn, name='displayAddAsn'),
     url(r'^teacher/addAsn/(\d+)/save/$', views.addAssignment, name='addAssignment'),
-    url(r'^teacher/displayHwMd/', views.displayHwMd, name='displayHwMd'),
-    url(r'^teacher/displayHwDt/', views.displayHwDt, name='displayHwDt'),
+    url(r'^teacher/modAsn/(\d+)/$', views.displayModAsn, name='displayModAsn'),
+    url(r'^teacher/modAsn/(\d+)/save/$', views.modifyAssignment, name='modifyAssignment'),
+    url(r'^teacher/Asn/(\d+)/$', views.displayHw, name='displayHw'),
+    url(r'^teacher/delAsn/(\d+)/$', views.deleteAssignment, name='deleteAssignment'),
+
+    url(r'^teacher_set_course_basicinfo/$', views.displaySetCourseInfo, name='teacher_set_course_basicinfo'),
+    url(r'^teacher_set_course_basicinfo/save/$', views.setCourseInfo, name='save_course_info'),
 
 
     #url(r'^teacher_set_course_basicinfo/$', views.displaySetCourseInfo, name='teacher_set_course_basicinfo'),

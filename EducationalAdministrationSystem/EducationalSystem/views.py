@@ -269,9 +269,12 @@ def addCourse(request):
 	else:
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
+<<<<<<< HEAD
 def displayHwForTea(request):
 	return render_to_response("teacher_course_homework.html")
 
+=======
+>>>>>>> origin/master
 def displayHwAdd(request):
 	return render_to_response("teacher_course_homework_add.html")
 
@@ -423,6 +426,7 @@ def displayAddAsn(request, cou_id):
 
 #添加作业，处理函数
 def addAssignment(request, cou_id):
+<<<<<<< HEAD
 	if 	'assignment_name' in request.GET and request.GET['assignment_name'] and \
 		'assignment_requirement' in request.GET and request.GET['assignment_requirement'] and \
 		'assignment_starttime' in request.GET and request.GET['assignment_starttime'] and \
@@ -442,9 +446,35 @@ def addAssignment(request, cou_id):
 		print('sucess')
 
 	return HttpResponseRedirect("/EducationalSystem/teacher/")
+=======
+    if 	'assignment_name' in request.GET and request.GET['assignment_name'] and \
+        'assignment_requirement' in request.GET and request.GET['assignment_requirement'] and \
+        'assignment_starttime' in request.GET and request.GET['assignment_starttime'] and \
+        'assignment_duetime' in request.GET and request.GET['assignment_duetime'] and \
+        'maximum_submit' in request.GET and request.GET['maximum_submit'] and \
+        'grade_ratio' in request.GET and request.GET['grade_ratio']:
 
-#修改作业
+        name = request.GET['assignment_name']
+        requirement = request.GET['assignment_requirement']
+        starttime = request.GET['assignment_starttime']
+        duetime = request.GET['assignment_duetime']
+        submit_limits = request.GET['maximum_submit']
+        weight = request.GET['grade_ratio']
+        cou = Course.objects.get(id=cou_id)
+        asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=duetime, submit_limits =submit_limits, weight=weight, course_id=cou )
+        asn.save()
+
+    return HttpResponseRedirect("/EducationalSystem/teacher/")
+>>>>>>> origin/master
+
+#展示修改作业页面，单独页面
+def displayModAsn(request, asn_id):
+    asn = Assignment.objects.get(id=asn_id)
+    return render(request, "teacher_course_homework_modify.html", {'asn':asn})
+
+#修改作业，处理函数
 def modifyAssignment(request, asn_id):
+<<<<<<< HEAD
 	if 'assignment_name' in request.GET and request.GET['assignment_name'] and \
 		'assignment_requirement' in request.GET['assignment_requirement'] and \
 		'assignment_starttime' in request.GET and request.GET['assignment_starttime'] and \
@@ -467,8 +497,42 @@ def modifyAssignment(request, asn_id):
 		asn.submit_limits = submit_limits
 		asn.weight = weight
 		asn.save()
+=======
+    if 'assignment_name' in request.GET and request.GET['assignment_name'] and \
+        'assignment_requirement' in request.GET and request.GET['assignment_requirement'] and \
+        'assignment_starttime' in request.GET and request.GET['assignment_starttime'] and \
+        'assignment_duetime' in request.GET and request.GET['assignment_duetime'] and \
+        'maximum_submit' in request.GET and request.GET['maximum_submit'] and \
+        'grade_ratio' in request.GET and request.GET['grade_ratio']:
 
+        name = request.GET['assignment_name']
+        requirement = request.GET['assignment_requirement']
+        starttime = request.GET['assignment_starttime']
+        duetime = request.GET['assignment_duetime']
+        submit_limits = request.GET['maximum_submit']
+        weight = request.GET['grade_ratio']
 
+        asn = Assignment.objects.get(id=asn_id)
+        asn.name = name
+        asn.requirement = requirement
+        asn.starttime = starttime
+        asn.duetime = duetime
+        asn.submit_limits = submit_limits
+        asn.weight = weight
+        asn.save()
+        return HttpResponseRedirect("/EducationalSystem/teacher/")
+    else:
+        print('cnm')
+        return HttpResponseRedirect("/EducationalSystem/teacher/")
+>>>>>>> origin/master
+
+#展示所有作业，单独页面
+def displayHwForTea(request, cou_id):
+    cou = Course.objects.get(id=cou_id)
+    asn = Assignment.objects.filter(course_id=cou)
+    return render(request, "teacher_course_homework.html", {'asn': asn, 'cou':cou_id})
+
+<<<<<<< HEAD
 # 删除作业
 def deleteAssignment(request):
 	if 'asn_id' in request.GET and request.GET['asn_id']:
@@ -512,11 +576,57 @@ def setCourseInfo(request, course_id):
 		'team_downlimit' in request.GET and request.GET['team_downlimit'] and \
 		'other_limit' in request.GET and 'description' in request.GET:
 
+=======
+#展示单个作业，单独页面
+def displayHw(request, asn_id):
+    asn = Assignment.objects.get(id=asn_id)
+    return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn})
+
+# 删除作业
+def deleteAssignment(request, asn_id):
+    TA = Team_Assignment.objects.filter(asn_id__id=asn_id)
+
+    Assignment_Resource.objects.filter(team_asn_id__in=TA).delete()
+    Student_Grade.objects.filter(team_asn_id__in=TA).delete()
+
+    TA.delete()
+
+    asn = Assignment.objects.get(id=asn_id)
+    cou_id = asn.course_id.id
+    asn.delete()
+    return HttpResponseRedirect("/EducationalSystem/teacher/CouAsn/" + str(cou_id))
+
+#从excel中添加课程学生表条目
+def addCourseStudent(request):
+    if 'path' in request.GET and request.GET['path']:
+        path = request.GET['path']
+
+        num, recs = readFromXLSX(path)
+
+        for i in range(num):
+            c_id = recs[i][0].value
+            stu_id = recs[i][1].value
+            #stu_name = recs[i][2].value
+
+            cour_stu = Course_Student(course_id__id=c_id, stu_id__id=stu_id)
+            cour_stu.save()
+
+def setCourseInfo(request):
+	if 'team_uplimit' in request.GET and request.GET['team_uplimit'] and \
+		'team_downlimit' in request.GET and request.GET['team_downlimit'] and \
+		'other_limit' in request.GET and 'description' in request.GET and \
+		'course_id' in request.GET and request.GET['course_id']:
+
+		course_id = request.GET['course_id']
+>>>>>>> origin/master
 		team_uplimit = request.GET['team_uplimit']
 		team_downlimit = request.GET['team_downlimit']
 		other_limit = request.GET['other_limit']
 		description = request.GET['description']
+<<<<<<< HEAD
 		print(team_uplimit, team_downlimit, other_limit, description)
+=======
+>>>>>>> origin/master
 
 		course = Course.objects.get(id=course_id)
 		course.team_uplimit = team_uplimit
@@ -524,6 +634,7 @@ def setCourseInfo(request, course_id):
 		course.other_limit = other_limit
 		course.description = description
 		course.save()
+<<<<<<< HEAD
 		return HttpResponseRedirect("/EducationalSystem/teacher/")
 		#return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
@@ -552,3 +663,14 @@ def deleteResource(request):
 	for num in range(len):
 		res_id = request.GET[res[num]]
 		Resource.objects.get(id=res_id).delete()
+=======
+		#return HttpResponseRedirect("/EducationalSystem/teacher/")
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+
+	else:
+		#return HttpResponseRedirect("/EducationalSystem/teacher/")
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+
+def displaySetCourseInfo(request):
+	return render_to_response("teacher_set_course_basicinfo.html")
+>>>>>>> origin/master
