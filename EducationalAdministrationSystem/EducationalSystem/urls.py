@@ -31,10 +31,6 @@ urlpatterns = {
     url(r'^teacher/Asn/(\d+)/$', views.displayHw, name='displayHw'),
     url(r'^teacher/delAsn/(\d+)/$', views.deleteAssignment, name='deleteAssignment'),
 
-    url(r'^teacher_set_course_basicinfo/$', views.displaySetCourseInfo, name='teacher_set_course_basicinfo'),
-    url(r'^teacher_set_course_basicinfo/save/$', views.setCourseInfo, name='save_course_info'),
-
-
     #url(r'^teacher_set_course_basicinfo/$', views.displaySetCourseInfo, name='teacher_set_course_basicinfo'),
     url(r'^teacher_set_course_basicinfo/(\d+)/save/$', views.setCourseInfo, name='save_course_info'),
     url(r'^teacher_set_course_basicinfo/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
