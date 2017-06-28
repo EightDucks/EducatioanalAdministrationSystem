@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^addCourse/$', views.addCourse, name='addCourse'),
     url(r'^saveTermInfo/$', views.saveTermInfo, name='saveTermInfo'),
     url(r'^student/$', views.displayCourseForStudent, name='student'),
+    url(r'^teacher/$', views.displayCourseForTeacher, name='teacher'),
+    url(r'^jiaowu/course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
 ]

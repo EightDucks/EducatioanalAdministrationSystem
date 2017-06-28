@@ -13,6 +13,7 @@ from django.db import connection
 from django.shortcuts import render_to_response
 from django.shortcuts import render
 
+from .utils import *
 
 from django.template.loader import get_template
 from django.template import Context
@@ -57,6 +58,13 @@ def jiaowu_addcourse(request):
 def jiaowu_addsemester(request):
 	return render_to_response('jiaowu_addsemester.html')
 
+# 课程信息：教务，单独页面
+def jiaowu_courseinfo(request, cou_id):
+    course = Course.objects.get(id=cou_id)
+    tid = course.term_id
+    #term = Term.objects.get(id=tid)
+    return render(request, "jiaowu_courseinfo.html", {'course':course, 'term':tid})
+
 # 学生课程，单独页面
 def displayCourseForStudent(request):
 	if 'id' in request.session and request.session['id'] \
@@ -86,6 +94,27 @@ def displayCourseForStudent(request):
 	# 		course_id = student_course.course_id__id
 	# 		ret_course = Course(term_id__id=term_id, id__in=course_id)
 
+#展示课程：教师
+def displayCourseForTeacher(request):
+	if 'id' in request.session and request.session['id'] \
+			and 'type' in request.session and request.session['type'] == 't':
+		thisTerm = Term.objects.all()
+		tid = request.session['id']
+		teacher_course = Course_Teacher.objects.filter(teacher_id__id=tid)
+		cou_id = teacher_course.values("course_id")
+		cou = Course.objects.filter(term_id__id__in=thisTerm, id__in=cou_id)
+		if len(cou) < 3:
+			cou1 = cou[0:len(cou)]
+			cou2 = None
+		elif len(cou) < 6:
+			cou1 = cou[0:4]
+			cou2 = cou[3:len(cou)]
+		else:
+			cou1 = cou[0:4]
+			cou2 = cou[3:7]
+		return render(request, "teacher.html", {'cou1': cou1, 'cou2': cou2})
+	else:
+		return HttpResponseRedirect("/EducationalSystem/")
 
 #登陆功能，处理函数
 def login(request):
@@ -97,10 +126,12 @@ def login(request):
 		userKind = request.POST['type']
 
 		if userKind == 't':
-			tea = Teacher.objects.filter(number = userName, password = userPassword)
+			tea = Teacher.objects.get(number = userName, password = userPassword)
 			if tea:
 				print('successT')
-				return HttpResponseRedirect("/EducationalSystem")
+				request.session["id"] = tea.id
+				request.session["type"] = "t"
+				return HttpResponseRedirect("/EducationalSystem/teacher/")
 			return HttpResponseRedirect("/EducationalSystem/")
 			# if tea:
 			# 	return render_to_response('index.html')
@@ -259,13 +290,6 @@ def displayTermInfo(request):
 		term_id = request.GET['term_id']
 		term = Term.objects.GET(id=term_id)
 
-#展示课程：学生
-def displayCourseForTeacher(request):
-	if 'id' in request.session and request.session['id']:
-		tea_id = request.session['id']
-		tea_course = Course_Teacher.objects.filter(teacher_id = tea_id, course_id__term_id__is_over = False)
-		course = Course.objects.filter(id__in = tea_course.course_id)
-
 #展示课程信息
 def displayCourseInfo(request):
 	if 'id' in request.GET and request.GET['id']:
@@ -410,6 +434,19 @@ def deleteAssignment(request):
 
 		Assignment.objects.get(id=asn_id).delete()
 
+#从excel中添加课程学生表条目
+def addCourseStudent(request):
+	if 'path' in request.GET and request.GET['path']:
+		path = request.GET['path']
 
+		num, recs = readFromXLSX(path)
+
+		for i in range(num):
+			c_id = recs[i][0].value
+			stu_id = recs[i][1].value
+			#stu_name = recs[i][2].value
+
+			cour_stu = Course_Student(course_id__id=c_id, stu_id__id=stu_id)
+			cour_stu.save()
 
 
