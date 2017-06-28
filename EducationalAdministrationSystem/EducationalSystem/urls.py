@@ -24,3 +24,4 @@ urlpatterns = {
     url(r'^jiaowu/course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
 
 }
+
