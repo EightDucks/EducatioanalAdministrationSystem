@@ -28,27 +28,7 @@
 
 
     <!--这个nav是左边的东西-->
-    <nav class="navbar-default navbar-side" role="navigation">
-        <div class="sidebar-collapse">
-            <!--左边栏的内容-->
-            <ul class="nav" id="main-menu">
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 基本信息</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 资源</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 作业</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 团队</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 交流</a>
-                </li>
-            </ul>
-        </div>
+    <div class="teacher_left"></div>
 
     </nav>
     <!--  这个page-wrapper是右边   -->
@@ -81,34 +61,34 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程ID</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="semester_id" disabled>
+                                        <input type="text" value="{{course_id}}" class="form-control" name="semester_id" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">当前学期</label>
                                     <div class="col-sm-5">
-                                        <input type="text" class="form-control" name="semester_name" disabled>
+                                        <input type="text" value="{{term_name}}" class="form-control" name="semester_name" disabled>
                                     </div>
                                 </div>
                                 <!-- 日期时间控件待实现 -->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程名称</label>
                                     <div class="col-sm-5">
-                                        <input type="text" class="form-control" name="course_name" disabled>
+                                        <input type="text" value="{{course_name}}" class="form-control" name="course_name" disabled>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程时间</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="course_time" disabled>
+                                        <input type="text" value="{{time}}" class="form-control" name="course_time" disabled>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">上课地点</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="course_location" disabled>
+                                        <input type="text" value="{{location}}" class="form-control" name="course_location" disabled>
                                     </div>
                                 </div>
 
@@ -116,7 +96,7 @@
                                     <label class="col-sm-2 control-label">课程学分</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字和小数点-->
-                                        <input type="text" class="form-control" name="course_point" disabled>
+                                        <input type="text" value="{{credit}}" class="form-control" name="course_point" disabled>
                                     </div>
                                 </div>
 
@@ -124,7 +104,7 @@
                                     <label class="col-sm-2 control-label">课时</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字-->
-                                        <input type="text" class="form-control" name="course_timelength" disabled>
+                                        <input type="text" value="{{hour}}" class="form-control" name="course_timelength" disabled>
                                     </div>
                                 </div>
 
@@ -216,6 +196,8 @@
 <!--添加教务、学生、教师页头部js-->
 <script src="/static/js/addheader.js"></script>
 <script src="/static/js/teacher_set_course_basicinfo.js"></script>
+<!--添加教师页nav左边js-->
+<script src="/static/js/add_teacher_left.js"></script>
 
 </body>
 </html>
