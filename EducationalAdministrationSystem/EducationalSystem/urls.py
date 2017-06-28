@@ -20,4 +20,8 @@ urlpatterns = {
     url(r'^teacher_left.html$', views.teacher_left, name='teacher_left'),
     url(r'^saveTermInfo/$', views.saveTermInfo, name='saveTermInfo'),
     url(r'^student/$', views.displayCourseForStudent, name='student'),
+    url(r'^teacher/$', views.displayCourseForTeacher, name='teacher'),
+    url(r'^jiaowu/course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
+
 }
+
