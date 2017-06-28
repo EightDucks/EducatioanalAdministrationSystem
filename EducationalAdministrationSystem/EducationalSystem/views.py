@@ -32,16 +32,20 @@ def header(request):
 		tp = request.session['type']
 		uid = request.session['id']
 	if tp == 's':
+		print('ok')
 		per = Student.objects.get(id=uid)
 		str = "Student"
+		return render(request, "header.html", {'str': str, 'per': per})
 	elif tp == 't':
 		per = Teacher.objects.get(id=uid)
 		str = "Teacher"
+		return render(request, "header.html", {'str': str, 'per': per})
 	elif tp == 'e':
 		per = EduAdmin.objects.get(id=uid)
 		str = "Administrator"
 		return render(request, "header.html", {'str':str, 'per':per})
 	else:
+		print('bad')
 		return HttpResponseRedirect("/EducationalSystem/")
 
 # 添加课程，单独页面
@@ -49,8 +53,39 @@ def jiaowu_addcourse(request):
 	tm = Term.objects.filter(is_over=False).order_by("-start")
 	return render(request, "jiaowu_addcourse.html", {'tm':tm})
 
+# 添加学期，单独页面
 def jiaowu_addsemester(request):
 	return render_to_response('jiaowu_addsemester.html')
+
+# 学生课程，单独页面
+def displayCourseForStudent(request):
+	if 'id' in request.session and request.session['id'] \
+			and 'type' in request.session and request.session['type'] == 's':
+		thisTerm = Term.objects.all()
+		sid = request.session['id']
+		student_course = Course_Student.objects.filter(student_id__id=sid)
+		cou_id = student_course.values("course_id")
+		cou = Course.objects.filter(term_id__id__in=thisTerm, id__in=cou_id)
+		if len(cou) < 3:
+			cou1 = cou[0:len(cou)]
+			cou2 = None
+		elif len(cou) < 6:
+			cou1 = cou[0:4]
+			cou2 = cou[3:len(cou)]
+		else:
+			cou1 = cou[0:4]
+			cou2 = cou[3:7]
+		return render(request, "student.html", {'cou1': cou1, 'cou2': cou2})
+	else:
+		return HttpResponseRedirect("/EducationalSystem/")
+	# if 'id' in request.GET and request.GET['id']:
+	# 	if 'term_id' in request.GET and request.GET['term_id']:
+	# 		stu_id = request.GET['id']
+	# 		term_id = request.GET['term_id']
+	# 		student_course = Course_Student.objects.filter(student_id__id=id)
+	# 		course_id = student_course.course_id__id
+	# 		ret_course = Course(term_id__id=term_id, id__in=course_id)
+
 
 #登陆功能，处理函数
 def login(request):
@@ -72,10 +107,12 @@ def login(request):
 			# else:
 			# 	return render_to_response('index.html')
 		elif userKind == 's':
-			stu = Student.objects.filter(number = userName, password = userPassword)
+			stu = Student.objects.get(number = userName, password = userPassword)
 			if stu:
 				print('successS')
-				return HttpResponseRedirect("/EducationalSystem/")
+				request.session["id"] = stu.id
+				request.session["type"] = "s"
+				return HttpResponseRedirect("/EducationalSystem/student/")
 			return HttpResponseRedirect("/EducationalSystem/")
 			# 	return render_to_response('index.html')
 			# else:
@@ -145,17 +182,18 @@ def saveTermInfo(request):
 	if 'semester_name' in request.GET and 'semester_startdate' in request.GET \
 		and 'semester_enddate' in request.GET and 'semester_numofweeks' in request.GET \
 		and request.GET['semester_name'] and request.GET['semester_startdate'] \
-		and request.GET['semester_enddate'] and request.GET['semester_numofweeks'] \
-		and 'selectterm' in request.GET and request.GET['selectterm']:
+		and request.GET['semester_enddate'] and request.GET['semester_numofweeks'] :
 
 		name = request.GET['semester_name']
 		start = request.GET['semester_startdate']
 		end = request.GET['semester_enddate']
 		week = request.GET['semester_numofweeks']
-		term = request.GET['selectterm']
 
-		term_tmp = Term(name=name, start=start, end=end, week=week, term_id=term)
+		term_tmp = Term(name=name, start=start, end=end, week=week)
 		term_tmp.save()
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+	else:
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
 #关闭学期
 def closeTerm(request):
@@ -190,15 +228,6 @@ def addCourse(request):
 # def setTeacher(request):
 
 #czy
-#展示课程：学生
-def displayCourseForStudent(request):
-	if 'id' in request.GET and request.GET['id']:
-		if 'term_id' in request.GET and request.GET['term_id']:
-			stu_id = request.GET['id']
-			term_id = request.GET['term_id']
-			student_course = Course_Student.objects.filter(student_id__id=id)
-			course_id = student_course.course_id__id
-			ret_course = Course(term_id__id=term_id, id__in=course_id)
 
 #展示所有资源：教师/学生
 def displayAllResource(request):

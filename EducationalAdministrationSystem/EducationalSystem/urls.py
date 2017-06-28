@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^header.html$', views.header, name = 'header'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^addCourse/$', views.addCourse, name='addCourse'),
+    url(r'^saveTermInfo/$', views.saveTermInfo, name='saveTermInfo'),
+    url(r'^student/$', views.displayCourseForStudent, name='student'),
 ]
