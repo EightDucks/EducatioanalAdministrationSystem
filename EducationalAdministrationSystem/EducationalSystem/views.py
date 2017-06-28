@@ -19,6 +19,10 @@ from django.template import Context
 from django.shortcuts import render_to_response
 from django.contrib import messages
 
+# 学生页左半部
+def student_left(request):
+	return render_to_response('student_left.html')
+
 
 # 主页
 def index(request):
@@ -51,6 +55,10 @@ def header(request):
 
 # 教师页左部
 def teacher_left(request):
+	# urlAll = request.path
+	# s = urlAll.split('/')
+	# str = s[-1]
+	# print (str)
 	return render_to_response('teacher_left.html')
 
 # 添加课程，单独页面
@@ -183,11 +191,16 @@ def logout(request):
 
 
 # 展示所有课程：教务 单独页面
-def displayCourseForEA(request):
+def displayCourseForEA(request, t_id):
 	if 'id' in request.session and request.session['id'] \
 			and 'type' in request.session and request.session['type'] == 'e':
+		thisTerm = -1
 		terms = Term.objects.order_by("-id")
-		thisTerm = terms[0].id
+		if not t_id:
+			thisTerm = terms[0].id
+		else:
+			t = Term.objects.get(id=t_id)
+			thisTerm = t.id
 		cou = Course.objects.filter(term_id__id=thisTerm)
 		if len(cou) < 3:
 			cou1 = cou[0:len(cou)]
@@ -237,6 +250,13 @@ def saveTermInfo(request):
 	else:
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
+def changeTerm(request):
+	if 'term' in request.GET and request.GET['term']:
+		tid = request.GET['term']
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/" + str(tid))
+	else:
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+
 #关闭学期
 def closeTerm(request):
 	if 'id' in request.GET and request.GET['id']:
@@ -253,7 +273,8 @@ def addCourse(request):
 			and 'selectterm' in request.GET and 'course_timelength' in request.GET \
 			and request.GET['course_point'] and request.GET['course_time'] \
 			and request.GET['course_name'] and request.GET['course_timelength'] \
-			and request.GET['course_location'] and request.GET['selectterm']:
+			and request.GET['course_location'] and request.GET['selectterm'] \
+			and 'course_teacherid' in request.GET and request.GET['course_teacherid']:
 
 		name = request.GET['course_name']
 		credit = request.GET['course_point']
@@ -261,7 +282,10 @@ def addCourse(request):
 		hour = request.GET['course_timelength']
 		location = request.GET['course_location']
 		term_id = request.GET['selectterm']
-
+		tea_num = request.GET['course_teacherid']
+		Tea = Teacher.objects.get(number=tea_num)
+		if not Tea:
+			return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 		term = Term.objects.get(id=term_id)
 		Course_tmp = Course(name=name, credit=credit, time=time, location=location, term_id=term, hour=hour)
 		Course_tmp.save()
@@ -479,7 +503,7 @@ def displayCourseInfo(request, course_id):
 				  {'course_id':course.id, 'term_name':term.name,
 				   'course_name':course.name, 'time':course.time,
 				   'location':course.location, 'credit':course.credit,
-				   'hour':course.hour})
+				   'hour':course.hour, "cou":course})
 
 #展示单个作业，单独页面
 def displayHw(request, asn_id):
@@ -550,6 +574,7 @@ def deleteResource(request):
 		res_id = request.GET[res[num]]
 		Resource.objects.get(id=res_id).delete()
 
+
 def timeToISOString(s):
 	return time.strftime("%a %b %d %H:%M:%S %Y", time.localtime(float(s)))
 
@@ -583,3 +608,24 @@ def uploadHomework(request,asn_id):
 		return HttpResponse("upload over!")
 	print('successA')
 	return render_to_response("student_course_homework_watchdetails.html")
+
+def displaySetGrade(request):
+	return render_to_response("teacher_setgrade.html")
+
+#展示学生课程信息页面，单独页面
+def displayCouForStu(request, cou_id):
+	cou = Course.objects.get(id=cou_id)
+	term = cou.term_id
+	return render(request, "student_course_basicinfo.html", {'cou':cou, 'term':term})
+
+#展示学生所有作业页面，单独页面
+def displayHwForStu(request, cou_id):
+	cou = Course.objects.get(id=cou_id)
+	asn = Assignment.objects.filter(course_id=cou)
+	return render(request, "student_course_homework.html", {'cou':cou, 'asn':asn})
+
+#展示学生某一作业，单独页面
+def displayStuHw(request, asn_id):
+	asn = Assignment.objects.get(id=asn_id)
+	cou = asn.course_id
+	return render(request, "student_course_homework_watchdetails.html", {'cou':cou, 'asn':asn})

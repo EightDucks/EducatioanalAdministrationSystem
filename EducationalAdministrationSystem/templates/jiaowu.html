@@ -52,23 +52,24 @@
                             <!--<div class="row">-->
                             <!---->
                             <!--</div>-->
+                            <form action="/EducationalSystem/jiaowu_change/">
                             <button id="addcourse" type="button" class="btn btn-primary" onclick="location.href='/EducationalSystem/jiaowu_addcourse/'"><span class="glyphicon glyphicon-plus"></span>新建本学期课程</button>
                             <div  id="termbutton">
                                 <button id="addterm" type="button" class="btn btn-primary" onclick="location.href='/EducationalSystem/jiaowu_addsemester/'">
                                     <span class="glyphicon glyphicon-plus"></span>新增学期</button>
                                 <label >选择学期：</label>
-                                <select id="selectterm" class="selectpicker">
+                                <select id="selectterm" name="term" class="selectpicker">
                                     <!--<option>2017学年上学期</option>-->
                                     <!--<option>2017学年下学期</option>-->
                                     <!--<option>2018学年上学期</option>-->
                                     {% for t in terms %}
-                                    <option>{{t.name}}</option>
+                                    <option value="{{t.id}}">{{t.name}}</option>
                                     {% endfor %}
                                 </select>
-                                <button id="changeterm" type="button" class="btn btn-default" onclick="">
+                                <button id="changeterm" type="submit" class="btn btn-default">
                                     更新</button>
-                                <div>
-
+                                </div>
+                            </form>
                         </ul>
                     </div>
                 </div>
@@ -80,7 +81,7 @@
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                {{c.name}}
+                                <a href="/EducationalSystem/jiaowu_ course/{{c.id}}">{{c.name}}</a>
                             </div>
                             <div class="panel-body">
                                 <div class="myfont">学分: {{c.credit}}</div>
@@ -117,7 +118,7 @@
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                {{c.name}}
+                                <a href="/EducationalSystem/jiaowu_course/{{c.id}}">{{c.name}}</a>
                             </div>
                             <div class="panel-body">
                                 <div class="myfont">学分: {{c.credit}}</div>

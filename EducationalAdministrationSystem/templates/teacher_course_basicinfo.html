@@ -28,18 +28,18 @@
 
 
     <!--这个nav是左边的东西-->
-    <div class="student_left"></div>
+    <div class="teacher_left"></div>
 
     <!--  这个page-wrapper是右边   -->
     <div id="page-wrapper">
         <div class="header">
             <h1 class="page-header">
-                课程信息
+                基本信息
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="../">{{cou.name}}</a></li>
-                <li class="active">课程信息</li>
+                <li><a href="../">课程信息</a></li>
+                <li class="active">基本信息</li>
             </ol>
         </div>
 
@@ -59,48 +59,48 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程ID</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">{{cou.id}}</label>
+                                      <label class="control-label" style="font-weight:normal;">{{course_id}}</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">当前学期</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">{{term.name}}</label>
+                                      <label class="control-label" style="font-weight:normal;">{{term_name}}</label>
                                     </div>
                                 </div>
                                 <!-- 日期时间控件待实现 -->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程名称</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">{{cou.name}}</label>
+                                      <label class="control-label" style="font-weight:normal;">{{course_name}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程时间</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">{{cou.time}}</label>
+                                      <label class="control-label" style="font-weight:normal;">{{time}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">上课地点</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">{{cou.location}}</label>
+                                      <label class="control-label" style="font-weight:normal;">{{location}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程学分</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">{{cou.credit}}</label>
+                                      <label class="control-label" style="font-weight:normal;">{{credit}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课时</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">{{cou.hour}}</label>
+                                      <label class="control-label" style="font-weight:normal;">{{hour}}</label>
                                     </div>
                                 </div>
 
@@ -125,19 +125,19 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">最大人数</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">8</label>
+                                      <label class="control-label" style="font-weight:normal;"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">最少人数</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">6</label>
+                                      <label class="control-label" style="font-weight:normal;"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">其他限制</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">每组至少一位女生</label>
+                                      <label class="control-label" style="font-weight:normal;"></label>
                                     </div>
                                 </div>
                             </form>
@@ -146,20 +146,19 @@
                             课程描述
                         </div>
                         <div class="panel-body">
-                            <form class="form-horizontal" id="form_limit_other">
+                            <form class="form-horizontal" id="form_limit_other" action="./save/">
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">描述内容</label>
                                     <div class="col-sm-10">
-                                        <!--仅可输入数字-->
-                                        <label class="control-label" style="font-weight:normal;">233
-                                        </textarea>
+                                      <label class="control-label" style="font-weight:normal;"></label>
                                     </div>
                                 </div>
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-sm-offset-2 col-sm-10">-->
-                                        <!--<button id="submit_button" type="submit" class="btn btn-default">提交</button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="submit_button" type="submit" class="btn btn-default">修改</button>
+                                    </div>
+                                </div>
 
                             </form>
 
@@ -189,7 +188,7 @@
 <!--添加教务、学生、教师页头部js-->
 <script src="/static/js/addheader.js"></script>
 <!--添加教师页nav左边js-->
-<script src="/static/js/add_student_left.js"></script>
+<script src="/static/js/add_teacher_left.js"></script>
 
 <script src="/static/js/teacher_set_course_basicinfo.js"></script>
 

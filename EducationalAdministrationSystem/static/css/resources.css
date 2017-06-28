@@ -86,25 +86,53 @@ ul{
     padding:0;
     list-style:none;
 }
-.alldom ul li{
+.alldom ul li[class~="myfile"]{
+     overflow:hidden;
+     width:100px;
+     height:115px;
+     float:left;
+     margin-right:55px;
+     background:url(../imgs/file.png) center top no-repeat;
+     border:1px solid #fff;
+     position:relative;
+     transition:all 0.2s ease-in 0.1s;
+ }
+.alldom ul li[class~="myfolder"]{
     overflow:hidden;
     width:100px;
     height:115px;
     float:left;
     margin-right:55px;
-    background:url(../imgs/file.png) center top no-repeat;
+    background:url(../imgs/213125.png) center top no-repeat;
     border:1px solid #fff;
     position:relative;
     transition:all 0.2s ease-in 0.1s;
 }
-.alldom ul li.bgclocrc{
+/*.alldom ul li[class~="bgclocrc"] {*/
+    /*background:url(../imgs/file.png) center top no-repeat #f1f2fd;*/
+    /*border:1px solid #a7aae3;*/
+/*}*/
+/*.alldom ul li[class~="bgclocrc_folder"] {*/
+    /*background:url(../imgs/213125.png) center top no-repeat #f1f2fd;*/
+    /*border:1px solid #a7aae3;*/
+/*}*/
+
+
+
+.alldom ul li[class="myfile"]:hover{
     background:url(../imgs/file.png) center top no-repeat #f1f2fd;
     border:1px solid #a7aae3;
 }
-.alldom ul li:hover{
-    background:url(../imgs/file.png) center top no-repeat #f1f2fd;
+.alldom ul li[class="myfolder"]:hover{
+    background:url(../imgs/213125.png) center top no-repeat #f1f2fd;
     border:1px solid #a7aae3;
 }
+
+/*.alldom ul .test :hover{*/
+/*background:url(../imgs/file.png) center top no-repeat #f1f2fd;*/
+/*border:1px solid #a7aae3;*/
+/*}*/
+
 input.changename{
     position:absolute;
     border-radius:0px;

@@ -24,8 +24,16 @@
 
 
         <!--这个nav是左边的东西-->
-
-        <div class="teacher_left"></div>
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <!--左边栏的内容-->
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-file"></i> 课程列表</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
         <!--  这个page-wrapper是右边   -->
         <div id="page-wrapper">
@@ -44,7 +52,7 @@
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                课程名
+                                <a href="/EducationalSystem/teacher/course/{{c.id}}/">{{c.name}}</a>
                             </div>
                             <div class="panel-body">
                                 <!--<P>hello</P>-->
@@ -67,7 +75,7 @@
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                课程名
+                                <a href="/EducationalSystem/teacher/course/{{c.id}}/">{{c.name}}</a>
                             </div>
                             <div class="panel-body">
                                 <!--<P>hello</P>-->

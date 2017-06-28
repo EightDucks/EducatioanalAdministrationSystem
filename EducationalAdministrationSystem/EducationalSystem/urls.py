@@ -5,9 +5,13 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = {
+    # 学生页左半部
+    url(r'^student_left.html$', views.student_left, name='student_left'),
+
     url(r'^$', views.index, name='index'),
     url(r'^login/$', views.login, name='login'),
-    url(r'^jiaowu/$', views.displayCourseForEA, name='jiaowu'),
+    url(r'^jiaowu/(\d+)?', views.displayCourseForEA, name='jiaowu'),
+    url(r'^jiaowu_change/$', views.changeTerm, name='changeTerm'),
     url(r'^jiaowu_addcourse/$', views.jiaowu_addcourse, name='jiaowu_addcourse'),
     url(r'^jiaowu_addsemester/$', views.jiaowu_addsemester, name='jiaowu_addsemester'),
 
@@ -21,7 +25,7 @@ urlpatterns = {
     url(r'^saveTermInfo/$', views.saveTermInfo, name='saveTermInfo'),
     url(r'^student/$', views.displayCourseForStudent, name='student'),
     url(r'^teacher/$', views.displayCourseForTeacher, name='teacher'),
-    url(r'^jiaowu/course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
+    url(r'^jiaowu_course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
 
     url(r'^teacher/CouAsn/(\d+)/$', views.displayHwForTea, name='displayHwForTea'),
     url(r'^teacher/addAsn/(\d+)/$', views.displayAddAsn, name='displayAddAsn'),
@@ -32,9 +36,17 @@ urlpatterns = {
     url(r'^teacher/delAsn/(\d+)/$', views.deleteAssignment, name='deleteAssignment'),
 
     #url(r'^teacher_set_course_basicinfo/$', views.displaySetCourseInfo, name='teacher_set_course_basicinfo'),
-    url(r'^teacher_set_course_basicinfo/(\d+)/save/$', views.setCourseInfo, name='save_course_info'),
-    url(r'^teacher_set_course_basicinfo/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
+    url(r'^teacher/course/(\d+)/save/$', views.setCourseInfo, name='save_course_info'),
+    url(r'^teacher/course/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
 
     url(r'^student/upldAsn/(\d+)/$', views.uploadHomework, name='uploadAssignment'),
-}
 
+
+    url(r'^teacher/setGd/$', views.displaySetGrade, name='displaySetGrade'),
+
+
+    url(r'^student/course/(\d+)/$', views.displayCouForStu, name='displayCouForStu'),
+    url(r'^student/CouAsn/(\d+)/$', views.displayHwForStu, name='displayHwForStu'),
+    url(r'student/Asn/(\d+)/$', views.displayStuHw, name='displayStuHw'),
+
+}

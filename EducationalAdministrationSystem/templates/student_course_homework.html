@@ -37,7 +37,7 @@
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="../">软件工程实践</a></li>
+                <li><a href="../">{{cou.name}}</a></li>
                 <li class="active">作业</li>
 			</ol>
           </div>
@@ -65,13 +65,15 @@
                                         <tbody>
                                             <!--内容都在tbody里加-->
                                             <tr class="gradeA">
-                                                <td>软件工程实践版本发布计划</td>
-                                                <td>2017-6-26 16:00:00</td>
+                                                {% for a in asn %}
+                                                <td>{{a.name}}</td>
+                                                <td>{{a.duetime}}</td>
                                                 <td class="center">已截止</td>
                                                 <td class="center">
-                                                    <button type="button" class="btn btn-primary btn-xs">查看详细</button>
+                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/student/Asn/{{a.id}}/'">查看详细</button>
                                                     <!--<button type="button" class="btn btn-success btn-xs" disabled>查看报表</button>-->
                                                 </td>
+                                                {% endfor %}
                                             </tr>
                                         </tbody>
                                     </table>
