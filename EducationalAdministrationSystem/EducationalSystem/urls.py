@@ -5,6 +5,9 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = {
+    # 学生页左半部
+    url(r'^student_left.html$', views.student_left, name='student_left'),
+
     url(r'^$', views.index, name='index'),
     url(r'^login/$', views.login, name='login'),
     url(r'^jiaowu/$', views.displayCourseForEA, name='jiaowu'),
@@ -42,4 +45,3 @@ urlpatterns = {
     url(r'student/Asn/(\d+)/$', views.displayStuHw, name='displayStuHw'),
 
 }
-

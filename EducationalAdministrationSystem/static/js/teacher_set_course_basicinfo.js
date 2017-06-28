@@ -3,8 +3,10 @@
  */
 
 $(document).ready(function () {
-    $("#submit_buttom").click(function () {
-        $("#form_limit").submit();
-        $("#form_limit_other").submit();
+    $("#submit_button").click(function () {
+        $("#team_uplimit").submit()
+        $("#team_downlimit").submit()
+        $("#other_limit").submit()
+        $("#description").submit()
     })
-})
+});

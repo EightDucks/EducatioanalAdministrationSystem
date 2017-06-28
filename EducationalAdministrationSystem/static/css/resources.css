@@ -34,6 +34,42 @@
     /*border:none;*/
 /*}*/
 
+.row p {
+    /*width: 100px;*/
+    margin-left: 20px;
+}
+
+.operator_bar{
+    margin-left: 30px;
+    margin-top: 20px;
+
+    display: inline;
+    position: absolute;
+    width:70%;
+    left: 0;
+    border-radius: 4px;
+}
+
+#exampleInputFile{
+    position: absolute;
+    top:5px;
+    left :60%;
+    width:200px;
+}
+
+
+.pagination {
+    /*width:100%;*/
+    display: inline-block;
+    position: absolute;
+
+    right: 0;
+    padding-left:30px;
+    padding-right: 30px;
+
+    /*margin: 20px 0;*/
+    border-radius: 4px;
+}
 
 *{
     margin:0;
@@ -44,6 +80,8 @@
     width:100%;
     height:100%;
 }
+
+
 ul{
     padding:0;
     list-style:none;
@@ -102,7 +140,7 @@ input.checkbox{
     z-index:0;
     border:none;
 }
-input{
+li input{
     width:88px;
     height:24px;
     line-height:20px;
@@ -113,10 +151,10 @@ input{
     transition:all 0.2s ease-in 0.1s;
     margin-left:25px;
 }
-input:hover{
-    background:#09F;
-    color:#fff;
-}
+/*input:hover{*/
+    /*background:#09F;*/
+    /*color:#fff;*/
+/*}*/
 .menu-zdy{
     width:120px;
     padding:4px;

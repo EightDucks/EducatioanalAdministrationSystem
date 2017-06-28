@@ -19,6 +19,10 @@ from django.template import Context
 from django.shortcuts import render_to_response
 from django.contrib import messages
 
+# 学生页左半部
+def student_left(request):
+	return rander_to_response('student_left.html')
+
 
 # 主页
 def index(request):
