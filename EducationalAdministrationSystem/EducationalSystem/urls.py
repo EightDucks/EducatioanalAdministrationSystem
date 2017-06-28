@@ -35,5 +35,6 @@ urlpatterns = {
     url(r'^teacher_set_course_basicinfo/(\d+)/save/$', views.setCourseInfo, name='save_course_info'),
     url(r'^teacher_set_course_basicinfo/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
 
+    url(r'^student/upldAsn/(\d+)/$', views.uploadHomework, name='uploadAssignment'),
 }
 

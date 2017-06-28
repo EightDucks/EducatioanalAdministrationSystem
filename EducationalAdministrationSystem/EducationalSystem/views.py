@@ -1,6 +1,6 @@
 # coding=utf-8
 import os
-
+import time
 from django.shortcuts import render
 
 from .models import *
@@ -550,3 +550,36 @@ def deleteResource(request):
 		res_id = request.GET[res[num]]
 		Resource.objects.get(id=res_id).delete()
 
+def timeToISOString(s):
+	return time.strftime("%a %b %d %H:%M:%S %Y", time.localtime(float(s)))
+
+def uploadHomework(request,asn_id):
+	if request.method == 'POST' and request.session['stu_id']:
+		s = time.time()
+		loc_time = timeToISOString(s)
+
+		sid = request.session['stu_id']
+		stu_team= Student_Team.objects.get(student_id = sid, is_approved = True)
+		teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
+		if not teamAsn:
+			teamAsn.submit_times = 1
+			teamAsn.save()
+		else:
+			teamAsn.submit_times = teamAsn.submit_times + 1
+			teamAsn.save()
+
+		myFiles = request.FILES.getlist("mylists", None)
+		if not myFiles:
+			dstatus = ("No file to upload")
+		for f in myFiles:
+			destination = open('E:/upload/', 'wb+')
+			asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
+			asn_res.save()
+			for chunk in f.chunks():
+				destination.write(chunk)
+
+			destination.close()
+
+		return HttpResponse("upload over!")
+	print('successA')
+	return render_to_response("student_course_homework_watchdetails.html")
