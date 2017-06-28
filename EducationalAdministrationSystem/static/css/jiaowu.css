@@ -3,7 +3,10 @@
     font-size: 50px;
     line-height: 1.428px;
 }
-
+#course_stu{
+	 float:right;
+	 margin-right:50px;
+}
 .Jnavbar{
     width:100%;
     display: inline-block;
@@ -16,7 +19,14 @@
     /*margin: 20px 0;*/
     border-radius: 4px;
 }
-.pagination {
+#stupagination {
+    width:100%;
+    display: inline-block;
+	position:absolute;
+	margin: auto;
+    /*margin: 20px 0;*/
+}
+#jiaowupagination {
     /*width:100%;*/
     display: inline-block;
     position: absolute;

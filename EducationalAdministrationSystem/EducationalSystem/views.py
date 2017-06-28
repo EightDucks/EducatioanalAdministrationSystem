@@ -312,18 +312,23 @@ def uploadFiles(request):
 		return HttpResponse("upload over!")
 
 def downloadFiles(request):
-	if 'id' in request.GET and request.GET['id']:
-		fid = request.GET['id']
-		fname = Resource.objects.GET(id = fid)
-		fpath = Resource.objects.GET(id = fid)
-		with open(fname, 'rb') as f:
-			while True:
-				c = f.read(512)
-				if c:
-					yield c
-				else:
-					break
-	#response = StreamingHttpResponse(file_iterator(fpath))
+	if 'fid' in request.GET and request.GET['fid']:
+		fid = request.GET['fid']
+		myFile = Resource.objects.GET(id = fid)
+		fname = myFile.name
+		fpath = myFile.path
+		def fileIterator(fname, chunk_size = 512):
+			with open(fname) as f:
+				while(True):
+					c = f.read(chunk_size)
+					if c:
+						yield c
+					else:
+						break
+		response = StreamingHttpResponse(fileIterator(fname))
+		response['Content-Type'] = 'application/octet-stream'
+		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(fname)
+		return response
 #Warlockhjn 6.27
 
 
