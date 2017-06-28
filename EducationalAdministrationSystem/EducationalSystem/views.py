@@ -1,10 +1,12 @@
 # coding=utf-8
+import os
+
 from django.shortcuts import render
 
 from .models import *
 
 
-
+from django.http import StreamingHttpResponse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Template, Context
 from django.db import connection
@@ -22,6 +24,25 @@ from django.contrib import messages
 #主页
 def index(request):
 	return render_to_response('index.html')
+
+#头部
+def header(request):
+    if 'id' in request.session and request.session['id'] \
+        and 'type' in request.session and request.session['type']:
+        tp = request.session['type']
+        uid = request.session['id']
+    if tp == 's':
+        per = Student.objects.get(id=uid)
+        str = "Student"
+    elif tp == 't':
+        per = Teacher.objects.get(id=uid)
+        str = "Teacher"
+    elif tp == 'e':
+        per = EduAdmin.objects.get(id=uid)
+        str = "Administrator"
+        return render(request, "header.html", {'str':str, 'per':per})
+    else:
+        return HttpResponseRedirect("/EducationalSystem/")
 
 #
 def jiaowu_addcourse(request):
@@ -79,8 +100,6 @@ def login(request):
 def displayCourseForEA(request):
 	if 'id' in request.session and request.session['id'] \
 			and 'type' in request.session and request.session['type'] == 'e':
-		ea_id = request.session['id']
-		ea = EduAdmin.objects.get(id=ea_id)
 		terms = Term.objects.order_by("-id")
 		thisTerm = terms[0].id
 		cou = Course.objects.filter(term_id__id = thisTerm)
@@ -93,7 +112,7 @@ def displayCourseForEA(request):
 		else:
 			cou1 = cou[0:4]
 			cou2 = cou[3:7]
-		return render(request, "jiaowu.html", {'ea':ea, 'terms':terms, 'cou1':cou1, 'cou2':cou2})
+		return render(request, "jiaowu.html", {'terms':terms, 'cou1':cou1, 'cou2':cou2})
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
 
@@ -234,6 +253,39 @@ def displayAssignmentsForStudents(request):
 		stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved = True, team_id__course_id=ass_info.course_id)
 		ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id = stu_team.id)
 
+
+def uploadFiles(request):
+	if request.method == 'POST' and request.session['cid']:
+		cur_id = request.session['cid']
+		myFiles = request.FILES.getlist("mylists", None)
+		if not myFiles:
+			dstatus = ("No file to upload")
+		for f in myFiles:
+			destination = open('E:/upload/', 'wb+')
+			res = Resource(name = f.name, path = destination, course_id = cur_id, virtual_path= destination)
+			res.save()
+			for chunk in f.chunks():
+				destination.write(chunk)
+			destination.close()
+		return HttpResponse("upload over!")
+
+def downloadFiles(request):
+	if 'id' in request.GET and request.GET['id']:
+		fid = request.GET['id']
+		fname = Resource.objects.GET(id = fid)
+		fpath = Resource.objects.GET(id = fid)
+		with open(fname, 'rb') as f:
+			while True:
+				c = f.read(512)
+				if c:
+					yield c
+				else:
+					break
+	#response = StreamingHttpResponse(file_iterator(fpath))
+#Warlockhjn 6.27
+
+
+
 #评论学生作业：教师
 def setTeamAssignmentComment(request):
 	if 'TA_id' in request.GET and request.GET['TA_id'] and \
@@ -310,4 +362,7 @@ def deleteAssignment(request):
 		TA.delete()
 
 		Assignment.objects.get(id=asn_id).delete()
+
+
+
 

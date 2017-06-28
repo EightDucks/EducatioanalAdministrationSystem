@@ -2,3 +2,4 @@ document
 EducationalAdministrationSystem/.idea
 .idea
 my.cnf
+*.pyc
