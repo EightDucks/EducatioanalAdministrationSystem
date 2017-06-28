@@ -28,18 +28,18 @@
 
 
     <!--这个nav是左边的东西-->
-    <div class="teacher_left"></div>
+    <div class="student_left"></div>
 
     <!--  这个page-wrapper是右边   -->
     <div id="page-wrapper">
         <div class="header">
             <h1 class="page-header">
-                基本信息
+                课程信息
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="../">课程信息</a></li>
-                <li class="active">基本信息</li>
+                <li><a href="../">软件工程实践</a></li>
+                <li class="active">课程信息</li>
             </ol>
         </div>
 
@@ -65,28 +65,28 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">当前学期</label>
                                     <div class="col-sm-5">
-                                        <input type="text" class="form-control" name="semester_name" disabled>
+                                        <input type="text" class="form-control" name="semester_name" disabled value="2017年上学期">
                                     </div>
                                 </div>
                                 <!-- 日期时间控件待实现 -->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程名称</label>
                                     <div class="col-sm-5">
-                                        <input type="text" class="form-control" name="course_name" disabled>
+                                        <input type="text" class="form-control" name="course_name" disabled value="软件工程实践">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程时间</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="course_time" disabled>
+                                        <input type="text" class="form-control" name="course_time" disabled value="O.O">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">上课地点</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="course_location" disabled>
+                                        <input type="text" class="form-control" name="course_location" disabled value="工程训练中心">
                                     </div>
                                 </div>
 
@@ -94,7 +94,7 @@
                                     <label class="col-sm-2 control-label">课程学分</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字和小数点-->
-                                        <input type="text" class="form-control" name="course_point" disabled>
+                                        <input type="text" class="form-control" name="course_point" disabled value="2">
                                     </div>
                                 </div>
 
@@ -102,7 +102,7 @@
                                     <label class="col-sm-2 control-label">课时</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字-->
-                                        <input type="text" class="form-control" name="course_timelength" disabled>
+                                        <input type="text" class="form-control" name="course_timelength" disabled value="32">
                                     </div>
                                 </div>
 
@@ -128,21 +128,20 @@
                                     <label class="col-sm-2 control-label">最大人数</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字-->
-                                        <input type="text" class="form-control" name="team_uplimit" required placeholder="仅可输入整数" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                        <input type="text" class="form-control" name="team_uplimit" disabled value="8">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">最少人数</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字-->
-                                        <input type="text" class="form-control" name="team_downlimit" required placeholder="仅可输入整数" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                        <input type="text" class="form-control" name="team_downlimit" disabled value="6">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">其他限制</label>
                                     <div class="col-sm-3">
-                                        <!--仅可输入数字-->
-                                        <input type="text" class="form-control" name="other_limit" required placeholder="如：每个团队至少有一名女生">
+                                        <input type="text" class="form-control" name="other_limit" disabled value="每组至少一位女生">
                                     </div>
                                 </div>
                             </form>
@@ -151,12 +150,12 @@
                             课程描述
                         </div>
                         <div class="panel-body">
-                            <form class="form-horizontal" id="form_limit_other" action="/EducationalSystem/teacher_set_course_basicinfo/save/">
+                            <form class="form-horizontal" id="form_limit_other">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">描述内容</label>
                                     <div class="col-sm-8">
                                         <!--仅可输入数字-->
-                                        <textarea class="form-control" name="description" rows="7" >
+                                        <textarea class="form-control" name="other_limit" rows="7" disabled>233
                                         </textarea>
                                     </div>
                                 </div>
@@ -192,11 +191,11 @@
 <!-- Custom Js -->
 <!--<script src="assets/js/custom-scripts.js"></script>-->
 <!--添加教务、学生、教师页头部js-->
-<script src="/static/js/addheader.js"></script>
+<script src="//static/js/addheader.js"></script>
 <!--添加教师页nav左边js-->
-<script src="/static/js/add_teacher_left.js"></script>
+<script src="//static/js/add_student_left.js"></script>
 
-<script src="/static/js/teacher_set_course_basicinfo.js"></script>
+<script src="//static/js/teacher_set_course_basicinfo.js"></script>
 
 </body>
 </html>
