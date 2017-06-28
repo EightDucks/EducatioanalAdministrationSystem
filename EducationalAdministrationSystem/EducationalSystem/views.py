@@ -282,70 +282,59 @@ def displayHwDt(request):
     return render_to_response("teacher_course_homework_watchdetails.html")
 
 
-# def setTeacher(request):
-# #czy
-# #展示所有资源：教师/学生
-# def displayAllResource(request):
-#     if 'course_id' in request.GET and request.GET['course_id'] and \
-#                     'virtual_path' in request.GET and request.GET['virtual_path']:
-#         course_id = request.GET['course_id']
-#         virtual_path = request.GET['virtual_path']
-#         res = Resource.objects.filter(course_id__id=course_id, virtual_path=virtual_path)
-#
-#
-# # 上传资源：教师
-# def addResource(request):
-#     if 'name' in request.GET and request.GET['name'] and \
-#                     'path' in request.GET and request.GET['path'] and \
-#                     'virtual_path' in request.GET and request.GET['virtual_path'] and \
-#                     'course_id' in request.GET and request.GET['course_id']:
-#         course_id = request.GET['course_id']
-#         name = request.GET['name']
-#         path = request.GET['path']
-#         virtual_path = request.GET['virtual_path']
-#
-#         Resource_tmp = Resource(name=name, path=path, virtual_path=virtual_path, course_id=course_id)
-#         Resource_tmp.save()
-#
-#
-# # mine
-# # 展示学期信息
-# def displayTermInfo(request):
-#     if 'term_id' in request.GET and request.GET['term_id']:
-#         term_id = request.GET['term_id']
-#         term = Term.objects.GET(id=term_id)
-#
-# #展示课程信息
-# def displayCourseInfo(request):
-#     if 'id' in request.GET and request.GET['id']:
-#         cou_id = request.GET['id']
-#         course = Course.objects.get(id=cou_id)
-#
-#
-# # 展示所有作业
-# def displayCourseAssignments(request):
-#     if 'id' in request.GET and request.GET['id']:
-#         cur_id = request.GET['id']
-#         cur_ass = Assignment.objects.GET(course_id=cur_id)
-#
-#
-# # 展示作业信息：教师
-# def displayAssignmentsForTeacher(request):
-#     if 'id' in request.GET and request.GET['id']:
-#         ass_id = request.GET['id']
-#         stu_ass = Assignment_Resource.objects.filter(team_asn_id__asn_id__id=ass_id)
-#         ass_info = Assignment.objects.GET(id=ass_id)
-#
-#
-# # 展示作业信息：学生
-# def displayAssignmentsForStudents(request):
-#     if 'id' in request.GET and request.GET['id'] \
-#             and 'id' in request.session and request.session['id']:
-#         ass_id = request.GET['id']
-#         stu_id = request.session['id']
-#         ass_info = Assignment.objects.GET(id=ass_id)
-#         stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved=True, team_id__course_id=ass_info.course_id)
-#         ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id=stu_team.id)
+def setTeacher(request):
+#czy
+#展示所有资源：教师/学生
+def displayAllResource(request):
+    if 'course_id' in request.GET and request.GET['course_id'] and \
+                    'virtual_path' in request.GET and request.GET['virtual_path']:
+        course_id = request.GET['course_id']
+        virtual_path = request.GET['virtual_path']
+        res = Resource.objects.filter(course_id__id=course_id, virtual_path=virtual_path)
+
+
+# 上传资源：教师
+def addResource(request):
+    if 'name' in request.GET and request.GET['name'] and \
+                    'path' in request.GET and request.GET['path'] and \
+                    'virtual_path' in request.GET and request.GET['virtual_path'] and \
+                    'course_id' in request.GET and request.GET['course_id']:
+        course_id = request.GET['course_id']
+        name = request.GET['name']
+        path = request.GET['path']
+        virtual_path = request.GET['virtual_path']
+
+        Resource_tmp = Resource(name=name, path=path, virtual_path=virtual_path, course_id=course_id)
+        Resource_tmp.save()
+
+
+# mine
+
+
+# 展示所有作业
+def displayCourseAssignments(request):
+    if 'id' in request.GET and request.GET['id']:
+        cur_id = request.GET['id']
+        cur_ass = Assignment.objects.GET(course_id=cur_id)
+
+
+# 展示作业信息：教师
+def displayAssignmentsForTeacher(request):
+    if 'id' in request.GET and request.GET['id']:
+        ass_id = request.GET['id']
+        stu_ass = Assignment_Resource.objects.filter(team_asn_id__asn_id__id=ass_id)
+        ass_info = Assignment.objects.GET(id=ass_id)
+
+
+# 展示作业信息：学生
+def displayAssignmentsForStudents(request):
+    if 'id' in request.GET and request.GET['id'] \
+            and 'id' in request.session and request.session['id']:
+        ass_id = request.GET['id']
+        stu_id = request.session['id']
+        ass_info = Assignment.objects.GET(id=ass_id)
+        stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved=True, team_id__course_id=ass_info.course_id)
+        ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id=stu_team.id)
 
 
 def uploadFiles(request):
