@@ -36,7 +36,7 @@ $(function(){
         var btns = document.getElementById('removebutton');
         btns02 = document.getElementById('removethispc');
         $removenews.fadeIn(250);
-        $(this).addClass('bgclocrc').siblings().removeClass('bgclocrc');
+        $(this).addClass('bgclocrc');
         $(this).attr("id",'remove').siblings().attr('id','');
         $( " input[type=text] ").attr("id",'namecc').siblings().attr('id',' ');
         btns.onclick = function(){//js 调用
@@ -45,9 +45,9 @@ $(function(){
                 function(){
                     if($bgcolor.hasClass('bgclocrc'))
                     {
-                        //alert(123)
-                        // document.getElementById('remove').remove();//js
-                        $('#remove').remove();//jq
+                        $('input[type="checkbox"]:checked').each(function(){
+						$(this).parent().remove(); })
+                        
                         $removenews.fadeOut(250);
                     }else
                     {
@@ -56,20 +56,7 @@ $(function(){
                 },250)
         }//
 
-        btns02.onclick = function(){//js 调用
-            alert('确定删除文件夹？');
-            setTimeout(
-                function(){
-                    if($bgcolor.hasClass('bgclocrc'))
-                    {
-                        $('#remove').remove();//jq
-                        $removenews.fadeOut(250);
-                    }else
-                    {
-                        alert('请选择文件')
-                    }
-                },250)
-        }//	右键功能---删除
+        
 
         //右键菜单
         var container = document.getElementById('remove');
