@@ -53,8 +53,8 @@
                             </div>
 
                             <div class="panel-body">
-                                <button id="addcourse" type="button" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus"></span>新增作业</button>
+                                <button id="addcourse" type="button" class="btn btn-primary" onclick="location.href='/EducationalSystem/teacher/addAsn/{{cou}}/'">
+                                <span class="glyphicon glyphicon-plus" ></span>新增作业</button>
                             </div>
 
                             <div class="panel-body">
@@ -71,17 +71,19 @@
                                         </thead>
                                         <tbody>
                                             <!--内容都在tbody里加-->
+                                            {% for a in asn %}
                                             <tr class="gradeA">
-                                                <td>软件工程实践版本发布计划</td>
-                                                <td>2017-6-26 10:00:00</td>
-                                                <td>2017-6-26 16:00:00</td>
+                                                <td><a href="/EducationalSystem/teacher/Asn/{{a.id}}/">{{a.name}}</a></td>
+                                                <td>{{a.starttime}}</td>
+                                                <td>{{a.duetime}}</td>
                                                 <td class="center">已截止</td>
                                                 <td class="center">
-                                                    <button type="button" class="btn btn-info btn-xs">修改信息</button>
-                                                    <button type="button" class="btn btn-primary btn-xs">查看详细</button>
-                                                    <button type="button" class="btn btn-danger btn-xs course_delete">删除</button>
+                                                    <button type="button" class="btn btn-info btn-xs" onclick="location.href='/EducationalSystem/teacher/modAsn/{{a.id}}'">修改信息</button>
+                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/Asn/{{a.id}}'">查看详细</button>
+                                                    <button type="button" class="btn btn-danger btn-xs course_delete" onclick="location.href='/EducationalSystem/teacher/delAsn/{{a.id}}'">删除</button>
                                                 </td>
                                             </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>

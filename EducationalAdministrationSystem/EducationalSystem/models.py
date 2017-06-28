@@ -66,8 +66,8 @@ class Assignment(models.Model):
     name = models.CharField(max_length=50)
     course_id = models.ForeignKey(Course)
     requirement = models.TextField(null=True)
-    starttime = models.DateTimeField()
-    duetime = models.DateTimeField()
+    starttime = models.CharField(max_length=20)
+    duetime = models.CharField(max_length=20)
     submit_limits = models.IntegerField(null=True)
     weight = models.FloatField()
 
