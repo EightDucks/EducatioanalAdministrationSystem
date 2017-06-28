@@ -282,7 +282,7 @@ def displayHwDt(request):
     return render_to_response("teacher_course_homework_watchdetails.html")
 
 
-def setTeacher(request):
+#def setTeacher(request):
 #czy
 #展示所有资源：教师/学生
 def displayAllResource(request):
