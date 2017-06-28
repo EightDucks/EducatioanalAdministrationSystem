@@ -5,10 +5,11 @@
 //     alert('确定新建文件夹？')
 // })
 $(function(){
-    var $parent = $('#divall'),$bgcolor = $('#divall li'),$carry = $('.carrynews'),
+    var $parent = $('#divall'),$bgcolor = $('#divall li '),$carry = $('.carrynews'),
         $removenews = $('.remove'),$removeall = $('.removeall'),$removeright = $('#removethispc'),
         $namehide = $('#divall li input.changename'),$changename = $('#changename');
-    $removenews.hide();
+
+    // $removenews.hide();
 
     //新建
 
@@ -17,7 +18,7 @@ $(function(){
         setTimeout(
 
             function(){
-                $parent.append("<li><input type='text' class='changename'\ value='新建文件夹'/><input class='checkbox' type='checkbox' value='' /></li>");
+                $parent.append("<li class='myfolder'><input type='text' class='changename'\ value='新建文件夹'/><input class='checkbox' type='checkbox' value='' /></li>");
             },500);
     });
 
@@ -31,25 +32,23 @@ $(function(){
             },500);
     }); //新文件夹不起作用！！
 
-    //变色
+    //复选框删除
     $bgcolor.live('click' , function(){
         var btns = document.getElementById('removebutton');
+        btns02 = document.getElementById('removethispc');
         $removenews.fadeIn(250);
         $(this).addClass('bgclocrc');
         $(this).attr("id",'remove').siblings().attr('id','');
-        
+        $( " input[type=text] ").attr("id",'namecc').siblings().attr('id',' ');
         btns.onclick = function(){//js 调用
             alert('确定删除文件夹？');
             setTimeout(
                 function(){
                     if($bgcolor.hasClass('bgclocrc'))
                     {
-						var txt='';
-                        $('input[type="checkbox"]:checked').each(
-						function(){
-							txt+=$(this).attr("name")+',';
+                        $('input[type="checkbox"]:checked').each(function(){
 						$(this).parent().remove(); })
-                        $('#msgtransfer').val(txt);
+                        
                         $removenews.fadeOut(250);
                     }else
                     {
