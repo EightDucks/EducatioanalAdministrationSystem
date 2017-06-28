@@ -7,15 +7,16 @@
     <meta content="webthemez" name="author" />
     <title>Bootstrap HTML5 Admin Template</title>
     <!-- Bootstrap Styles-->
-    <link href="/static/4assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="static/4assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
-    <link href="/static/4assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="static/4assets/css/font-awesome.css" rel="stylesheet" />
     <!-- Custom Styles-->
-    <link href="/static/css/jiaowu.css" rel="stylesheet" />
+    <link href="static/css/jiaowu.css" rel="stylesheet" />
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
 
+    <link href="static/css/jiaowu.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -55,7 +56,12 @@
                         </div>
                         <div class="panel-body">
                             <form class="form-horizontal">
-
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程ID</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" name="semester_id" disabled>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">当前学期</label>
                                     <div class="col-sm-5">
@@ -147,19 +153,19 @@
                         <div class="panel-body">
                             <form class="form-horizontal" id="form_limit_other">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">其他限制</label>
-                                    <div class="col-sm-3">
+                                    <label class="col-sm-2 control-label">描述内容</label>
+                                    <div class="col-sm-8">
                                         <!--仅可输入数字-->
-                                        <textarea class="form-control" name="other_limit" required >
+                                        <textarea class="form-control" name="other_limit" rows="7" >
                                         </textarea>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <button id="submit_button" type="submit" class="btn btn-default">提交</button>
                                     </div>
                                 </div>
+
                             </form>
 
                         </div>
@@ -167,7 +173,6 @@
                     </div>
 
                 </div>
-
             </div>
         </div>
         <!-- /. PAGE INNER  -->
@@ -179,19 +184,24 @@
 
 <!-- JS Scripts-->
 <!-- jQuery Js -->
-<script src="/static/4assets/js/jquery-1.10.2.js"></script>
+<script src="static/4assets/js/jquery-1.10.2.js"></script>
 <!-- Bootstrap Js -->
-<script src="/static/4assets/js/bootstrap.min.js"></script>
+<script src="static/4assets/js/bootstrap.min.js"></script>
 <!-- Metis Menu Js -->
-<script src="/static/4assets/js/jquery.metisMenu.js"></script>
+<script src="static/4assets/js/jquery.metisMenu.js"></script>
 <!-- Custom Js -->
 <!--<script src="assets/js/custom-scripts.js"></script>-->
 <!--添加教务、学生、教师页头部js-->
+<<<<<<< HEAD
+<script src="static/js/addheader.js"></script>
+<script src="static/js/teacher_set_course_basicinfo.js"></script>
+=======
 <script src="/static/js/addheader.js"></script>
 <!--添加教师页nav左边js-->
 <script src="/static/js/add_teacher_left.js"></script>
 
 <script src="/static/js/teacher_set_course_basicinfo.js"></script>
+>>>>>>> ec98275ed7a9d885e22618d4103ccbf405ea897a
 
 </body>
 </html>

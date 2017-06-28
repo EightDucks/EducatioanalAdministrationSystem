@@ -44,6 +44,8 @@ class Course(models.Model):#课时
     team_uplimit = models.IntegerField()
     team_downlimit = models.IntegerField()
     term_id = models.ForeignKey(Term)
+    other_limit = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
 
 class Course_Teacher(models.Model):
     course_id = models.ForeignKey(Course)
