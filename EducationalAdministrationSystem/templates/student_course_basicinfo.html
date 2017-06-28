@@ -58,51 +58,49 @@
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程ID</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="semester_id" disabled value="{{cou.id}}">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">{{cou.id}}</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">当前学期</label>
-                                    <div class="col-sm-5">
-                                        <input type="text" class="form-control" name="semester_name" disabled value="{{term.name}}">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">{{term.name}}</label>
                                     </div>
                                 </div>
                                 <!-- 日期时间控件待实现 -->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程名称</label>
-                                    <div class="col-sm-5">
-                                        <input type="text" class="form-control" name="course_name" disabled value="{{cou.name}}">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">{{cou.name}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程时间</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="course_time" disabled value="{{cou.time}}">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">{{cou.time}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">上课地点</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="course_location" disabled value="{{cou.location}}">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">{{cou.location}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程学分</label>
-                                    <div class="col-sm-3">
-                                        <!--仅可输入数字和小数点-->
-                                        <input type="text" class="form-control" name="course_point" disabled value="{{cou.credit}}">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">{{cou.credit}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课时</label>
-                                    <div class="col-sm-3">
-                                        <!--仅可输入数字-->
-                                        <input type="text" class="form-control" name="course_timelength" disabled value="{{cou.hour}}">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">{{cou.hour}}</label>>
                                     </div>
                                 </div>
 
@@ -126,22 +124,20 @@
                             <form class="form-horizontal" id="form_limit">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">最大人数</label>
-                                    <div class="col-sm-3">
-                                        <!--仅可输入数字-->
-                                        <input type="text" class="form-control" name="team_uplimit" disabled value="8">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">8</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">最少人数</label>
-                                    <div class="col-sm-3">
-                                        <!--仅可输入数字-->
-                                        <input type="text" class="form-control" name="team_downlimit" disabled value="6">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">6</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">其他限制</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="other_limit" disabled value="每组至少一位女生">
+                                    <div class="col-sm-10">
+                                      <label class="control-label" style="font-weight:normal;">每组至少一位女生</label>
                                     </div>
                                 </div>
                             </form>
@@ -153,9 +149,9 @@
                             <form class="form-horizontal" id="form_limit_other">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">描述内容</label>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-10">
                                         <!--仅可输入数字-->
-                                        <textarea class="form-control" name="other_limit" rows="7" disabled>233
+                                        <label class="control-label" style="font-weight:normal;">233
                                         </textarea>
                                     </div>
                                 </div>
