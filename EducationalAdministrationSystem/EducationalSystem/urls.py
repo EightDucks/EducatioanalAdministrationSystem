@@ -21,3 +21,4 @@ urlpatterns = {
     url(r'^saveTermInfo/$', views.saveTermInfo, name='saveTermInfo'),
     url(r'^student/$', views.displayCourseForStudent, name='student'),
 }
+
