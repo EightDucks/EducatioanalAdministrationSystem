@@ -34,20 +34,22 @@ $(function(){
     //变色
     $bgcolor.live('click' , function(){
         var btns = document.getElementById('removebutton');
-        btns02 = document.getElementById('removethispc');
         $removenews.fadeIn(250);
         $(this).addClass('bgclocrc');
         $(this).attr("id",'remove').siblings().attr('id','');
-        $( " input[type=text] ").attr("id",'namecc').siblings().attr('id',' ');
+        
         btns.onclick = function(){//js 调用
             alert('确定删除文件夹？');
             setTimeout(
                 function(){
                     if($bgcolor.hasClass('bgclocrc'))
                     {
-                        $('input[type="checkbox"]:checked').each(function(){
+						var txt='';
+                        $('input[type="checkbox"]:checked').each(
+						function(){
+							txt+=$(this).attr("name")+',';
 						$(this).parent().remove(); })
-                        
+                        $('#msgtransfer').val(txt);
                         $removenews.fadeOut(250);
                     }else
                     {
