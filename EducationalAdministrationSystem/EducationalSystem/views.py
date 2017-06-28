@@ -55,6 +55,10 @@ def header(request):
 
 # 教师页左部
 def teacher_left(request):
+	# urlAll = request.path
+	# s = urlAll.split('/')
+	# str = s[-1]
+	# print (str)
 	return render_to_response('teacher_left.html')
 
 # 添加课程，单独页面
@@ -499,7 +503,7 @@ def displayCourseInfo(request, course_id):
 				  {'course_id':course.id, 'term_name':term.name,
 				   'course_name':course.name, 'time':course.time,
 				   'location':course.location, 'credit':course.credit,
-				   'hour':course.hour})
+				   'hour':course.hour, "cou":course})
 
 #展示单个作业，单独页面
 def displayHw(request, asn_id):

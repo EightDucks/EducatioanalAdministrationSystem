@@ -25,7 +25,7 @@ urlpatterns = {
     url(r'^saveTermInfo/$', views.saveTermInfo, name='saveTermInfo'),
     url(r'^student/$', views.displayCourseForStudent, name='student'),
     url(r'^teacher/$', views.displayCourseForTeacher, name='teacher'),
-    url(r'^jiaowu/course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
+    url(r'^jiaowu_course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
 
     url(r'^teacher/CouAsn/(\d+)/$', views.displayHwForTea, name='displayHwForTea'),
     url(r'^teacher/addAsn/(\d+)/$', views.displayAddAsn, name='displayAddAsn'),
@@ -36,8 +36,8 @@ urlpatterns = {
     url(r'^teacher/delAsn/(\d+)/$', views.deleteAssignment, name='deleteAssignment'),
 
     #url(r'^teacher_set_course_basicinfo/$', views.displaySetCourseInfo, name='teacher_set_course_basicinfo'),
-    url(r'^teacher_set_course_basicinfo/(\d+)/save/$', views.setCourseInfo, name='save_course_info'),
-    url(r'^teacher_set_course_basicinfo/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
+    url(r'^teacher/course/(\d+)/save/$', views.setCourseInfo, name='save_course_info'),
+    url(r'^teacher/course/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
 
     url(r'^teacher/setGd/$', views.displaySetGrade, name='displaySetGrade'),
 
