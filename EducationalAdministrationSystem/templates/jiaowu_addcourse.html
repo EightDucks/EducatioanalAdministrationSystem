@@ -63,14 +63,14 @@
                                   </div>
                               </div>
                               <div class="panel-body">
-                                  <form class="form-horizontal">
+                                  <form class="form-horizontal" action="/EducationalSystem/addCourse/">
 
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label">选择学期</label>
-                                          <select id="selectterm" class="selectpicker">
-                                              <option>2017学年上学期</option>
-                                              <option>2017学年下学期</option>
-                                              <option>2018学年上学期</option>
+                                          <select id="selectterm" class="selectpicker" name="selectterm">
+                                              {% for t in tm %}
+                                              <option value="{{t.id}}">{{t.name}}</option>
+                                              {% endfor %}
                                           </select>
                                       </div>
 

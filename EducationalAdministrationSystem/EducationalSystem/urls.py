@@ -14,4 +14,5 @@ urlpatterns = [
     # 教务、学生、教师页头部
     url(r'^header.html$', views.header, name = 'header'),
     url(r'^logout/$', views.logout, name='logout'),
+    url(r'^addCourse/$', views.addCourse, name='addCourse'),
 ]

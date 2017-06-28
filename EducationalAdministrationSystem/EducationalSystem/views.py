@@ -27,29 +27,30 @@ def index(request):
 
 #头部
 def header(request):
-    if 'id' in request.session and request.session['id'] \
-        and 'type' in request.session and request.session['type']:
-        tp = request.session['type']
-        uid = request.session['id']
-    if tp == 's':
-        per = Student.objects.get(id=uid)
-        str = "Student"
-    elif tp == 't':
-        per = Teacher.objects.get(id=uid)
-        str = "Teacher"
-    elif tp == 'e':
-        per = EduAdmin.objects.get(id=uid)
-        str = "Administrator"
-        return render(request, "header.html", {'str':str, 'per':per})
-    else:
-        return HttpResponseRedirect("/EducationalSystem/")
+	if 'id' in request.session and request.session['id'] \
+		and 'type' in request.session and request.session['type']:
+		tp = request.session['type']
+		uid = request.session['id']
+	if tp == 's':
+		per = Student.objects.get(id=uid)
+		str = "Student"
+	elif tp == 't':
+		per = Teacher.objects.get(id=uid)
+		str = "Teacher"
+	elif tp == 'e':
+		per = EduAdmin.objects.get(id=uid)
+		str = "Administrator"
+		return render(request, "header.html", {'str':str, 'per':per})
+	else:
+		return HttpResponseRedirect("/EducationalSystem/")
 
-#
+# 添加课程，单独页面
 def jiaowu_addcourse(request):
-	return render_to_response('jiaowu_addcourse.html')
+	tm = Term.objects.filter(is_over=False).order_by("-start")
+	return render(request, "jiaowu_addcourse.html", {'tm':tm})
 
 def jiaowu_addsemester(request):
-    return render_to_response('jiaowu_addsemester.html')
+	return render_to_response('jiaowu_addsemester.html')
 
 #登陆功能，处理函数
 def login(request):
@@ -98,12 +99,13 @@ def login(request):
 
 # 注销功能，处理函数
 def logout(request):
-    try:
-        del request.session['id']
-        del request.session['type']
-    except KeyError:
-        pass
-    return HttpResponseRedirect("/EducationalSystem/")
+	try:
+		del request.session['id']
+		del request.session['type']
+	except KeyError:
+		pass
+	return HttpResponseRedirect("/EducationalSystem/")
+
 # 展示所有课程：教务 单独页面
 def displayCourseForEA(request):
 	if 'id' in request.session and request.session['id'] \
@@ -143,14 +145,16 @@ def saveTermInfo(request):
 	if 'semester_name' in request.GET and 'semester_startdate' in request.GET \
 		and 'semester_enddate' in request.GET and 'semester_numofweeks' in request.GET \
 		and request.GET['semester_name'] and request.GET['semester_startdate'] \
-		and request.GET['semester_enddate'] and request.GET['semester_numofweeks']:
+		and request.GET['semester_enddate'] and request.GET['semester_numofweeks'] \
+		and 'selectterm' in request.GET and request.GET['selectterm']:
 
 		name = request.GET['semester_name']
 		start = request.GET['semester_startdate']
 		end = request.GET['semester_enddate']
 		week = request.GET['semester_numofweeks']
+		term = request.GET['selectterm']
 
-		term_tmp = Term(name=name, start=start, end=end, week=week)
+		term_tmp = Term(name=name, start=start, end=end, week=week, term_id=term)
 		term_tmp.save()
 
 #关闭学期
@@ -163,25 +167,26 @@ def closeTerm(request):
 
 #添加课程，处理函数
 def addCourse(request):
-	if 'name' in request.GET and 'credit' in request.GET \
-		and 'time' in request.GET and 'location' in request.GET \
-		and 'team_uplimit' in request.GET and 'team_downlimit' in request.GET \
-		and 'term_id' in request and request.GET['name'] \
-		and request.GET['credit'] and request.GET['time'] \
-		and request.GET['location'] and request.GET['team_uplimit'] \
-		and request.GET['team_downlimit'] and request.GET['term_id']:
+	if 'course_name' in request.GET and 'course_point' in request.GET \
+		and 'course_time' in request.GET and 'course_location' in request.GET \
+		and 'selectterm' in request.GET and 'course_timelength' in request.GET \
+		and request.GET['course_point'] and request.GET['course_time'] \
+		and request.GET['course_name'] and request.GET['course_timelength'] \
+		and request.GET['course_location'] and request.GET['selectterm']:
 
-		name = request.GET['name']
-		credit = request.GET['credit']
-		time = request.GET['time']
-		location = request.GET['location']
-		team_uplimit = request.GET['team_uplimit']
-		team_downlimit = request.GET['team_downlimit']
-		term_id = request.GET['term_id']
+		name = request.GET['course_name']
+		credit = request.GET['course_point']
+		time = request.GET['course_time']
+		hour = request.GET['course_timelength']
+		location = request.GET['course_location']
+		term_id = request.GET['selectterm']
 
-		Course_tmp = Course(name=name, credit=credit, time=time, location=location, team_uplimit=team_uplimit, team_downlimit=team_downlimit, term_id=term_id)
+		term = Term.objects.get(id=term_id)
+		Course_tmp = Course(name=name, credit=credit, time=time, location=location, term_id=term, hour=hour)
 		Course_tmp.save()
-
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+	else:
+		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 # def setTeacher(request):
 
 #czy
