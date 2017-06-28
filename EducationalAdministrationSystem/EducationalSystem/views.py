@@ -96,6 +96,14 @@ def login(request):
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
 
+# 注销功能，处理函数
+def logout(request):
+    try:
+        del request.session['id']
+        del request.session['type']
+    except KeyError:
+        pass
+    return HttpResponseRedirect("/EducationalSystem/")
 # 展示所有课程：教务 单独页面
 def displayCourseForEA(request):
 	if 'id' in request.session and request.session['id'] \
@@ -130,17 +138,17 @@ def displayUserInfo(request):
 			elif userKind == 'e':
 				ea = EduAdmin.objects.get(id = user_id)
 
-#保存学期信息
+#保存学期信息，处理函数
 def saveTermInfo(request):
-	if 'name' in request.GET and 'start' in request.GET \
-		and 'end' in request.GET and 'week' in request.GET \
-		and request.GET['name'] and request.GET['start'] \
-		and request.GET['end'] and request.GET['week']:
+	if 'semester_name' in request.GET and 'semester_startdate' in request.GET \
+		and 'semester_enddate' in request.GET and 'semester_numofweeks' in request.GET \
+		and request.GET['semester_name'] and request.GET['semester_startdate'] \
+		and request.GET['semester_enddate'] and request.GET['semester_numofweeks']:
 
-		name = request.GET['name']
-		start = request.GET['start']
-		end = request.GET['end']
-		week = request.GET['week']
+		name = request.GET['semester_name']
+		start = request.GET['semester_startdate']
+		end = request.GET['semester_enddate']
+		week = request.GET['semester_numofweeks']
 
 		term_tmp = Term(name=name, start=start, end=end, week=week)
 		term_tmp.save()
@@ -153,7 +161,7 @@ def closeTerm(request):
 		term.is_over = True
 		term.save()
 
-#添加课程
+#添加课程，处理函数
 def addCourse(request):
 	if 'name' in request.GET and 'credit' in request.GET \
 		and 'time' in request.GET and 'location' in request.GET \
