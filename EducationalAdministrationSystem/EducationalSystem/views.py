@@ -337,6 +337,7 @@ def displayAssignmentsForStudents(request):
         ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id=stu_team.id)
 
 
+def uploadResource(request):
     if request.method == 'POST' and request.session['cid']:
         cur_id = request.session['cid']
         myFiles = request.FILES.getlist("mylists", None)
@@ -352,6 +353,7 @@ def displayAssignmentsForStudents(request):
         return HttpResponse("upload over!")
 
 
+def downloadResource(request):
     if 'fid' in request.GET and request.GET['fid']:
         fid = request.GET['fid']
         myFile = Resource.objects.GET(id = fid)
