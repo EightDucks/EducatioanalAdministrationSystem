@@ -587,33 +587,58 @@ def uploadHomework(request,asn_id):
 		stu_team= Student_Team.objects.get(student_id = sid, is_approved = True)
 		teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
 		if not teamAsn:
-		 	teamAsn.submit_times = 1
-		 	teamAsn.save()
+			teamAsn.submit_times = 1
+			teamAsn.save()
 		else:
-		 	teamAsn.submit_times = teamAsn.submit_times + 1
-		 	teamAsn.save()
+			teamAsn.submit_times = teamAsn.submit_times + 1
+			teamAsn.save()
 
 		strA = "assignment_attachment_"
 		i = 0
 
 		while True:
-		 	newStr = strA + str(i)
-		 	if newStr in request.FILES:
-		 		file_obj = request.FILES[newStr]
-		 		baseDir = os.path.dirname(os.path.abspath(__name__));
-		 		destination = open(os.path.join(baseDir, 'static', 'files', file_obj.name), 'wb+')
-		 		asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
-		 		asn_res.save()
-		 		for chunk in file_obj.chunks():
-		 			destination.write(chunk)
+			newStr = strA + str(i)
+			if newStr in request.FILES:
+				file_obj = request.FILES[newStr]
+				baseDir = os.path.dirname(os.path.abspath(__name__));
+				destination = open(os.path.join(baseDir, 'static', 'files', file_obj.name), 'wb+')
+				asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
+				asn_res.save()
+				for chunk in file_obj.chunks():
+					destination.write(chunk)
 
-		 		destination.close()
-		 		i = i + 1
-		 	else:
-		 		break
+				destination.close()
+				i = i + 1
+			else:
+				break
 
 		return HttpResponseRedirect("/EducationalSystem/student/")
 	return HttpResponseRedirect("/EducationalSystem/student/")
+
+def downloadHomework(request, asn_id):
+	if 'tid' in request.GET and request.GET['tid']:
+		tid = request.GET['tid']
+		team_asn = Team_Assignment.objects.get(team_id = tid, asn_id = asn_id)
+		asn_res =  Assignment_Resource.objects.get(team_asn_id = team_asn.id)
+
+		asn_res_path = asn_res.path
+		asn_res_id = asn_res.team_asn_id
+
+		def fileIterator(fpath, chunk_size = 1024):
+			with open(fpath) as f:
+				while(True):
+					c = f.read(chunk_size)
+					if c:
+						yield c
+					else:
+						break
+		response = StreamingHttpResponse(fileIterator(asn_res_path))
+		response['Content-Type'] = 'application/octet-stream'
+		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(asn_res_id)
+		return response
+
+
+	return render_to_response("teacher_course_homework_watchdetails.html")
 
 def displaySetGrade(request):
 	return render_to_response("teacher_setgrade.html")

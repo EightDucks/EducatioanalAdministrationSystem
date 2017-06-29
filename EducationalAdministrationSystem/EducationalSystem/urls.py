@@ -40,7 +40,7 @@ urlpatterns = {
     url(r'^teacher/course/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
 
     url(r'^student/upldAsn/(\d+)/$', views.uploadHomework, name='uploadAssignment'),
-
+    url(r'^teacher/dldAsn/(\d+)/$', views.downloadHomework, name='downloadAssignment'),
 
     url(r'^teacher/setGd/$', views.displaySetGrade, name='displaySetGrade'),
 
