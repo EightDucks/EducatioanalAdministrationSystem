@@ -53,14 +53,14 @@
 #exampleInputFile{
     position: absolute;
     top:5px;
-    left :80%;
+    left :50%;
     width:200px;
 }
 #uploadbutton{
 	position: absolute;
     top:5px;
-    left :50%;
-    width:200px;
+    left :80%;
+    width:100px;
 }
 
 
