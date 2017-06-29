@@ -23,8 +23,18 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="607" column="61" selection-start-line="607" selection-start-column="46" selection-end-line="607" selection-end-column="61" />
+            <state relative-caret-position="340">
+              <caret line="557" column="75" selection-start-line="557" selection-start-column="75" selection-end-line="557" selection-end-column="75" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="resources.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/resources.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="105" column="74" selection-start-line="105" selection-start-column="64" selection-end-line="105" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -45,18 +55,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EducationalSystem/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="51" column="22" selection-start-line="49" selection-start-column="19" selection-end-line="49" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="student_course_homework_watchdetails.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/student_course_homework_watchdetails.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="79" column="35" selection-start-line="79" selection-start-column="31" selection-end-line="79" selection-end-column="35" />
+            <state relative-caret-position="411">
+              <caret line="53" column="45" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -77,9 +77,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/EducationalSystem/urls.py" />
         <option value="$PROJECT_DIR$/EducationalAdministrationSystem/settings.py" />
         <option value="$PROJECT_DIR$/templates/student_course_homework_watchdetails.html" />
+        <option value="$PROJECT_DIR$/EducationalSystem/urls.py" />
         <option value="$PROJECT_DIR$/EducationalSystem/views.py" />
       </list>
     </option>
@@ -403,7 +403,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -412,14 +412,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1717">
           <caret line="15" column="8" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/EducationalSystem/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="51" column="22" selection-start-line="49" selection-start-column="19" selection-end-line="49" selection-end-column="22" />
           <folding />
         </state>
       </provider>
@@ -442,10 +434,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/resources.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="105" column="74" selection-start-line="105" selection-start-column="64" selection-end-line="105" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EducationalSystem/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="53" column="45" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="607" column="61" selection-start-line="607" selection-start-column="46" selection-end-line="607" selection-end-column="61" />
+        <state relative-caret-position="340">
+          <caret line="557" column="75" selection-start-line="557" selection-start-column="75" selection-end-line="557" selection-end-column="75" />
           <folding />
         </state>
       </provider>

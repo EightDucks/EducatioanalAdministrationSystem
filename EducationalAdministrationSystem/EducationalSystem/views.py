@@ -344,23 +344,6 @@ def displayAssignmentsForStudents(request):
 		stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved=True, team_id__course_id=ass_info.course_id)
 		ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id=stu_team.id)
 
-
-def uploadResource(request):
-	if request.method == 'POST' and request.session['cid']:
-		cur_id = request.session['cid']
-		myFiles = request.FILES.getlist("mylists", None)
-		if not myFiles:
-			dstatus = ("No file to upload")
-		for f in myFiles:
-			destination = open('E:/upload/', 'wb+')
-			res = Resource(name=f.name, path=destination, course_id=cur_id, virtual_path=destination)
-			res.save()
-			for chunk in f.chunks():
-				destination.write(chunk)
-			destination.close()
-		return HttpResponse("upload over!")
-
-
 def downloadResource(request):
 	if 'fid' in request.GET and request.GET['fid']:
 		fid = request.GET['fid']
@@ -557,6 +540,22 @@ def setCourseInfo(request, course_id):
 	else:
 		return HttpResponseRedirect("/EducationalSystem/teacher/")
 
+def uploadResource(request, cou_id):
+	if request.method == 'POST' :
+		myFiles = request.FILES.getlist("fileupload", None)
+		cou = Course.objects.get(id=cou_id)
+		if not myFiles:
+			dstatus = ("No file to upload")
+		for f in myFiles:
+			baseDir = os.path.dirname(os.path.abspath(__name__))
+			filepath = os.path.join(baseDir, 'static', 'files', f.name)
+			destination = open(filepath, 'wb+')
+			res = Resource(name=f.name, path=filepath, course_id=cou, virtual_path="")
+			res.save()
+			for chunk in f.chunks():
+				destination.write(chunk)
+			destination.close()
+		return HttpResponse("/EducationalSystem/resource/" + str(cou_id))  
 
 def deleteResource(request):
 	print('del' in request.GET)
