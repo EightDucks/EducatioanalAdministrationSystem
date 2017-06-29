@@ -640,6 +640,7 @@ def downloadHomework(request, asn_id):
 					else:
 						break
 		response = StreamingHttpResponse(fileIterator(asn_res_path))
+		print('asn_res_path')
 		response['Content-Type'] = 'application/octet-stream'
 		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(asn_res_path)
 		return response
