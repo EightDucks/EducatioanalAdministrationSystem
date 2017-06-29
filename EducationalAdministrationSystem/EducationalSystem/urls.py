@@ -49,4 +49,6 @@ urlpatterns = {
     url(r'^student/CouAsn/(\d+)/$', views.displayHwForStu, name='displayHwForStu'),
     url(r'^student/Asn/(\d+)/$', views.displayStuHw, name='displayStuHw'),
 
+    url(r'resource/(\d+)/$', views.displayAllResource, name='displayAllResource'),
+    url(r'resource/delete/$', views.deleteResource, name='deleteResource'),
 }

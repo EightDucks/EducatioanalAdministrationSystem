@@ -5,6 +5,7 @@
 //     alert('确定新建文件夹？')
 // })
 $(function(){
+
     var $parent = $('#divall'),$bgcolor = $('#divall li '),$carry = $('.carrynews'),
         $removenews = $('.remove'),$removeall = $('.removeall'),$removeright = $('#removethispc'),
         $namehide = $('#divall li input.changename'),$changename = $('#changename');
@@ -35,20 +36,32 @@ $(function(){
     //复选框删除
     $bgcolor.live('click' , function(){
         var btns = document.getElementById('removebutton');
-        btns02 = document.getElementById('removethispc');
         $removenews.fadeIn(250);
         $(this).addClass('bgclocrc');
-        $(this).attr("id",'remove').siblings().attr('id','');
-        $( " input[type=text] ").attr("id",'namecc').siblings().attr('id',' ');
+        $(this).attr("id",'remove');
+        
         btns.onclick = function(){//js 调用
             alert('确定删除文件夹？');
             setTimeout(
                 function(){
                     if($bgcolor.hasClass('bgclocrc'))
                     {
-                        $('input[type="checkbox"]:checked').each(function(){
+						var txt='',courseid=$('.msgtransfer').attr("name");
+                        $('input[type="checkbox"]:checked').each(
+						function(){
+							txt+=$(this).attr("name")+',';
 						$(this).parent().remove(); })
-                        
+						txt+=courseid;
+						//发起ajax删除请求
+						$.ajax({
+							url: '/EducationalSystem/resource/delete/',
+							type: 'GET',
+							data: {del: txt},
+							success: function (response) {
+								alert('删除成功');
+							},
+							});
+                        $('.msgtransfer').val(txt);
                         $removenews.fadeOut(250);
                     }else
                     {

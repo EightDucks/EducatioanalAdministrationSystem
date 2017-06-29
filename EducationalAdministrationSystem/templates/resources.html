@@ -7,16 +7,16 @@
     <meta content="webthemez" name="author" />
     <title>Bootstrap HTML5 Admin Template</title>
     <!-- Bootstrap Styles-->
-    <link href="static/4assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="/static/4assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
-    <link href="static/4assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="/static/4assets/css/font-awesome.css" rel="stylesheet" />
     <!-- Custom Styles-->
-    <link href="static/css/jiaowu.css" rel="stylesheet" />
+    <link href="/static/css/jiaowu.css" rel="stylesheet" />
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
     <!--<link href="static/css/res2.css" rel="stylesheet" />-->
-    <link href="static/css/resources.css" rel="stylesheet" />
+    <link href="/static/css/resources.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -67,20 +67,22 @@
         <!--这是我们操作的主题框-->
         <div id="page-inner">
             <!--信息交流处-->
-            <input id="msgtransfer" type="text" name="fullname" maxlength="85" />
+            <input class="msgtransfer" type="hidden" name="100" maxlength="85" />
             <div class="row">
                 <div  class="alldom">
                     <ul id="divall">
-                        <li><input type="text" class="changename" name="1" value="我的文件夹一"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
-                        <li><input type="text" class="changename" name="1" value="我的文件夹二"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
-                        <li><input type="text" class="changename" name="1" value="我的文件夹三"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
-                        <li><input type="text" class="changename" name="1" value="我的文件夹四"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
-                        <li><input type="text" class="changename" name="1" value="我的文件夹五"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
-                        <li><input type="text" class="changename" name="1" value="我的文件夹六"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
-                        <li><input type="text" class="changename" name="1" value="我的文件夹七"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
-                        <li><input type="text" class="changename" name="1" value="我的文件夹八"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
-                        <li><input type="text" class="changename" name="1" value="我的文件夹九"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
-                        <li><input type="text" class="changename" name="1" value="我的文件夹十"/><input class="checkbox" name="1" type="checkbox" value="" /></li>
+                        <!--<li class="myfile" class="myfile" class="myfile"><input type="text" class="changename" name="1" value="我的文件夹一"/><input class="checkbox" name="1" type="checkbox" value="" /></li>-->
+                        <!--<li class="myfile"><input type="text" class="changename" name="1" value="我的文件夹二"/><input class="checkbox" name="1" type="checkbox" value="" /></li>-->
+                        <!--<li class="myfile"><input type="text" class="changename" name="1" value="我的文件夹三"/><input class="checkbox" name="1" type="checkbox" value="" /></li>-->
+                        <!--<li class="myfile"><input type="text" class="changename" name="1" value="我的文件夹四"/><input class="checkbox" name="1" type="checkbox" value="" /></li>-->
+                        <!--<li class="myfile"><input type="text" class="changename" name="1" value="我的文件夹五"/><input class="checkbox" name="1" type="checkbox" value="" /></li>-->
+                        <!--<li class="myfile"><input type="text" class="changename" name="1" value="我的文件夹六"/><input class="checkbox" name="1" type="checkbox" value="" /></li>-->
+                        <!--<li class="myfile"><input type="text" class="changename" name="1" value="我的文件夹七"/><input class="checkbox" name="1" type="checkbox" value="" /></li>-->
+                        <!--<li class="myfile"><input type="text" class="changename" name="1" value="我的文件夹八"/><input class="checkbox" name="1" type="checkbox" value="" /></li>-->
+                        <!--<li class="myfile"><input type="text" class="changename" name="1" value="我的文件夹九"/><input class="checkbox" name="1" type="checkbox" value="" /></li>-->
+                        {% for res in resources %}
+                        <li class="myfile"><input type="text" class="changename" name="1" value="{{res.name}}"/><input class="checkbox" name="{{res.id}}" type="checkbox" value="" /></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -111,17 +113,17 @@
 
 <!-- JS Scripts-->
 <!-- jQuery Js -->
-<script type="text/javascript" src="static/js/jquery-1.8.8.js"></script>
+<script type="text/javascript" src="/static/js/jquery-1.8.8.js"></script>
 <!--<script src="static/4assets/js/jquery-1.10.2.js"></script>-->
 <!-- Bootstrap Js -->
-<script src="static/4assets/js/bootstrap.min.js"></script>
+<script src="/static/4assets/js/bootstrap.min.js"></script>
 <!-- Metis Menu Js -->
-<script src="static/4assets/js/jquery.metisMenu.js"></script>
+<script src="/static/4assets/js/jquery.metisMenu.js"></script>
 <!-- Custom Js -->
 <!--<script src="assets/js/custom-scripts.js"></script>-->
 <!--添加教务、学生、教师页头部js-->
-<script src="static/js/addheader.js"></script>
-<script src="static/js/resources.js"></script>
+<script src="/static/js/addheader.js"></script>
+<script src="/static/js/resources.js"></script>
 
 
 </body>
