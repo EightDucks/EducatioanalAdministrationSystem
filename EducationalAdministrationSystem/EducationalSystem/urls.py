@@ -39,7 +39,11 @@ urlpatterns = {
     url(r'^teacher/course/(\d+)/save/$', views.setCourseInfo, name='save_course_info'),
     url(r'^teacher/course/(\d+)/$', views.displayCourseInfo, name='displayCourseInfo'),
 
+    url(r'^student/upldAsn/(\d+)/$', views.uploadHomework, name='uploadAssignment'),
+
+
     url(r'^teacher/setGd/$', views.displaySetGrade, name='displaySetGrade'),
+
 
     url(r'^student/course/(\d+)/$', views.displayCouForStu, name='displayCouForStu'),
     url(r'^student/CouAsn/(\d+)/$', views.displayHwForStu, name='displayHwForStu'),

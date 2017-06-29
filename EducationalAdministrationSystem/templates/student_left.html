@@ -4,16 +4,16 @@
         <!--左边栏的内容-->
         <ul class="nav" id="main-menu">
             <li>
-                <a href="#"><i class="fa fa-fw fa-file"></i> 基本信息</a>
+                <a href="#" id="magry_info"><i class="fa fa-fw fa-file"></i> 基本信息</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-file"></i> 资源</a>
+                <a href="#" id="magry_source"><i class="fa fa-fw fa-file"></i> 资源</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-file"></i> 作业</a>
+                <a href="#" id="magry_assign"><i class="fa fa-fw fa-file"></i> 作业</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-fw fa-file"></i> 团队</a>
+                <a href="#" id="magry_team"><i class="fa fa-fw fa-file"></i> 团队</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-fw fa-file"></i> 交流</a>
@@ -21,3 +21,40 @@
         </ul>
     </div>
 </nav>
+<script>
+//alert(window.location.pathname);
+$(document).ready(function(){
+  var location = window.location.pathname.toString();
+  //alert(location);
+  var ws=location.split('/');
+  //alert(ws[ws.length-2]);
+  //alert(ws.length);
+  var i=ws[ws.length-2];
+  //还没有解决在单个作业的子目录下的跳转问题
+  $('#magry_info').click(function(){
+    var content="/EducationalSystem/student/course/";
+    content+=i;
+    content+="/";
+    window.location.pathname=content;
+  })
+  /*$('#magry_sourse').click(function(){
+    var content="/EducationalSystem/teacher/course/";
+    content+=i;
+    content+="/";
+    window.location.pathname=content;
+  })*/
+  $('#magry_assign').click(function(){
+    var content="/EducationalSystem/student/CouAsn/";
+    content+=i;
+    content+="/";
+    window.location.pathname=content;
+  })
+  /*$('#magry_team').click(function(){
+    var content="/EducationalSystem/teacher/course/";
+    content+=i;
+    content+="/";
+    window.location.pathname=content;
+  })*/
+})
+//var location = window.location.pathname.toString();
+</script>
