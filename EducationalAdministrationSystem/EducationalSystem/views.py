@@ -488,7 +488,9 @@ def displayCourseInfo(request, course_id):
 #展示单个作业，单独页面
 def displayHw(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
-	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn})
+	cou = asn.course_id
+	tem = Team.objects.filter(course_id=cou)
+	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn, 'tem':tem})
 
 # 删除作业
 def deleteAssignment(request, asn_id):
@@ -555,7 +557,7 @@ def uploadResource(request, cou_id):
 			for chunk in f.chunks():
 				destination.write(chunk)
 			destination.close()
-		return HttpResponse("/EducationalSystem/resource/" + str(cou_id))  
+		return HttpResponse("/EducationalSystem/resource/" + str(cou_id))
 
 def deleteResource(request):
 	print('del' in request.GET)
