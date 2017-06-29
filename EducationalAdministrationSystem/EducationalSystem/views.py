@@ -410,7 +410,8 @@ def setTeamAssignmentCommentMark(request,TA_id):
 
 #展示添加作业页面，单独页面
 def displayAddAsn(request, cou_id):
-	return render_to_response("teacher_course_homework_add.html")
+	cou = Course.objects.get(id=cou_id)
+	return render(request, "teacher_course_homework_add.html", {'cou':cou})
 
 #添加作业，处理函数
 def addAssignment(request, cou_id):
@@ -438,7 +439,8 @@ def addAssignment(request, cou_id):
 #展示修改作业页面，单独页面
 def displayModAsn(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
-	return render(request, "teacher_course_homework_modify.html", {'asn':asn})
+	cou = asn.course_id
+	return render(request, "teacher_course_homework_modify.html", {'asn':asn, 'cou':cou})
 
 #修改作业，处理函数
 def modifyAssignment(request, asn_id):
@@ -490,7 +492,7 @@ def displayHw(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
 	cou = asn.course_id
 	tem = Team.objects.filter(course_id=cou)
-	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn, 'tem':tem})
+	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn, 'tem':tem, 'cou':cou})
 
 # 删除作业
 def deleteAssignment(request, asn_id):
@@ -608,7 +610,8 @@ def uploadHomework(request,asn_id):
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
 				# asn_res.save()
-				asn_res = Assignment_Resource(team_asn_id__id=1, path=filepath)
+				t_a = Team_Assignment.objects.get(id=1)
+				asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
 				asn_res.save()
 				for chunk in file_obj.chunks():
 					destination.write(chunk)
@@ -621,9 +624,7 @@ def uploadHomework(request,asn_id):
 		return HttpResponseRedirect("/EducationalSystem/student/")
 	return HttpResponseRedirect("/EducationalSystem/student/")
 
-def downloadHomework(request, asn_id):
-	if 'team_id' in request.GET and request.GET['team_id']:
-		tid = request.GET['team_id']
+def downloadHomework(request, asn_id, tid):
 		# file_obj = request.FILES.getlist(asdfh)
 		team_asn = Team_Assignment.objects.get(team_id = tid, asn_id = asn_id)
 		asn_res =  Assignment_Resource.objects.get(team_asn_id = team_asn.id)
@@ -639,13 +640,11 @@ def downloadHomework(request, asn_id):
 						yield c
 					else:
 						break
-		response = StreamingHttpResponse(fileIterator(asn_res_path))
-		response['Content-Type'] = 'application/octet-stream'
-		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(asn_res_path)
-		return response
 
-
-	return render_to_response("teacher_course_homework_watchdetails.html")
+		aresponse = StreamingHttpResponse(fileIterator(asn_res_path))
+		aresponse['Content-Type'] = 'application/octet-stream'
+		aresponse['Content-Disposition'] = 'attachment;filename = "{0}"'.format(asn_res_path)
+		return aresponse
 
 def displaySetGrade(request):
 	return render_to_response("teacher_setgrade.html")
