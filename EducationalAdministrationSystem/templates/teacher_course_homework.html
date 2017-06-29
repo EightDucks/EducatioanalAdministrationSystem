@@ -37,7 +37,7 @@
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="../">{{cou.name}}</a></li>
+                <li><a href="/EducationalSystem/teacher/">{{cou.name}}</a></li>
                 <li class="active">作业管理</li>
 			</ol>
           </div>
@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="panel-body">
-                                <button id="addcourse" type="button" class="btn btn-primary" onclick="location.href='/EducationalSystem/teacher/addAsn/{{cou}}/'">
+                                <button id="addcourse" type="button" class="btn btn-primary" onclick="location.href='/EducationalSystem/teacher/addAsn/{{cou.id}}/'">
                                 <span class="glyphicon glyphicon-plus" ></span>新增作业</button>
                             </div>
 
