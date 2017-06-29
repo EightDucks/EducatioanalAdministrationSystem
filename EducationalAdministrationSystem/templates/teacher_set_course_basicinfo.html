@@ -29,6 +29,9 @@
 
     <!--这个nav是左边的东西-->
     <div class="teacher_left"></div>
+    <div style="display:none;">
+      <input id="cou_id_holder" value="{{course_id}}" >
+    </div>
 
     </nav>
     <!--  这个page-wrapper是右边   -->
@@ -130,39 +133,29 @@
                                     <label class="col-sm-2 control-label">最大人数</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字-->
-                                        <input id = "team_uplimit" value="{{cou.team_uplimit}}" type="text" class="form-control" name="team_uplimit" required placeholder="仅可输入整数" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                        <input id = "team_uplimit" type="text" class="form-control" name="team_uplimit" required placeholder="仅可输入整数" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">最少人数</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字-->
-<<<<<<< HEAD
                                         <input id = "team_downlimit" type="text" class="form-control" name="team_downlimit" required placeholder="仅可输入整数" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
-=======
-                                        <input id = "team_downlimit" value="{{cou.team_downlimit}}" type="text" class="form-control" name="team_downlimit" required placeholder="仅可输入整数" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
->>>>>>> ae9d817a97f935bdc7fa4ed66f329171753a052a
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">其他限制</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字-->
-                                        <input id = "other_limit" value="{{cou.other_limit}}" type="text" class="form-control" name="other_limit" required placeholder="如：每个团队至少有一名女生">
+                                        <input id = "other_limit" type="text" class="form-control" name="other_limit" required placeholder="如：每个团队至少有一名女生">
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="panel-heading">
-                            课程描述
-                        </div>
-                        <div class="panel-body">
-                            <form class="form-horizontal" id="form_limit_other" method="get">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">描述内容</label>
                                     <div class="col-sm-8">
                                         <!--仅可输入数字-->
-                                        <textarea id="description" class="form-control" name="description" rows="7" >{{cou.description}}</textarea>
+                                        <textarea id="description" class="form-control" name="description" rows="7" >
+                                        </textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -170,8 +163,7 @@
                                         <button id="submit_button" class="btn btn-default">提交</button>
                                     </div>
                                 </div>
-<<<<<<< HEAD
-                            </form>
+
                         </div>
                         <!--<div class="panel-body">-->
                             <!--<form class="form-horizontal" id="form_limit_other" method="get">-->
@@ -190,21 +182,18 @@
                                 <!--</div>-->
 
                             <!--</form>-->
-=======
 
-                            </form>
->>>>>>> ae9d817a97f935bdc7fa4ed66f329171753a052a
-
-                        </div>
+                        <!--</div>-->
 
                     </div>
 
                 </div>
             </div>
+            </div>
         </div>
         <!-- /. PAGE INNER  -->
     </div>
-</div>
+
 <!-- /. PAGE WRAPPER  -->
 
 <!-- /. WRAPPER  -->

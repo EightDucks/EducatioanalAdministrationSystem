@@ -298,7 +298,7 @@ def addCourse(request):
 #展示所有资源：教师/学生
 def displayAllResource(request, course_id):
 	Resources = Resource.objects.filter(course_id__id=course_id)
-	return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id})
+	return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id, 'virpath':'/'})
 
 
 # 上传资源：教师
@@ -564,23 +564,25 @@ def uploadResource(request, cou_id):
 def deleteResource(request):
 	print('del' in request.GET)
 
-	if 'del' in request.GET and request.GET['del']:
+	if 'del' in request.GET and request.GET['del'] and \
+		'path' in request.GET and request.GET['path']:
 
 		unsplitted = request.GET['del']
 		splitted = unsplitted.split(',')
 		num = len(splitted) - 1
 		course_id = int(splitted[num])
+		virpath = request.GET['path']
 
 		for i in range(num):
 			Resource.objects.get(id=int(splitted[i])).delete()
 		Resources = Resource.objects.filter(course_id__id=course_id)
 
-		return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id})
+		return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id, 'virpath':virpath})
 	else:
 		course_id = 0
 		Resources = Resource.objects.filter(course_id__id=course_id)
-
-		return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id})
+		virpath = '/'
+		return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id, 'virpath':virpath})
 
 
 def uploadHomework(request,asn_id):
