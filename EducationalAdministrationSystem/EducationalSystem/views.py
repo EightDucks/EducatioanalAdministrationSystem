@@ -616,8 +616,9 @@ def uploadHomework(request,asn_id):
 	return HttpResponseRedirect("/EducationalSystem/student/")
 
 def downloadHomework(request, asn_id):
-	if 'tid' in request.GET and request.GET['tid']:
-		tid = request.GET['tid']
+	if 'team_id' in request.GET and request.GET['team_id']:
+		tid = request.GET['team_id']
+		# file_obj = request.FILES.getlist(asdfh)
 		team_asn = Team_Assignment.objects.get(team_id = tid, asn_id = asn_id)
 		asn_res =  Assignment_Resource.objects.get(team_asn_id = team_asn.id)
 
@@ -634,7 +635,7 @@ def downloadHomework(request, asn_id):
 						break
 		response = StreamingHttpResponse(fileIterator(asn_res_path))
 		response['Content-Type'] = 'application/octet-stream'
-		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(asn_res_id)
+		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(asn_res_path)
 		return response
 
 

@@ -26,8 +26,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="64">
-              <caret line="619" column="32" lean-forward="false" selection-start-line="619" selection-start-column="32" selection-end-line="619" selection-end-column="32" />
+            <state relative-caret-position="315">
+              <caret line="626" column="0" lean-forward="true" selection-start-line="626" selection-start-column="0" selection-end-line="626" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -49,7 +49,7 @@
         <entry file="file://$PROJECT_DIR$/EducationalSystem/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="282">
-              <caret line="42" column="18" lean-forward="false" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+              <caret line="39" column="39" lean-forward="false" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -58,8 +58,8 @@
       <file leaf-file-name="teacher_course_homework_watchdetails.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/teacher_course_homework_watchdetails.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5">
-              <caret line="129" column="46" lean-forward="false" selection-start-line="129" selection-start-column="42" selection-end-line="129" selection-end-column="46" />
+            <state relative-caret-position="322">
+              <caret line="161" column="74" lean-forward="false" selection-start-line="161" selection-start-column="68" selection-end-line="161" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -88,6 +88,7 @@
         <option value="$PROJECT_DIR$/EducationalAdministrationSystem/settings.py" />
         <option value="$PROJECT_DIR$/templates/student_course_homework_watchdetails.html" />
         <option value="$PROJECT_DIR$/EducationalSystem/urls.py" />
+        <option value="$PROJECT_DIR$/templates/teacher_course_homework_watchdetails.html" />
         <option value="$PROJECT_DIR$/EducationalSystem/views.py" />
       </list>
     </option>
@@ -551,18 +552,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EducationalSystem/urls.py">
+    <entry file="file://$PROJECT_DIR$/templates/teacher_course_homework_watchdetails.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="42" column="18" lean-forward="false" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+        <state relative-caret-position="322">
+          <caret line="161" column="74" lean-forward="false" selection-start-line="161" selection-start-column="68" selection-end-line="161" selection-end-column="74" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/teacher_course_homework_watchdetails.html">
+    <entry file="file://$PROJECT_DIR$/EducationalSystem/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5">
-          <caret line="129" column="46" lean-forward="false" selection-start-line="129" selection-start-column="42" selection-end-line="129" selection-end-column="46" />
+        <state relative-caret-position="282">
+          <caret line="39" column="39" lean-forward="false" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
           <folding />
         </state>
       </provider>
@@ -579,8 +580,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="619" column="32" lean-forward="false" selection-start-line="619" selection-start-column="32" selection-end-line="619" selection-end-column="32" />
+        <state relative-caret-position="315">
+          <caret line="626" column="0" lean-forward="true" selection-start-line="626" selection-start-column="0" selection-end-line="626" selection-end-column="0" />
           <folding />
         </state>
       </provider>
