@@ -491,7 +491,7 @@ def modifyAssignment(request, asn_id):
 def displayHwForTea(request, cou_id):
 	cou = Course.objects.get(id=cou_id)
 	asn = Assignment.objects.filter(course_id=cou)
-	return render(request, "teacher_course_homework.html", {'asn': asn, 'cou':cou_id})
+	return render(request, "teacher_course_homework.html", {'asn': asn, 'cou':cou})
 
 def displayCourseInfo(request, course_id):
 	course = Course.objects.get(id=course_id)
