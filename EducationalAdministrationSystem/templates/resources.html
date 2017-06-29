@@ -67,7 +67,8 @@
         <!--这是我们操作的主题框-->
         <div id="page-inner">
             <!--信息交流处-->
-            <input class="msgtransfer" type="hidden" name="100" maxlength="85" />
+            <input class="msgtransfer" type="hidden" name="{{course_id}}" maxlength="85" />
+            <input class="filepath" type="hidden" name="{{virpath}}" maxlength="85" />
             <div class="row">
                 <div  class="alldom">
                     <ul id="divall">
@@ -99,7 +100,7 @@
             <div class="operator_bar">
                 <button type="submit"  class="btn-default btn carrynews">创建新文件夹</button>
                 <button type="submit"  class="btn-default btn removeall">清空所有资源</button>
-                <button type="submit" id='removebuttosn' class="btn-default btn remove">删除文件夹</button>
+                <button type="submit" id='removebutton' class="btn-default btn remove">删除文件夹</button>
                 <form id="uploadForm" method="POST" enctype="multipart/form-data" action="">
 				<input type='submit' id='uploadbutton' class="btn-default btn" value='上传文件'>
             

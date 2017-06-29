@@ -28,28 +28,10 @@
         <div class="headerer"></div>
 
 
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <!--左边栏的内容-->
-                <ul class="nav" id="main-menu">
-                    <li>
-                        <a href="/EducationalSystem/student/course/{{cou.id}}"><i class="fa fa-fw fa-file"></i> 基本信息</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-file"></i> 资源</a>
-                    </li>
-                    <li>
-                        <a href="/EducationalSystem/student/CouAsn/{{cou.id}}"><i class="fa fa-fw fa-file"></i> 作业</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-file"></i> 团队</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-file"></i> 交流</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <div class="student_left"></div>
+        <div style="display:none;">
+          <input id="cou_id_holder" value="{{cou.id}}" >
+        </div>
 
         <!--  这个page-wrapper是右边   -->
         <div id="page-wrapper">
@@ -120,16 +102,16 @@
                                       </div>
                                   </div>
 
-                                  <div class="form-group">
-                                      <label class="col-sm-2 control-label">作业附件</label>
-                                      <div class="col-sm-10">
-                                        <div>
-                                          <label class="control-label" style="font-weight: normal; text-align: left;">您没有提交作业</label><br>
-                                          <a>文件名称</a><br>
-                                          <a>文件名称</a><br>
-                                        </div>
-                                      </div>
-                                  </div>
+                                  <!--<div class="form-group">-->
+                                      <!--<label class="col-sm-2 control-label">作业附件</label>-->
+                                      <!--<div class="col-sm-10">-->
+                                        <!--<div>-->
+                                          <!--<label class="control-label" style="font-weight: normal; text-align: left;">您没有提交作业</label><br>-->
+                                          <!--<a>文件名称</a><br>-->
+                                          <!--<a>文件名称</a><br>-->
+                                        <!--</div>-->
+                                      <!--</div>-->
+                                  <!--</div>-->
 
                                   <div class="form-group">
                                       <label class="col-sm-2 control-label">上传作业</label>

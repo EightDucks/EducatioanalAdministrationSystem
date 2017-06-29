@@ -87,7 +87,7 @@ class Team_Assignment(models.Model):
 
 class Assignment_Resource(models.Model):
     team_asn_id = models.ForeignKey(Team_Assignment)
-    path = models.CharField(max_length=100)
+    path = models.CharField(max_length=200)
     is_corrected = models.BooleanField(default=False)
 
 class Student_Team(models.Model):

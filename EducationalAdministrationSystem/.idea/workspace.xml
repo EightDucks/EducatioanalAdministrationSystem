@@ -20,8 +20,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="48" column="40" lean-forward="false" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="40" />
+            <state relative-caret-position="106">
+              <caret line="647" column="0" lean-forward="true" selection-start-line="647" selection-start-column="0" selection-end-line="647" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -52,10 +52,29 @@
       <file leaf-file-name="teacher_course_homework_watchdetails.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/teacher_course_homework_watchdetails.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-113">
-              <caret line="162" column="74" lean-forward="false" selection-start-line="162" selection-start-column="74" selection-end-line="162" selection-end-column="74" />
+            <state relative-caret-position="-68">
+              <caret line="165" column="74" lean-forward="false" selection-start-line="165" selection-start-column="74" selection-end-line="165" selection-end-column="74" />
               <folding>
-                <element signature="n#style#0;n#input#0;n#td#6;n#tr#0;n#form#0;n#tbody#0;n#table#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#1;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1498711710938" expanded="true" signature="8482:8538" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:8590" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:8642" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:8696" ph="{% for t in tem ... %}" />
+                <marker date="1498711710938" expanded="true" signature="8482:8744" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:8789" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:8828" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:8864" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:8895" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:8974" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:8997" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:9016" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="8482:9068" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="9907:10441" ph="..." />
+                <marker date="1498711710938" expanded="true" signature="9921:9932" ph="/*...*/" />
+                <marker date="1498711710938" expanded="true" signature="9975:10044" ph="{...}" />
+                <marker date="1498711710938" expanded="true" signature="10060:10078" ph="/*...*/" />
+                <marker date="1498711710938" expanded="true" signature="10143:10426" ph="{...}" />
+                <marker date="1498711710938" expanded="true" signature="10216:10306" ph="{...}" />
+                <marker date="1498711710938" expanded="true" signature="10325:10412" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -543,18 +562,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/teacher_course_homework_watchdetails.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-113">
-          <caret line="162" column="74" lean-forward="false" selection-start-line="162" selection-start-column="74" selection-end-line="162" selection-end-column="74" />
+        <state relative-caret-position="-68">
+          <caret line="165" column="74" lean-forward="false" selection-start-line="165" selection-start-column="74" selection-end-line="165" selection-end-column="74" />
           <folding>
-            <element signature="n#style#0;n#input#0;n#td#6;n#tr#0;n#form#0;n#tbody#0;n#table#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#1;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1498711710938" expanded="true" signature="8482:8538" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:8590" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:8642" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:8696" ph="{% for t in tem ... %}" />
+            <marker date="1498711710938" expanded="true" signature="8482:8744" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:8789" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:8828" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:8864" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:8895" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:8974" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:8997" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:9016" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="8482:9068" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="9907:10441" ph="..." />
+            <marker date="1498711710938" expanded="true" signature="9921:9932" ph="/*...*/" />
+            <marker date="1498711710938" expanded="true" signature="9975:10044" ph="{...}" />
+            <marker date="1498711710938" expanded="true" signature="10060:10078" ph="/*...*/" />
+            <marker date="1498711710938" expanded="true" signature="10143:10426" ph="{...}" />
+            <marker date="1498711710938" expanded="true" signature="10216:10306" ph="{...}" />
+            <marker date="1498711710938" expanded="true" signature="10325:10412" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="48" column="40" lean-forward="false" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="40" />
+        <state relative-caret-position="106">
+          <caret line="647" column="0" lean-forward="true" selection-start-line="647" selection-start-column="0" selection-end-line="647" selection-end-column="0" />
           <folding />
         </state>
       </provider>
