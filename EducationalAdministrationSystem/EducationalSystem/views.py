@@ -236,18 +236,17 @@ def saveTermInfo(request):
 	if 'semester_name' in request.GET and 'semester_startdate' in request.GET \
 			and 'semester_enddate' in request.GET and 'semester_numofweeks' in request.GET \
 			and request.GET['semester_name'] and request.GET['semester_startdate'] \
-			and request.GET['semester_enddate'] and request.GET['semester_numofweeks'] \
-			and 'selectterm' in request.GET and request.GET['selectterm']:
+			and request.GET['semester_enddate'] and request.GET['semester_numofweeks']:
 		name = request.GET['semester_name']
 		start = request.GET['semester_startdate']
 		end = request.GET['semester_enddate']
 		week = request.GET['semester_numofweeks']
-		term = request.GET['selectterm']
 
-		term_tmp = Term(name=name, start=start, end=end, week=week, term_id=term)
+		term_tmp = Term(name=name, start=start, end=end, week=week)
 		term_tmp.save()
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 	else:
+		print('cnm')
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
 def changeTerm(request):
@@ -467,7 +466,8 @@ def modifyAssignment(request, asn_id):
 		asn.submit_limits = submit_limits
 		asn.weight = weight
 		asn.save()
-		return HttpResponseRedirect("/EducationalSystem/teacher/")
+		return_url="/EducationalSystem/teacher/CouAsn/"+str(asn.course_id.id)
+		return HttpResponseRedirect(return_url)
 	else:
 		return HttpResponseRedirect("/EducationalSystem/teacher/")
 
@@ -540,7 +540,8 @@ def setCourseInfo(request, course_id):
 		course.other_limit = other_limit
 		course.description = description
 		course.save()
-		return HttpResponseRedirect("/EducationalSystem/teacher/")
+		return_url="/EducationalSystem/teacher/course/"+course_id
+		return HttpResponseRedirect(return_url)
 		#return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
 	else:
@@ -642,7 +643,7 @@ def downloadHomework(request, asn_id, tid):
 					print('yes')
 					c = f.read(chunk_size)
 					if c:
-						    yield c
+						yield c
 					else:
 						break
 
@@ -672,3 +673,23 @@ def displayStuHw(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
 	cou = asn.course_id
 	return render(request, "student_course_homework_watchdetails.html", {'cou':cou, 'asn':asn})
+
+def doubleclick(request):
+	if 'txt' in request.GET and request.GET['txt'] and \
+		'path' in request.GET and request.GET['path']:
+
+		unsplitted = request.GET['txt']
+		splitted = unsplitted.split(',')
+		folder_name = splitted[0]
+		course_id = splitted[1]
+		virpath = request.GET['path']
+		virpath = virpath + folder_name + '/'
+
+		Resources = Resource.objects.filter(course_id__id=course_id, virpath=virpath)
+
+		return render(request, 'resources.html', {'resources':Resources, 'course_id':course_id, 'virpath':virpath})
+	else:
+		course_id = 0
+		Resources = Resource.objects.filter(course_id__id=course_id)
+		virpath = '/'
+		return render(request, 'resources.html', {'resources': Resources, 'course_id': course_id, 'virpath': virpath})

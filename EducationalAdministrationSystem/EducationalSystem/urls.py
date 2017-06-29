@@ -51,5 +51,6 @@ urlpatterns = {
 
     url(r'resource/(\d+)/$', views.displayAllResource, name='displayAllResource'),
     url(r'resource/delete/$', views.deleteResource, name='deleteResource'),
-    url(r'resource/upload/$', views.uploadResource, name='')
+    url(r'resource/upload/$', views.uploadResource, name='upload'),
+    url(r'resource/doubleclick/$', views.doubleclick, name='doubleclick'),
 }
