@@ -127,6 +127,26 @@ $(function(){
 
     });
 
+    //增加双击事件
+    $bgcolor.each(function () {
+        $(this).dblclick(function () {
+            // $(this).hide()
+            if($(this).hasClass('myfolder')){
+                var txt=$('input[type="checkbox"]').attr("name");
+                // alert("double click");
+                // alert(txt)
+                // $(this).hide()
+                $.ajax({
+                    url: '/EducationalSystem/resource/doubleclick/',
+                    type: "GET",
+                    data: {"doubleclick":txt}
+                    }
+                )
+                location.reload();
+            }
+        })
+    })
+
     //修改文件名
     $namehide.live('focus' , function(){
         $(this).css('border','1px solid #FF0000');
