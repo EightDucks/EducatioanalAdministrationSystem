@@ -149,22 +149,25 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {% for t in tem %}
                                             <!--内容都在tbody里加-->
                                             <form>
                                               <tr class="gradeA">
-                                                  <td class="center">10</td>
-                                                  <td>StormTeam</td>
+                                                  <td class="center">{{t.id}}</td>
+                                                  <td>{{t.name}}</td>
                                                   <td class="center">已提交</td>
                                                   <td>2017-6-26 12:00:00</td>
                                                   <td class="center">未批改</td>
                                                   <td>-</td>
                                                   <td class="center">
-                                                      <button type="button" class="btn btn-info btn-xs">详细信息</button>
-                                                      <button type="button" class="btn btn-primary btn-xs">设置分数与评价</button>
-                                                      <button type="button" class="btn btn-success btn-xs">下载原始作业附件</button>
+                                                      <input type="text" style="display:none" name="team_id" value="{{t.id}}">
+                                                      <input type="submit" class="btn btn-info btn-xs" value="详细信息"> </input>
+                                                      <input type="submit" class="btn btn-primary btn-xs" value="设置分数与评价"> </input>
+                                                      <input type="submit" class="btn btn-success btn-xs" value="下载原始作业附件"> </input>
                                                   </td>
                                               </tr>
                                             </form>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>

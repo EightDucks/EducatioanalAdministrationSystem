@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca913aa6-8544-4502-a92a-d5a7c3d4a15f" name="Default" comment="" />
-    <ignored path="EducationalAdministrationSystem.iws" />
-    <ignored path=".idea/workspace.xml" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,9 +10,6 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/EducationalAdministrationSystem$serverer.coverage" NAME="serverer Coverage Results" MODIFIED="1498704120902" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-  </component>
-  <component name="CreatePatchCommitExecutor">
-    <option name="PATCH_PATH" value="" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -26,8 +20,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="626" column="0" lean-forward="true" selection-start-line="626" selection-start-column="0" selection-end-line="626" selection-end-column="0" />
+            <state relative-caret-position="1695">
+              <caret line="610" column="79" lean-forward="false" selection-start-line="610" selection-start-column="79" selection-end-line="610" selection-end-column="79" />
               <folding />
             </state>
           </provider>
@@ -58,9 +52,17 @@
       <file leaf-file-name="teacher_course_homework_watchdetails.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/teacher_course_homework_watchdetails.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="161" column="74" lean-forward="false" selection-start-line="161" selection-start-column="68" selection-end-line="161" selection-end-column="74" />
-              <folding />
+            <state relative-caret-position="337">
+              <caret line="162" column="74" lean-forward="false" selection-start-line="162" selection-start-column="74" selection-end-line="162" selection-end-column="74" />
+              <folding>
+                <marker date="1498706745282" expanded="true" signature="9708:10242" ph="..." />
+                <marker date="1498706745282" expanded="true" signature="9722:9733" ph="/*...*/" />
+                <marker date="1498706745282" expanded="true" signature="9776:9845" ph="{...}" />
+                <marker date="1498706745282" expanded="true" signature="9861:9879" ph="/*...*/" />
+                <marker date="1498706745282" expanded="true" signature="9944:10227" ph="{...}" />
+                <marker date="1498706745282" expanded="true" signature="10017:10107" ph="{...}" />
+                <marker date="1498706745282" expanded="true" signature="10126:10213" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -85,10 +87,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/EducationalAdministrationSystem/settings.py" />
-        <option value="$PROJECT_DIR$/templates/student_course_homework_watchdetails.html" />
-        <option value="$PROJECT_DIR$/EducationalSystem/urls.py" />
-        <option value="$PROJECT_DIR$/templates/teacher_course_homework_watchdetails.html" />
         <option value="$PROJECT_DIR$/EducationalSystem/views.py" />
       </list>
     </option>
@@ -193,10 +191,6 @@
         </subPane>
       </pane>
     </panes>
-  </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -470,14 +464,6 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
   </component>
-  <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-      <collection />
-    </option>
-  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
@@ -554,9 +540,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/teacher_course_homework_watchdetails.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="161" column="74" lean-forward="false" selection-start-line="161" selection-start-column="68" selection-end-line="161" selection-end-column="74" />
-          <folding />
+        <state relative-caret-position="337">
+          <caret line="162" column="74" lean-forward="false" selection-start-line="162" selection-start-column="74" selection-end-line="162" selection-end-column="74" />
+          <folding>
+            <marker date="1498706745282" expanded="true" signature="9708:10242" ph="..." />
+            <marker date="1498706745282" expanded="true" signature="9722:9733" ph="/*...*/" />
+            <marker date="1498706745282" expanded="true" signature="9776:9845" ph="{...}" />
+            <marker date="1498706745282" expanded="true" signature="9861:9879" ph="/*...*/" />
+            <marker date="1498706745282" expanded="true" signature="9944:10227" ph="{...}" />
+            <marker date="1498706745282" expanded="true" signature="10017:10107" ph="{...}" />
+            <marker date="1498706745282" expanded="true" signature="10126:10213" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -580,8 +574,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="626" column="0" lean-forward="true" selection-start-line="626" selection-start-column="0" selection-end-line="626" selection-end-column="0" />
+        <state relative-caret-position="1695">
+          <caret line="610" column="79" lean-forward="false" selection-start-line="610" selection-start-column="79" selection-end-line="610" selection-end-column="79" />
           <folding />
         </state>
       </provider>

@@ -344,23 +344,6 @@ def displayAssignmentsForStudents(request):
 		stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved=True, team_id__course_id=ass_info.course_id)
 		ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id=stu_team.id)
 
-
-def uploadResource(request):
-	if request.method == 'POST' and request.session['cid']:
-		cur_id = request.session['cid']
-		myFiles = request.FILES.getlist("mylists", None)
-		if not myFiles:
-			dstatus = ("No file to upload")
-		for f in myFiles:
-			destination = open('E:/upload/', 'wb+')
-			res = Resource(name=f.name, path=destination, course_id=cur_id, virtual_path=destination)
-			res.save()
-			for chunk in f.chunks():
-				destination.write(chunk)
-			destination.close()
-		return HttpResponse("upload over!")
-
-
 def downloadResource(request):
 	if 'fid' in request.GET and request.GET['fid']:
 		fid = request.GET['fid']
@@ -505,7 +488,9 @@ def displayCourseInfo(request, course_id):
 #展示单个作业，单独页面
 def displayHw(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
-	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn})
+	cou = asn.course_id
+	tem = Team.objects.filter(course_id=cou)
+	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn, 'tem':tem})
 
 # 删除作业
 def deleteAssignment(request, asn_id):
@@ -557,6 +542,22 @@ def setCourseInfo(request, course_id):
 	else:
 		return HttpResponseRedirect("/EducationalSystem/teacher/")
 
+def uploadResource(request, cou_id):
+	if request.method == 'POST' :
+		myFiles = request.FILES.getlist("fileupload", None)
+		cou = Course.objects.get(id=cou_id)
+		if not myFiles:
+			dstatus = ("No file to upload")
+		for f in myFiles:
+			baseDir = os.path.dirname(os.path.abspath(__name__))
+			filepath = os.path.join(baseDir, 'static', 'files', f.name)
+			destination = open(filepath, 'wb+')
+			res = Resource(name=f.name, path=filepath, course_id=cou, virtual_path="")
+			res.save()
+			for chunk in f.chunks():
+				destination.write(chunk)
+			destination.close()
+		return HttpResponse("/EducationalSystem/resource/" + str(cou_id))
 
 def deleteResource(request):
 	print('del' in request.GET)
@@ -584,14 +585,15 @@ def uploadHomework(request,asn_id):
 	if request.method == 'POST' and 'id' in request.session and request.session['id']:
 
 		sid = request.session['id']
-		stu_team= Student_Team.objects.get(student_id = sid, is_approved = True)
-		teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
-		if not teamAsn:
-			teamAsn.submit_times = 1
-			teamAsn.save()
-		else:
-			teamAsn.submit_times = teamAsn.submit_times + 1
-			teamAsn.save()
+
+		# teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
+		# if not teamAsn:
+		# 	teamAsn.submit_times = 1
+		# 	teamAsn.save()
+		# else:
+		# 	teamAsn.submit_times = teamAsn.submit_times + 1
+		# 	teamAsn.save()
+
 
 		strA = "assignment_attachment_"
 		i = 0
@@ -600,9 +602,13 @@ def uploadHomework(request,asn_id):
 			newStr = strA + str(i)
 			if newStr in request.FILES:
 				file_obj = request.FILES[newStr]
-				baseDir = os.path.dirname(os.path.abspath(__name__));
-				destination = open(os.path.join(baseDir, 'static', 'files', file_obj.name), 'wb+')
-				asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
+
+				baseDir = os.path.dirname(os.path.abspath(__name__))
+				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
+				destination = open(filepath, 'wb+')
+				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
+				# asn_res.save()
+				asn_res = Assignment_Resource(team_asn_id__id=1, path=filepath)
 				asn_res.save()
 				for chunk in file_obj.chunks():
 					destination.write(chunk)
