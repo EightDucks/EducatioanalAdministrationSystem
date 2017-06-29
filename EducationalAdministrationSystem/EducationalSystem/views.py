@@ -296,12 +296,9 @@ def addCourse(request):
 #def setTeacher(request):
 #czy
 #展示所有资源：教师/学生
-def displayAllResource(request):
-	if 'course_id' in request.GET and request.GET['course_id'] and \
-					'virtual_path' in request.GET and request.GET['virtual_path']:
-		course_id = request.GET['course_id']
-		virtual_path = request.GET['virtual_path']
-		res = Resource.objects.filter(course_id__id=course_id, virtual_path=virtual_path)
+def displayAllResource(request, course_id):
+	Resources = Resource.objects.filter(course_id__id=course_id)
+	return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id})
 
 
 # 上传资源：教师
@@ -562,17 +559,25 @@ def setCourseInfo(request, course_id):
 
 
 def deleteResource(request):
-	res = []
-	len = 0
-	for num in range(10):
-		res.append('res_id_'+str(num))
-		if res[num] in request.GET and request.GET[res[num]]:
-			len = num+1
-		else:
-			break
-	for num in range(len):
-		res_id = request.GET[res[num]]
-		Resource.objects.get(id=res_id).delete()
+	print('del' in request.GET)
+
+	if 'del' in request.GET and request.GET['del']:
+
+		unsplitted = request.GET['del']
+		splitted = unsplitted.split(',')
+		num = len(splitted) - 1
+		course_id = int(splitted[num])
+
+		for i in range(num):
+			Resource.objects.get(id=int(splitted[i])).delete()
+		Resources = Resource.objects.filter(course_id__id=course_id)
+
+		return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id})
+	else:
+		course_id = 0
+		Resources = Resource.objects.filter(course_id__id=course_id)
+
+		return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id})
 
 
 def timeToISOString(s):
