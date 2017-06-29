@@ -524,9 +524,11 @@ def addCourseStudent(request):
 			cour_stu.save()
 
 def setCourseInfo(request, course_id):
+	print('team_uplimit' in request.GET, 'team_downlimit' in request.GET,
+		  'other_limit' in request.GET, 'description' in request.GET)
 	if 'team_uplimit' in request.GET and request.GET['team_uplimit'] and \
-					'team_downlimit' in request.GET and request.GET['team_downlimit'] and \
-					'other_limit' in request.GET and 'description' in request.GET:
+		'team_downlimit' in request.GET and request.GET['team_downlimit'] and \
+		'other_limit' in request.GET and 'description' in request.GET:
 		team_uplimit = request.GET['team_uplimit']
 		team_downlimit = request.GET['team_downlimit']
 		other_limit = request.GET['other_limit']
