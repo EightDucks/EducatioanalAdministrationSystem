@@ -639,9 +639,10 @@ def downloadHomework(request, asn_id, tid):
 		def fileIterator(fpath, chunk_size = 1024):
 			with open(fpath) as f:
 				while(True):
+					print('yes')
 					c = f.read(chunk_size)
 					if c:
-						yield c
+						    yield c
 					else:
 						break
 
