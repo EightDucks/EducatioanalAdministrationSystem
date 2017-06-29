@@ -236,18 +236,17 @@ def saveTermInfo(request):
 	if 'semester_name' in request.GET and 'semester_startdate' in request.GET \
 			and 'semester_enddate' in request.GET and 'semester_numofweeks' in request.GET \
 			and request.GET['semester_name'] and request.GET['semester_startdate'] \
-			and request.GET['semester_enddate'] and request.GET['semester_numofweeks'] \
-			and 'selectterm' in request.GET and request.GET['selectterm']:
+			and request.GET['semester_enddate'] and request.GET['semester_numofweeks']:
 		name = request.GET['semester_name']
 		start = request.GET['semester_startdate']
 		end = request.GET['semester_enddate']
 		week = request.GET['semester_numofweeks']
-		term = request.GET['selectterm']
 
-		term_tmp = Term(name=name, start=start, end=end, week=week, term_id=term)
+		term_tmp = Term(name=name, start=start, end=end, week=week)
 		term_tmp.save()
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 	else:
+		print('cnm')
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
 def changeTerm(request):
@@ -642,7 +641,7 @@ def downloadHomework(request, asn_id, tid):
 					print('yes')
 					c = f.read(chunk_size)
 					if c:
-						    yield c
+							yield c
 					else:
 						break
 
