@@ -642,7 +642,7 @@ def downloadHomework(request, asn_id, tid):
 					print('yes')
 					c = f.read(chunk_size)
 					if c:
-						    yield c
+						yield c
 					else:
 						break
 
@@ -671,3 +671,23 @@ def displayStuHw(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
 	cou = asn.course_id
 	return render(request, "student_course_homework_watchdetails.html", {'cou':cou, 'asn':asn})
+
+def doubleclick(request):
+	if 'txt' in request.GET and request.GET['txt'] and \
+		'path' in request.GET and request.GET['path']:
+
+		unsplitted = request.GET['txt']
+		splitted = unsplitted.split(',')
+		folder_name = splitted[0]
+		course_id = splitted[1]
+		virpath = request.GET['path']
+		virpath = virpath + folder_name + '/'
+
+		Resources = Resource.objects.filter(course_id__id=course_id, virpath=virpath)
+
+		return render(request, 'resources.html', {'resources':Resources, 'course_id':course_id, 'virpath':virpath})
+	else:
+		course_id = 0
+		Resources = Resource.objects.filter(course_id__id=course_id)
+		virpath = '/'
+		return render(request, 'resources.html', {'resources': Resources, 'course_id': course_id, 'virpath': virpath})

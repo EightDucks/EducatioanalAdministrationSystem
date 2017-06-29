@@ -132,14 +132,16 @@ $(function(){
         $(this).dblclick(function () {
             // $(this).hide()
             if($(this).hasClass('myfolder')){
-                var txt=$('input[type="checkbox"]').attr("name");
+                var txt=$('input[type="checkbox"]').attr("name"),courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
                 // alert("double click");
                 // alert(txt)
                 // $(this).hide()
+                txt+=',';
+                txt+=courseid;
                 $.ajax({
                     url: '/EducationalSystem/resource/doubleclick/',
                     type: "GET",
-                    data: {"doubleclick":txt}
+                    data: {doubleclick:txt, path:filepath}
                     }
                 )
                 location.reload();
