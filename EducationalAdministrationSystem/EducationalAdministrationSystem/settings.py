@@ -127,5 +127,6 @@ STATICFILES_DIRS = (
     ("js", os.path.join(STATIC_ROOT,'js')),
     ("imgs", os.path.join(STATIC_ROOT,'imgs')),
     ("font", os.path.join(STATIC_ROOT,'font')),
-    ("4assets", os.path.join(STATIC_ROOT,'4assets'))
+    ("4assets", os.path.join(STATIC_ROOT,'4assets')),
+    ("files", os.path.join(STATIC_ROOT, 'files'))
 )

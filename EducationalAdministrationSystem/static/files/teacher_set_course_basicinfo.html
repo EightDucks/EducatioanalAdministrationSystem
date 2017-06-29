@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="" name="description" />
+    <meta content="webthemez" name="author" />
+    <title>Bootstrap HTML5 Admin Template</title>
+    <!-- Bootstrap Styles-->
+    <link href="static/4assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="static/4assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="static/css/jiaowu.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+
+    <link href="static/css/jiaowu.css" rel="stylesheet" />
+
+</head>
+<body>
+<!--wrapper 是根节点，最外层的div容器-->
+<div id="wrapper">
+
+    <!--最上面的导航栏集成于.headerer-->
+    <div class="headerer"></div>
+
+
+    <!--这个nav是左边的东西-->
+    <div class="teacher_left"></div>
+
+    <!--  这个page-wrapper是右边   -->
+    <div id="page-wrapper">
+        <div class="header">
+            <h1 class="page-header">
+                基本信息
+            </h1>
+            <!--可选择返回的不知道叫什么的东西-->
+            <ol class="breadcrumb">
+                <li><a href="../">课程信息</a></li>
+                <li class="active">基本信息</li>
+            </ol>
+        </div>
+
+        <!--这是我们操作的主题框-->
+        <div id="page-inner">
+            <!--新增课程表格-->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="card-title">
+                                <div class="title">基本信息</div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程ID</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" name="semester_id" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">当前学期</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" name="semester_name" disabled>
+                                    </div>
+                                </div>
+                                <!-- 日期时间控件待实现 -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程名称</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" name="course_name" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程时间</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" name="course_time" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">上课地点</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" name="course_location" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课程学分</label>
+                                    <div class="col-sm-3">
+                                        <!--仅可输入数字和小数点-->
+                                        <input type="text" class="form-control" name="course_point" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">课时</label>
+                                    <div class="col-sm-3">
+                                        <!--仅可输入数字-->
+                                        <input type="text" class="form-control" name="course_timelength" disabled>
+                                    </div>
+                                </div>
+
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-sm-offset-2 col-sm-10">-->
+                                        <!--<button type="submit" class="btn btn-default">提交</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            团队限制
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" id="form_limit">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">最大人数</label>
+                                    <div class="col-sm-3">
+                                        <!--仅可输入数字-->
+                                        <input type="text" class="form-control" name="team_uplimit" required placeholder="仅可输入整数" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">最少人数</label>
+                                    <div class="col-sm-3">
+                                        <!--仅可输入数字-->
+                                        <input type="text" class="form-control" name="team_downlimit" required placeholder="仅可输入整数" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">其他限制</label>
+                                    <div class="col-sm-3">
+                                        <!--仅可输入数字-->
+                                        <input type="text" class="form-control" name="other_limit" required placeholder="如：每个团队至少有一名女生">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-heading">
+                            课程描述
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" id="form_limit_other" action="/EducationalSystem/teacher_set_course_basicinfo/save/">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">描述内容</label>
+                                    <div class="col-sm-8">
+                                        <!--仅可输入数字-->
+                                        <textarea class="form-control" name="other_limit" rows="7" >
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="submit_button" type="submit" class="btn btn-default">提交</button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+</div>
+<!-- /. PAGE WRAPPER  -->
+
+<!-- /. WRAPPER  -->
+
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="static/4assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="static/4assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="static/4assets/js/jquery.metisMenu.js"></script>
+<!-- Custom Js -->
+<!--<script src="assets/js/custom-scripts.js"></script>-->
+<!--添加教务、学生、教师页头部js-->
+<!--<<<<<<< HEAD-->
+<script src="static/js/addheader.js"></script>
+<script src="static/js/teacher_set_course_basicinfo.js"></script>
+<!--=======-->
+<script src="static/js/addheader.js"></script>
+<!--添加教师页nav左边js-->
+<script src="static/js/add_teacher_left.js"></script>
+
+<script src="static/js/teacher_set_course_basicinfo.js"></script>
+<!--&gt;>>>>>> ec98275ed7a9d885e22618d4103ccbf405ea897a-->
+
+</body>
+</html>

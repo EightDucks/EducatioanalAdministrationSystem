@@ -47,6 +47,6 @@ urlpatterns = {
 
     url(r'^student/course/(\d+)/$', views.displayCouForStu, name='displayCouForStu'),
     url(r'^student/CouAsn/(\d+)/$', views.displayHwForStu, name='displayHwForStu'),
-    url(r'student/Asn/(\d+)/$', views.displayStuHw, name='displayStuHw'),
+    url(r'^student/Asn/(\d+)/$', views.displayStuHw, name='displayStuHw'),
 
 }
