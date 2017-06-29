@@ -5,6 +5,7 @@
 //     alert('确定新建文件夹？')
 // })
 $(function(){
+
     var $parent = $('#divall'),$bgcolor = $('#divall li '),$carry = $('.carrynews'),
         $removenews = $('.remove'),$removeall = $('.removeall'),$removeright = $('#removethispc'),
         $namehide = $('#divall li input.changename'),$changename = $('#changename');
@@ -45,14 +46,15 @@ $(function(){
                 function(){
                     if($bgcolor.hasClass('bgclocrc'))
                     {
-						var txt='';
+						var txt='',courseid=$('.msgtransfer').attr("name");
                         $('input[type="checkbox"]:checked').each(
 						function(){
 							txt+=$(this).attr("name")+',';
 						$(this).parent().remove(); })
+						txt+=courseid;
 						//发起ajax删除请求
 						$.ajax({
-							url: '/EducationalSystem/testajax/',
+							url: '/EducationalSystem/resource/delete/',
 							type: 'GET',
 							data: {del: txt},
 							success: function (response) {
