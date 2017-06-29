@@ -72,17 +72,19 @@
                                         <tbody>
                                             <!--内容都在tbody里加-->
                                             {% for a in asn %}
-                                            <tr class="gradeA">
-                                                <td><a href="/EducationalSystem/teacher/Asn/{{a.id}}/">{{a.name}}</a></td>
-                                                <td>{{a.starttime}}</td>
-                                                <td>{{a.duetime}}</td>
-                                                <td class="center">已截止</td>
-                                                <td class="center">
-                                                    <button type="button" class="btn btn-info btn-xs" onclick="location.href='/EducationalSystem/teacher/modAsn/{{a.id}}'">修改信息</button>
-                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/Asn/{{a.id}}'">查看详细</button>
-                                                    <button type="button" class="btn btn-danger btn-xs course_delete" onclick="location.href='/EducationalSystem/teacher/delAsn/{{a.id}}'">删除</button>
-                                                </td>
-                                            </tr>
+                                            <form>
+                                              <tr class="gradeA">
+                                                  <td><a href="/EducationalSystem/teacher/Asn/{{a.id}}/">{{a.name}}</a></td>
+                                                  <td>{{a.starttime}}</td>
+                                                  <td>{{a.duetime}}</td>
+                                                  <td class="center">已截止</td>
+                                                  <td class="center">
+                                                      <button type="button" class="btn btn-info btn-xs" onclick="location.href='/EducationalSystem/teacher/modAsn/{{a.id}}'">修改信息</button>
+                                                      <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/Asn/{{a.id}}'">查看详细</button>
+                                                      <button type="button" class="btn btn-danger btn-xs course_delete" onclick="location.href='/EducationalSystem/teacher/delAsn/{{a.id}}'">删除</button>
+                                                  </td>
+                                              </tr>
+                                            </form>
                                             {% endfor %}
                                         </tbody>
                                     </table>
