@@ -46,7 +46,7 @@ $(function(){
                 function(){
                     if($bgcolor.hasClass('bgclocrc'))
                     {
-						var txt='',courseid=$('.msgtransfer').attr("name");
+						var txt='',courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
                         $('input[type="checkbox"]:checked').each(
 						function(){
 							txt+=$(this).attr("name")+',';
@@ -56,7 +56,7 @@ $(function(){
 						$.ajax({
 							url: '/EducationalSystem/resource/delete/',
 							type: 'GET',
-							data: {del: txt},
+							data: {del: txt, path:filepath},
 							success: function (response) {
 								alert('删除成功');
 							},
