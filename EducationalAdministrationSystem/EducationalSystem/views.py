@@ -92,12 +92,12 @@ def displayCourseForStudent(request):
 			cou2 = None
 			return render(request, "student.html", {'cou1': cou1, 'cou2': cou2})
 		elif len(cou) < 6:
-			cou1 = cou[0:4]
+			cou1 = cou[0:3]
 			cou2 = cou[3:len(cou)]
 			return render(request, "student.html", {'cou1': cou1, 'cou2': cou2})
 		else:
-			cou1 = cou[0:4]
-			cou2 = cou[3:7]
+			cou1 = cou[0:3]
+			cou2 = cou[3:6]
 			return render(request, "student.html", {'cou1': cou1, 'cou2': cou2})
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
@@ -122,11 +122,11 @@ def displayCourseForTeacher(request):
 			cou1 = cou[0:len(cou)]
 			cou2 = None
 		elif len(cou) < 6:
-			cou1 = cou[0:4]
+			cou1 = cou[0:3]
 			cou2 = cou[3:len(cou)]
 		else:
-			cou1 = cou[0:4]
-			cou2 = cou[3:7]
+			cou1 = cou[0:3]
+			cou2 = cou[3:6]
 		return render(request, "teacher.html", {'cou1': cou1, 'cou2': cou2})
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
@@ -206,11 +206,11 @@ def displayCourseForEA(request, t_id):
 			cou1 = cou[0:len(cou)]
 			cou2 = None
 		elif len(cou) < 6:
-			cou1 = cou[0:4]
+			cou1 = cou[0:3]
 			cou2 = cou[3:len(cou)]
 		else:
-			cou1 = cou[0:4]
-			cou2 = cou[3:7]
+			cou1 = cou[0:3]
+			cou2 = cou[3:6]
 		return render(request, "jiaowu.html", {'terms': terms, 'cou1': cou1, 'cou2': cou2})
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
