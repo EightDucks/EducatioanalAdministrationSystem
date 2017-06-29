@@ -580,39 +580,40 @@ def deleteResource(request):
 		return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id})
 
 
-def timeToISOString(s):
-	return time.strftime("%a %b %d %H:%M:%S %Y", time.localtime(float(s)))
-
 def uploadHomework(request,asn_id):
-	if request.method == 'POST' and request.session['stu_id']:
-		s = time.time()
-		loc_time = timeToISOString(s)
+	if request.method == 'POST' and 'id' in request.session and request.session['id']:
 
-		sid = request.session['stu_id']
+		sid = request.session['id']
 		stu_team= Student_Team.objects.get(student_id = sid, is_approved = True)
 		teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
 		if not teamAsn:
-			teamAsn.submit_times = 1
-			teamAsn.save()
+		 	teamAsn.submit_times = 1
+		 	teamAsn.save()
 		else:
-			teamAsn.submit_times = teamAsn.submit_times + 1
-			teamAsn.save()
+		 	teamAsn.submit_times = teamAsn.submit_times + 1
+		 	teamAsn.save()
 
-		myFiles = request.FILES.getlist("mylists", None)
-		if not myFiles:
-			dstatus = ("No file to upload")
-		for f in myFiles:
-			destination = open('E:/upload/', 'wb+')
-			asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
-			asn_res.save()
-			for chunk in f.chunks():
-				destination.write(chunk)
+		strA = "assignment_attachment_"
+		i = 0
 
-			destination.close()
+		while True:
+		 	newStr = strA + str(i)
+		 	if newStr in request.FILES:
+		 		file_obj = request.FILES[newStr]
+		 		baseDir = os.path.dirname(os.path.abspath(__name__));
+		 		destination = open(os.path.join(baseDir, 'static', 'files', file_obj.name), 'wb+')
+		 		asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
+		 		asn_res.save()
+		 		for chunk in file_obj.chunks():
+		 			destination.write(chunk)
 
-		return HttpResponse("upload over!")
-	print('successA')
-	return render_to_response("student_course_homework_watchdetails.html")
+		 		destination.close()
+		 		i = i + 1
+		 	else:
+		 		break
+
+		return HttpResponseRedirect("/EducationalSystem/student/")
+	return HttpResponseRedirect("/EducationalSystem/student/")
 
 def displaySetGrade(request):
 	return render_to_response("teacher_setgrade.html")
