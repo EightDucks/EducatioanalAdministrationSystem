@@ -110,7 +110,7 @@
 
                                   <div class="form-group magry_assignment" id="assignment_attachment_holder_0">
                                       <label class="col-sm-2 control-label"></label>
-                                      <input type="file" class="col-sm-6" id="assignment_attachment_0"/>
+                                      <input type="file" class="col-sm-6" name="assignment_attachment_0"/>
                                   </div>
 
                                   <div id="multi-assignment-holder"></div>
@@ -160,7 +160,7 @@
             $('#assignment_attachment_add').click(function () {
               var i=$('.magry_assignment').length;
               var head = "<div class=\"form-group magry_assignment\" id=\"assignment_attachment_holder_"
-              var mid="\"><label class=\"col-sm-2 control-label\"></label><input type=\"file\" class=\"col-sm-6\" id=\"assignment_attachment_"
+              var mid="\"><label class=\"col-sm-2 control-label\"></label><input type=\"file\" class=\"col-sm-6\" name=\"assignment_attachment_"
               var tail = "\"/></div>"
               var content = head;
               content+=i;
