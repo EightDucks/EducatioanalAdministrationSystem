@@ -466,7 +466,8 @@ def modifyAssignment(request, asn_id):
 		asn.submit_limits = submit_limits
 		asn.weight = weight
 		asn.save()
-		return HttpResponseRedirect("/EducationalSystem/teacher/")
+		return_url="/EducationalSystem/teacher/CouAsn/"+str(asn.course_id.id)
+		return HttpResponseRedirect(return_url)
 	else:
 		return HttpResponseRedirect("/EducationalSystem/teacher/")
 
@@ -539,7 +540,8 @@ def setCourseInfo(request, course_id):
 		course.other_limit = other_limit
 		course.description = description
 		course.save()
-		return HttpResponseRedirect("/EducationalSystem/teacher/")
+		return_url="/EducationalSystem/teacher/course/"+course_id
+		return HttpResponseRedirect(return_url)
 		#return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
 	else:

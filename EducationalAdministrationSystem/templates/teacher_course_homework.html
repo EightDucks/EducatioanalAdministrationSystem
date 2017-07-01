@@ -68,7 +68,7 @@
                                                 <th>作业名称</th>
                                                 <th>创建时间</th>
                                                 <th>提交截止时间</th>
-                                                <th>状态</th>
+                                                <!--<th>状态</th>-->
                                                 <th>操作</th>
                                             </tr>
                                         </thead>
@@ -80,11 +80,11 @@
                                                   <td><a href="/EducationalSystem/teacher/Asn/{{a.id}}/">{{a.name}}</a></td>
                                                   <td>{{a.starttime}}</td>
                                                   <td>{{a.duetime}}</td>
-                                                  <td class="center">已截止</td>
+                                                  <!--<td class="center">已截止</td>-->
                                                   <td class="center">
                                                       <button type="button" class="btn btn-info btn-xs" onclick="location.href='/EducationalSystem/teacher/modAsn/{{a.id}}'">修改信息</button>
                                                       <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/Asn/{{a.id}}'">查看详细</button>
-                                                      <button type="button" class="btn btn-danger btn-xs course_delete" onclick="location.href='/EducationalSystem/teacher/delAsn/{{a.id}}'">删除</button>
+                                                      <!--<button type="button" class="btn btn-danger btn-xs course_delete" onclick="location.href='/EducationalSystem/teacher/delAsn/{{a.id}}'">删除</button>-->
                                                   </td>
                                               </tr>
                                             </form>
@@ -128,7 +128,7 @@
                 $('#dataTables-example').dataTable();
             });
     </script>
-    <script src="/static/js/teacher_course_delete.js"></script>
+    <!--<script src="/static/js/teacher_course_delete.js"></script>-->
     <!--添加教师页nav左边js-->
     <script src="/static/js/add_teacher_left.js"></script>
 
