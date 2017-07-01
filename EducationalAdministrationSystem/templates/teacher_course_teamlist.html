@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta content="" name="description" />
+    <meta content="webthemez" name="author" />
+    <title>Bootstrap HTML5 Admin Template</title>
+	<!-- Bootstrap Styles-->
+    <link href="/static/4assets/css/bootstrap.css" rel="stylesheet" />
+     <!-- FontAwesome Styles-->
+    <link href="/static/4assets/css/font-awesome.css" rel="stylesheet" />
+        <!-- Custom Styles-->
+    <link href="/static/css/jiaowu.css" rel="stylesheet" />
+     <!-- Google Fonts-->
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+
+
+</head>
+<body>
+    <!--wrapper 是根节点，最外层的div容器-->
+    <div id="wrapper">
+
+        <!--最上面的导航栏集成于.headerer-->
+        <div class="headerer"></div>
+
+
+        <!--这个nav是左边的东西，稍后会改成student_left相关-->
+        <div class="teacher_left"></div>
+        <div style="display:none;">
+          <input id="cou_id_holder" value="{{cou.id}}" >
+        </div>
+
+        <!--  这个page-wrapper是右边   -->
+        <div id="page-wrapper">
+          <div class="header">
+            <h1 class="page-header">
+                所有团队
+            </h1>
+            <!--可选择返回的不知道叫什么的东西-->
+            <ol class="breadcrumb">
+                <li><a href="../../">软件工程过程</a></li>
+                <li class="active">所有团队</li>
+			</ol>
+          </div>
+
+            <!--这是我们操作的主题框-->
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Advanced Tables -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                 所有团队
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                        <thead>
+                                            <tr>
+                                                <th>团队名称</th>
+                                                <th>团队队长</th>
+                                                <th>团队状态</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!--内容都在tbody里加-->
+
+                                            <tr class="gradeA">
+                                                <td>StormTeam</td>
+                                                <td>朱正北</td>
+                                                <td class="center">组建中</td>
+                                                <td class="center">
+                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href=''">审核团队</button>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="gradeA">
+                                                <td>StormTeam2</td>
+                                                <td>朱正西</td>
+                                                <td class="center">审核中</td>
+                                                <td class="center">
+                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href=''">审核团队</button>
+                                                    <!--<button type="button" class="btn btn-success btn-xs" disabled>查看报表</button>-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End Advanced Tables -->
+                    </div>
+                </div>
+            </div>
+             <!-- /. PAGE INNER  -->
+        </div>
+        </div>
+         <!-- /. PAGE WRAPPER  -->
+    </div>
+     <!-- /. WRAPPER  -->
+
+
+
+
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="/static/4assets/js/jquery-1.10.2.js"></script>
+      <!-- Bootstrap Js -->
+    <script src="/static/4assets/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Js -->
+    <script src="/static/4assets/js/jquery.metisMenu.js"></script>
+      <!-- Custom Js -->
+    <!--<script src="assets/js/custom-scripts.js"></script>-->
+    <!--添加教务、学生、教师页头部js-->
+    <script src="/static/js/addheader.js"></script>
+    <!-- DATA TABLE SCRIPTS -->
+    <script src="/static/4assets/js/dataTables/jquery.dataTables.js"></script>
+    <script src="/static/4assets/js/dataTables/dataTables.bootstrap.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#dataTables-example').dataTable();
+            });
+    </script>
+    <!--添加教师页nav左边js-->
+    <script src="/static/js/add_teacher_left.js"></script>
+
+</body>
+</html>
