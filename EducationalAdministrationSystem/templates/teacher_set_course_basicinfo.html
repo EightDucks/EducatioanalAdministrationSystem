@@ -7,16 +7,16 @@
     <meta content="webthemez" name="author" />
     <title>Bootstrap HTML5 Admin Template</title>
     <!-- Bootstrap Styles-->
-    <link href="/static/4assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="static/4assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
-    <link href="/static/4assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="static/4assets/css/font-awesome.css" rel="stylesheet" />
     <!-- Custom Styles-->
-    <link href="/static/css/jiaowu.css" rel="stylesheet" />
+    <link href="static/css/jiaowu.css" rel="stylesheet" />
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
 
-    <link href="/static/css/jiaowu.css" rel="stylesheet" />
+    <link href="static/css/jiaowu.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -63,35 +63,40 @@
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程ID</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" value="{{course_id}}" class="form-control" name="semester_id" disabled>
+                                    <div class="col-sm-10">
+                                        <!--<label type="text" value="{{course_id}}" class="form-control" name="semester_id" disabled></label>-->
+                                        <label class="control-label" style="font-weight:normal;">{{course_id}}</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">当前学期</label>
-                                    <div class="col-sm-5">
-                                        <input type="text" value="{{term_name}}" class="form-control" name="semester_name" disabled>
+                                    <div class="col-sm-10">
+                                        <!--<input type="text" value="{{term_name}}" class="form-control" name="semester_name" disabled>-->
+                                        <label class="control-label" style="font-weight:normal;">{{term_name}}</label>
                                     </div>
                                 </div>
                                 <!-- 日期时间控件待实现 -->
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程名称</label>
                                     <div class="col-sm-5">
-                                        <input type="text" value="{{course_name}}" class="form-control" name="course_name" disabled>
+                                        <!--<input type="text" value="{{course_name}}" class="form-control" name="course_name" disabled>-->
+                                        <label class="control-label" style="font-weight:normal;">{{course_name}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">课程时间</label>
                                     <div class="col-sm-3">
-                                        <input type="text" value="{{time}}" class="form-control" name="course_time" disabled>
+                                        <!--<input type="text" value="{{time}}" class="form-control" name="course_time" disabled>-->
+                                        <label class="control-label" style="font-weight:normal;">{{time}}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">上课地点</label>
                                     <div class="col-sm-3">
-                                        <input type="text" value="{{location}}" class="form-control" name="course_location" disabled>
+                                        <!--<input type="text" value="{{location}}" class="form-control" name="course_location" disabled>-->
+                                        <label class="control-label" style="font-weight:normal;">{{location}}</label>
                                     </div>
                                 </div>
 
@@ -99,7 +104,8 @@
                                     <label class="col-sm-2 control-label">课程学分</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字和小数点-->
-                                        <input type="text" value="{{credit}}" class="form-control" name="course_point" disabled>
+                                        <!--<input type="text" value="{{credit}}" class="form-control" name="course_point" disabled>-->
+                                        <label class="control-label" style="font-weight:normal;">{{credit}}</label>
                                     </div>
                                 </div>
 
@@ -107,7 +113,8 @@
                                     <label class="col-sm-2 control-label">课时</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字-->
-                                        <input type="text" value="{{hour}}" class="form-control" name="course_timelength" disabled>
+                                        <!--<input type="text" value="{{hour}}" class="form-control" name="course_timelength" disabled>-->
+                                        <label class="control-label" style="font-weight:normal;">{{hour}}</label>
                                     </div>
                                 </div>
 
@@ -199,18 +206,18 @@
 
 <!-- JS Scripts-->
 <!-- jQuery Js -->
-<script src="/static/4assets/js/jquery-1.10.2.js"></script>
+<script src="static/4assets/js/jquery-1.10.2.js"></script>
 <!-- Bootstrap Js -->
-<script src="/static/4assets/js/bootstrap.min.js"></script>
+<script src="static/4assets/js/bootstrap.min.js"></script>
 <!-- Metis Menu Js -->
-<script src="/static/4assets/js/jquery.metisMenu.js"></script>
+<script src="static/4assets/js/jquery.metisMenu.js"></script>
 <!-- Custom Js -->
 <!--<script src="assets/js/custom-scripts.js"></script>-->
 <!--添加教务、学生、教师页头部js-->
-<script src="/static/js/addheader.js"></script>
-<script src="/static/js/teacher_set_course_basicinfo.js"></script>
+<script src="static/js/addheader.js"></script>
+<script src="static/js/teacher_set_course_basicinfo.js"></script>
 <!--添加教师页nav左边js-->
-<script src="/static/js/add_teacher_left.js"></script>
+<script src="static/js/add_teacher_left.js"></script>
 
 </body>
 </html>
