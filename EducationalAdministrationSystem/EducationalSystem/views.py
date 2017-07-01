@@ -77,10 +77,11 @@ def jiaowu_addsemester(request):
 def jiaowu_courseinfo(request, cou_id):
 	course = Course.objects.get(id=cou_id)
 	tid = course.term_id
-	cou_stu = Course_Student.objects.filter(course_id=course)
+	cou_stu = Course_Student.objects.filter(course_id=course).values("student_id")
+	stu = Student.objects.filter(id__in=cou_stu).order_by("number")
 	#stu_id = cou_stu.student_id
 	#term = Term.objects.get(id=tid)
-	return render(request, "jiaowu_courseinfo.html", {'course':course, 'term':tid, 'stu':cou_stu})
+	return render(request, "jiaowu_courseinfo.html", {'course':course, 'term':tid, 'stu':stu})
 
 # 学生课程，单独页面
 def displayCourseForStudent(request):
@@ -516,7 +517,7 @@ def deleteAssignment(request, asn_id):
 def addCourseStudent(request, cid):
 	if request.method == 'POST' :
 		print('cnm')
-		myFiles = request.FILE["fileupload"]
+		myFiles = request.FILES["fileupload"]
 
 
 		baseDir = os.path.dirname(os.path.abspath(__name__))
@@ -527,8 +528,8 @@ def addCourseStudent(request, cid):
 		for chunk in myFiles.chunks():
 			destination.write(chunk)
 
-		str = myFiles.name.split('.')
-		type = str[-1]
+		stri = myFiles.name.split('.')
+		type = stri[-1]
 		if type == "xlsx":
 			num, recs = readFromXLSX(filepath)
 		else:
@@ -538,7 +539,7 @@ def addCourseStudent(request, cid):
 			#c_id = recs[i][0].value
 			stu_id = recs[i][0].value
 			#stu_name = recs[i][2].value
-			cur_stu = Course_Student.objects.filter(course_id__id = cid, stu_id__id_number = stu_id)
+			cur_stu = Course_Student.objects.filter(course_id__id = cid, student_id__number = stu_id)
 			if cur_stu:
 				continue
 			else:
@@ -546,14 +547,14 @@ def addCourseStudent(request, cid):
 				stu = Student.objects.filter(number=stu_id)
 				if stu:
 					stu1 = Student.objects.get(number=stu_id)
-					cour_stu = Course_Student(course_id=cou, stu_id=stu1)
+					cour_stu = Course_Student(course_id=cou, student_id=stu1)
 					cour_stu.save()
 				else:
 					continue
-		return HttpResponseRedirect('/EductionalSystem/jiaowu_course/' + str(cid) +"/")
+		return HttpResponseRedirect("/EductionalSystem/jiaowu_course/" + str(cid) +"/")
 	else:
 		print("hhh")
-		return HttpResponseRedirect('/EductionalSystem/jiaowu_course/' + str(cid) +"/")
+		return HttpResponseRedirect("/EductionalSystem/jiaowu_course/" + str(cid) +"/")
 
 def setCourseInfo(request, course_id):
 	print('team_uplimit' in request.GET, 'team_downlimit' in request.GET,
