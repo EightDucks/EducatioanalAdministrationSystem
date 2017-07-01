@@ -63,7 +63,11 @@
                                     <!--<option>2017学年下学期</option>-->
                                     <!--<option>2018学年上学期</option>-->
                                     {% for t in terms %}
+                                    {% if t.id == t_id %}
+                                    <option value="{{t.id}}" selected="selected">{{t.name}}</option>
+                                    {% else %}
                                     <option value="{{t.id}}">{{t.name}}</option>
+                                    {% endif %}
                                     {% endfor %}
                                 </select>
                                 <button id="changeterm" type="submit" class="btn btn-default">
