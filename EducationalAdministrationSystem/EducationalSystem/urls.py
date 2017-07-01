@@ -44,8 +44,8 @@ urlpatterns = {
     url(r'^teacher/dldAsn/asn_id(\d+)tid(\d+)/$', views.downloadHomework, name='downloadAssignment'),
     url(r'^teacher/dldAsn/a_id(\d+)/$', views.downloadAllHomework, name='downloadAllHomework'),
 
-    url(r'^teacher/setGd/$', views.displaySetGrade, name='displaySetGrade'),
-
+    url(r'^teacher/setGd/TA_id(\d+)/$', views.displaySetGrade, name='displaySetGrade'),
+    url(r'^teacher/setGd/TA_id(\d+)/save/$', views.setTeamAssignmentCommentMark, name='setTeamAssignmentCommentMark'),
 
     url(r'^student/course/(\d+)/$', views.displayCouForStu, name='displayCouForStu'),
     url(r'^student/CouAsn/(\d+)/$', views.displayHwForStu, name='displayHwForStu'),

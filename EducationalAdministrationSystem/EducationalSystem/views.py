@@ -401,24 +401,24 @@ def setTeamAssignmentMark(request):
 		TA_tmp.save()
 
 #给作业成绩页面：教师
-def displaySetGrade(request):
-	return render_to_response("teacher_setgrade.html")
+def displaySetGrade(request, TA_id):
+	ta = Team_Assignment.objects.get(id = TA_id)
+	return render(request, "teacher_setgrade.html", {'ta':ta})
+	#return render_to_response("teacher_setgrade.html")
 
 #给评价与成绩：教师
 def setTeamAssignmentCommentMark(request,TA_id):
-	if 'team_name' in request.GET and request.GET['team_name'] and\
-		'homework_name' in request.GET and request.GET['homework_name'] and \
-		'homework_grade' in request.GET and request.GET['homework_grade'] and \
+	if 	'homework_grade' in request.GET and request.GET['homework_grade'] and \
 		'homework_comment' in request.GET and request.GET['homework_comment']:
 
 		comment = request.GET['homework_comment']
 		mark = request.GET['homework_grade']
 
-
-		TA_tmp = Team_Assignment(id=TA_id)
+		TA_tmp = Team_Assignment.objects.get(id=TA_id)
 		TA_tmp.comment = comment
 		TA_tmp.mark = mark
 		TA_tmp.save()
+		return HttpResponseRedirect("/EducationalSystem/teacher/Asn/" + str(TA_tmp.asn_id.id) + "/")
 
 #展示添加作业页面，单独页面
 def displayAddAsn(request, cou_id):
@@ -505,7 +505,8 @@ def displayHw(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
 	cou = asn.course_id
 	tem = Team.objects.filter(course_id=cou)
-	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn, 'tem':tem, 'cou':cou})
+	tas = Team_Assignment.objects.filter(team_id__in = tem, asn_id = asn)
+	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn, 'tem':tas, 'cou':cou, })
 
 # 删除作业
 def deleteAssignment(request, asn_id):
@@ -519,7 +520,7 @@ def deleteAssignment(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
 	cou_id = asn.course_id.id
 	asn.delete()
-	return HttpResponseRedirect("/EducationalSystem/teacher/CouAsn/" + str(cou_id))
+	return HttpResponseRedirect("/EducationalSystem/teacher/CouAsn/" + str(cou_id) +"/")
 
 #从excel中添加课程学生表条目
 def addCourseStudent(request, cid):

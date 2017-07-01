@@ -43,17 +43,17 @@
 
             <!-- 这是成绩及评论设置 -->
             <div class="panel-body">
-                <form class="form-horizontal">
+                <form class="form-horizontal" action="/EducationalSystem/teacher/setGd/TA_id{{ta.id}}/save/">
                   <div class="form-group">
                       <label class="col-sm-2 control-label">团队名称</label>
                       <div class="col-sm-5">
-                          <input type="text" class="form-control" name="team_name" disabled>
+                          <input type="text" class="form-control" value="{{ta.team_id.name}}" name="team_name" disabled>
                       </div>
                   </div>
                   <div class="form-group">
                       <label class="col-sm-2 control-label">作业名称</label>
                       <div class="col-sm-5">
-                          <input type="text" class="form-control" name="homework_name" disabled>
+                          <input type="text" class="form-control" value="{{ta.asn_id.name}}" name="homework_name" disabled>
                       </div>
                   </div>
                   <div class="form-group">
