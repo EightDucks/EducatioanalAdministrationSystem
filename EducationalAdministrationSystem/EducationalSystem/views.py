@@ -278,21 +278,33 @@ def addCourse(request):
 			and request.GET['course_point'] and request.GET['course_time'] \
 			and request.GET['course_name'] and request.GET['course_timelength'] \
 			and request.GET['course_location'] and request.GET['selectterm'] \
-			and 'course_teacherid' in request.GET and request.GET['course_teacherid']:
+			and 'course_teacherid_0' in request.GET and request.GET['course_teacherid_0']:
 
+		strhead = "course_teacherid_"
+		count = 0
 		name = request.GET['course_name']
 		credit = request.GET['course_point']
 		time = request.GET['course_time']
 		hour = request.GET['course_timelength']
 		location = request.GET['course_location']
 		term_id = request.GET['selectterm']
-		tea_num = request.GET['course_teacherid']
-		Tea = Teacher.objects.get(number=tea_num)
-		if not Tea:
-			return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+
 		term = Term.objects.get(id=term_id)
 		Course_tmp = Course(name=name, credit=credit, time=time, location=location, term_id=term, hour=hour)
 		Course_tmp.save()
+
+		while True:
+			strq = strhead + str(count)
+			if strq not in request.GET:
+				break
+			tea_num = request.GET[strq]
+			Tea = Teacher.objects.get(number=tea_num)
+			if not Tea:
+				return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+			count = count + 1
+			cou_tea = Course_Teacher(course_id=Course_tmp, teacher_id=Tea)
+			cou_tea.save()
+
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 	else:
 		return HttpResponseRedirect("/EducationalSystem/jiaowu/")
