@@ -14,14 +14,59 @@ $(function(){
 
     //新建
 
-    $carry.live('click' , function(){
-        alert('确定新建文件夹？')
-        setTimeout(
-            function(){
-                $parent.append("<li class='myfolder'><input type='text' class='changename'\ value='新建文件夹'/><input class='checkbox' type='checkbox' value='' /></li>");
-				
-			},250);
-    });
+    $carry.click(function () {
+            layer.prompt({title: '请输入文件夹名称', formType: 2}, function(pass, index){
+                layer.close(index);
+                if(typeof pass === 'string'){
+                    // layer.msg(id)
+                    var id = $('.msgtransfer').attr('name');
+                    var filepath = $('.filepath').attr('name');
+                    var name = pass
+                    $.ajax({
+                        url:'???',
+                        type:'GET',
+                        data:{courseid:id,path:filepath,foldername:name},
+                        success:function (response) {
+                                $('#divall').append('<li class="myfolder"><input type="text" class="changename" name="1" value="2333"/><input class="checkbox" name="{{res.id}}" type="checkbox" value="" /></li>')
+                                // $('#divall').append(response)
+                                layer.msg("创建成功",{time: 1000 });
+                                /*绑定点击事件*/
+                                $('#divall li ').each(function () {
+                                    $(this).dblclick(function () {
+                                        if($(this).hasClass('myfolder')){
+                                            var txt=$(this).find('input[type="checkbox"]').attr("name"),foldername=$(this).find('input[type="text"]').attr("value"),courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
+                                            $.ajax({
+                                                    url: '/EducationalSystem/resource/doubleclick/',
+                                                    type: "GET",
+                                                    data: {id:txt, name:foldername, path:filepath},
+                                                    success: function (response) {
+                                                        //alert(response);
+                                                        $('#divall').html(response);
+
+                                                    },
+                                                }
+                                            )
+                                            $.ajax({
+                                                    url: '/EducationalSystem/resource/returnVirpath/',
+                                                    type: "GET",
+                                                    data: {id:txt, name:foldername, path:filepath,flag:'1'},
+                                                    success: function (response) {
+                                                        //alert(response);
+                                                        $('.filepath').attr("name",response);
+
+                                                    },
+                                                }
+                                            )
+                                        }
+                                    })
+                                })
+                            }
+                        }
+
+                    );
+                }
+            });
+    })
 
     //返回
     $back.live('click' , function(){
