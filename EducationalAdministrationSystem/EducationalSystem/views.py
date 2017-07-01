@@ -1,7 +1,12 @@
 # coding=utf-8
 import os
+import xlrd		#pip3 install xlrd
+import xlwt		#pip3 install xlwt
 import time
+
 from django.shortcuts import render
+
+from datetime import date, datetime
 
 from .models import *
 
@@ -612,6 +617,8 @@ def uploadHomework(request,asn_id):
 
 				baseDir = os.path.dirname(os.path.abspath(__name__))
 				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
+
+
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
 				# asn_res.save()
@@ -693,3 +700,9 @@ def doubleclick(request):
 		Resources = Resource.objects.filter(course_id__id=course_id)
 		virpath = '/'
 		return render(request, 'resources.html', {'resources': Resources, 'course_id': course_id, 'virpath': virpath})
+
+def read_excel():
+	workbook = xlrd.open_workbook(r'F:\test.xlsx')
+
+	#print workbook.sheet_names()
+	sheet2_name = workbook.sheet_names()[1]
