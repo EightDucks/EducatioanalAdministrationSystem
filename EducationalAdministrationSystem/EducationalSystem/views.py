@@ -516,7 +516,6 @@ def deleteAssignment(request, asn_id):
 #从excel中添加课程学生表条目
 def addCourseStudent(request, cid):
 	if request.method == 'POST' :
-		print('cnm')
 		myFiles = request.FILES["fileupload"]
 
 
@@ -551,10 +550,9 @@ def addCourseStudent(request, cid):
 					cour_stu.save()
 				else:
 					continue
-		return HttpResponseRedirect("/EductionalSystem/jiaowu_course/" + str(cid) +"/")
+		return HttpResponseRedirect("/EducationalSystem/jiaowu_course/" + str(cid) +"/")
 	else:
-		print("hhh")
-		return HttpResponseRedirect("/EductionalSystem/jiaowu_course/" + str(cid) +"/")
+		return HttpResponseRedirect("/EducationalSystem/jiaowu_course/" + str(cid) +"/")
 
 def setCourseInfo(request, course_id):
 	print('team_uplimit' in request.GET, 'team_downlimit' in request.GET,
