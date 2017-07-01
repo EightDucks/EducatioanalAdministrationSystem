@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="" name="description" />
+    <meta content="webthemez" name="author" />
+    <title>Bootstrap HTML5 Admin Template</title>
+    <!-- Bootstrap Styles-->
+    <link href="/static/4assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="/static/4assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="/static/css/jiaowu.css" rel="stylesheet" />
+    <link href="/static/css/noteam_and_joining.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+</head>
+<body>
+<!--wrapper 是根节点，最外层的div容器-->
+<div id="wrapper">
+
+    <!--最上面的导航栏集成于.headerer-->
+    <div class="headerer"></div>
+
+
+    <!--这个nav是左边的东西-->
+    <div class="student_left"></div>
+    <!--  这个page-wrapper是右边   -->
+    <div id="page-wrapper">
+        <div class="header">
+            <h1 class="page-header">
+                课程信息
+            </h1>
+            <!--可选择返回的不知道叫什么的东西-->
+            <ol class="breadcrumb">
+                <li><a href="../../">团队</a></li>
+                <li class="active">组建团队</li>
+            </ol>
+        </div>
+
+        <!--这是我们操作的主题框-->
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            组建团队
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" id="form_limit" method="get" action="./save/">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">最大人数</label>
+                                    <div class="col-sm-3">
+                                        <!--仅可输入数字-->
+                                        <input id = "team_uplimit" type="text" class="form-control" name="team_uplimit" required placeholder="队伍名">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">团队描述</label>
+                                    <div class="col-sm-8">
+                                        <!--仅可输入数字-->
+                                        <textarea id="description" class="form-control" name="description" rows="7" placeholder="我们是一个7人组成的开发团队......"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="submit_button" class="btn btn-default">提交</button>
+                                    </div>
+                                </div>
+
+                        </div>
+                        <!--<div class="panel-body">-->
+                        <!--<form class="form-horizontal" id="form_limit_other" method="get">-->
+                        <!--<div class="form-group">-->
+                        <!--<label class="col-sm-2 control-label">描述内容</label>-->
+                        <!--<div class="col-sm-8">-->
+                        <!--&lt;!&ndash;仅可输入数字&ndash;&gt;-->
+                        <!--<textarea id="description" class="form-control" name="description" rows="7" >-->
+                        <!--</textarea>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                        <!--<div class="col-sm-offset-2 col-sm-10">-->
+                        <!--<button id="submit_button" class="btn btn-default">提交</button>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--</form>-->
+
+                        <!--</div>-->
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+</div>
+<!-- /. PAGE WRAPPER  -->
+
+<!-- /. WRAPPER  -->
+
+
+
+
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="/static/4assets/js/jquery-1.10.2.js"></script>
+<!-- Bootstrap Js -->
+<script src="/static/4assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="/static/4assets/js/jquery.metisMenu.js"></script>
+<!-- Custom Js -->
+<!--<script src="assets/js/custom-scripts.js"></script>-->
+<!--添加教务、学生、教师页头部js-->
+<script src="/static/js/addheader.js"></script>
+<script src="/static/js/add_student_left.js"></script>
+
+</body>
+</html>
