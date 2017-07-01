@@ -14,9 +14,8 @@
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
-
-
+    <!--本页引用css-->
+   <link href="/static/css/jiaowu_addcourse.css" rel="stylesheet" />
 </head>
 <body>
     <!--wrapper 是根节点，最外层的div容器-->
@@ -96,12 +95,29 @@
                                           <div class="col-sm-3">
                                               <input type="text" class="form-control" name="course_teacher" required>
                                           </div>
-                                      </div><div class="form-group">
+                                      </div>
+
+                                      <div class="form-group shiyi_teacherid">
                                           <label class="col-sm-2 control-label">教师工号</label>
-                                          <div class="col-sm-3">
-                                              <input type="text" class="form-control" name="course_teacherid" required>
+                                          <div class="col-sm-3" id="teacherid_0">
+                                              <input type="text" class="form-control" name="course_teacherid_0" required>
+                                          </div>
+                                          <div class="col-sm-7">
+                                            <a class="btn btn-primary btn-sm" id="teacherid_attachment_add"><span class="glyphicon glyphicon-plus"></span></a>
+                                            <a class="btn btn-danger btn-sm shiyi_hide" id="teacherid_attachment_rm"><span class="glyphicon glyphicon-minus"></span></a>
                                           </div>
                                       </div>
+
+                                      <!--
+                                      <div class="form-group shiyi_teacherid" id="teacherid_0">
+                                          <label class="col-sm-2 control-label"></label>
+                                          <div class="col-sm-3">
+                                              <input type="text" class="form-control" name="course_teacherid_0" required>
+                                          </div>
+                                      </div>
+                                      -->
+                                      <div id="multi-teacherid-holder"></div>
+
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label">上课地点</label>
                                           <div class="col-sm-3">
@@ -154,7 +170,7 @@
     <!--<script src="assets/js/custom-scripts.js"></script>-->
     <!--添加教务、学生、教师页头部js-->
     <script src="/static/js/addheader.js"></script>
-
-
+    <!--本页引用js-->
+    <script src="/static/js/jiaowu_addcourse.js"></script>
 </body>
 </html>

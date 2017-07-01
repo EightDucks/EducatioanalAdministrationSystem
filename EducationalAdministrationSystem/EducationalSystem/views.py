@@ -86,10 +86,11 @@ def jiaowu_addsemester(request):
 def jiaowu_courseinfo(request, cou_id):
 	course = Course.objects.get(id=cou_id)
 	tid = course.term_id
-	cou_stu = Course_Student.objects.filter(course_id=course)
+	cou_stu = Course_Student.objects.filter(course_id=course).values("student_id")
+	stu = Student.objects.filter(id__in=cou_stu).order_by("number")
 	#stu_id = cou_stu.student_id
 	#term = Term.objects.get(id=tid)
-	return render(request, "jiaowu_courseinfo.html", {'course':course, 'term':tid, 'stu':cou_stu})
+	return render(request, "jiaowu_courseinfo.html", {'course':course, 'term':tid, 'stu':stu})
 
 # 学生课程，单独页面
 def displayCourseForStudent(request):
@@ -309,8 +310,12 @@ def addCourse(request):
 #czy
 #展示所有资源：教师/学生
 def displayAllResource(request, course_id):
-	Resources = Resource.objects.filter(course_id__id=course_id)
-	return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id, 'virpath':'/'})
+	Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True, virtual_path='/')
+	Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False, virtual_path='/')
+	print('display resource')
+	print([res.id for res in Resources], [f.id for f in Folders], course_id, '/')
+	return render(request, 'resources.html',
+				  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': '/'})
 
 
 # 上传资源：教师
@@ -526,7 +531,7 @@ def deleteAssignment(request, asn_id):
 def addCourseStudent(request, cid):
 	if request.method == 'POST' :
 		print('cnm')
-		myFiles = request.FILE["fileupload"]
+		myFiles = request.FILES["fileupload"]
 
 
 		baseDir = os.path.dirname(os.path.abspath(__name__))
@@ -537,8 +542,8 @@ def addCourseStudent(request, cid):
 		for chunk in myFiles.chunks():
 			destination.write(chunk)
 
-		str = myFiles.name.split('.')
-		type = str[-1]
+		stri = myFiles.name.split('.')
+		type = stri[-1]
 		if type == "xlsx":
 			num, recs = readFromXLSX(filepath)
 		else:
@@ -548,7 +553,7 @@ def addCourseStudent(request, cid):
 			#c_id = recs[i][0].value
 			stu_id = recs[i][0].value
 			#stu_name = recs[i][2].value
-			cur_stu = Course_Student.objects.filter(course_id__id = cid, stu_id__id_number = stu_id)
+			cur_stu = Course_Student.objects.filter(course_id__id = cid, student_id__number = stu_id)
 			if cur_stu:
 				continue
 			else:
@@ -556,14 +561,14 @@ def addCourseStudent(request, cid):
 				stu = Student.objects.filter(number=stu_id)
 				if stu:
 					stu1 = Student.objects.get(number=stu_id)
-					cour_stu = Course_Student(course_id=cou, stu_id=stu1)
+					cour_stu = Course_Student(course_id=cou, student_id=stu1)
 					cour_stu.save()
 				else:
 					continue
-		return HttpResponseRedirect('/EductionalSystem/jiaowu_course/' + str(cid) +"/")
+		return HttpResponseRedirect("/EductionalSystem/jiaowu_course/" + str(cid) +"/")
 	else:
 		print("hhh")
-		return HttpResponseRedirect('/EductionalSystem/jiaowu_course/' + str(cid) +"/")
+		return HttpResponseRedirect("/EductionalSystem/jiaowu_course/" + str(cid) +"/")
 
 def setCourseInfo(request, course_id):
 	print('team_uplimit' in request.GET, 'team_downlimit' in request.GET,
@@ -610,7 +615,7 @@ def deleteResource(request):
 	print('del' in request.GET)
 
 	if 'del' in request.GET and request.GET['del'] and \
-		'path' in request.GET and request.GET['path']:
+					'path' in request.GET and request.GET['path']:
 
 		unsplitted = request.GET['del']
 		splitted = unsplitted.split(',')
@@ -620,14 +625,19 @@ def deleteResource(request):
 
 		for i in range(num):
 			Resource.objects.get(id=int(splitted[i])).delete()
-		Resources = Resource.objects.filter(course_id__id=course_id)
 
-		return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id, 'virpath':virpath})
+		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
+		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
+
+		return render(request, 'resources.html',
+					  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': virpath})
 	else:
 		course_id = 0
-		Resources = Resource.objects.filter(course_id__id=course_id)
+		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
+		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
 		virpath = '/'
-		return render(request, 'resources.html', {'resources': Resources, 'course_id':course_id, 'virpath':virpath})
+		return render(request, 'resources.html',
+					  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': virpath})
 
 
 def uploadHomework(request,asn_id):
@@ -752,24 +762,114 @@ def displayStuHw(request, asn_id):
 	return render(request, "student_course_homework_watchdetails.html", {'cou':cou, 'asn':asn})
 
 def doubleclick(request):
-	if 'txt' in request.GET and request.GET['txt'] and \
+	print(request.GET['id'])
+	print(request.GET['name'])
+	print(request.GET['path'])
+
+	if 'id' in request.GET and request.GET['id'] and \
+		'name' in request.GET and request.GET['name'] and \
 		'path' in request.GET and request.GET['path']:
 
-		unsplitted = request.GET['txt']
-		splitted = unsplitted.split(',')
-		folder_name = splitted[0]
-		course_id = splitted[1]
+		print(111)
+
+		course_id = Resource.objects.get(id=int(request.GET['id'])).course_id.id
+		print(course_id)
+		folder_name = request.GET['name']
 		virpath = request.GET['path']
 		virpath = virpath + folder_name + '/'
 
-		Resources = Resource.objects.filter(course_id__id=course_id, virpath=virpath)
+		print(course_id, folder_name, virpath)
+		#Folders = Resource.objects.filter(course_id__id=course_id, path_isnull=True, virtual_path=virpath)
+		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True, virtual_path=virpath)
+		print('Folder done.')
+		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False, virtual_path=virpath)
 
-		return render(request, 'resources.html', {'resources':Resources, 'course_id':course_id, 'virpath':virpath})
+		print('ready to render '+virpath)
+		print([res.id for res in Resources], [f.id for f in Folders], course_id, virpath)
+		#return render(request, 'resources.html',
+		#			  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': virpath})
+
+		############
+
+		ret_str = fileSystemResponse(Resources, Folders)
+		print(ret_str)
+		############
+
+		return HttpResponse(ret_str)
 	else:
 		course_id = 0
-		Resources = Resource.objects.filter(course_id__id=course_id)
+		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
+		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
 		virpath = '/'
-		return render(request, 'resources.html', {'resources': Resources, 'course_id': course_id, 'virpath': virpath})
+		ret_str = fileSystemResponse(Resources, Folders)
+		return HttpResponse(ret_str)
+		#return render(request, 'resources.html',
+		#			  {'resources': Resources, 'folders':Folders, 'course_id': course_id, 'virpath': virpath})
 
+def returnSuperiorMenu(request):
+	if 'courseid' in request.GET and request.GET['courseid'] and \
+		'path' in request.GET and request.GET['path']:
 
+		course_id = request.GET['courseid']
+		virpath = request.GET['path']
+
+		splitted = virpath.split('/')
+		num = len(splitted)
+
+		new_virpath = ''
+
+		for i in range(num-2):
+			new_virpath = new_virpath + splitted[i] + '/'
+
+		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True, virtual_path=new_virpath)
+		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False, virtual_path=new_virpath)
+
+		ret_str = fileSystemResponse(Folders, Resources)
+
+		return HttpResponse(ret_str)
+
+	else:
+		course_id = 0
+		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
+		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
+		virpath = '/'
+
+		ret_str = fileSystemResponse(Resources, Folders)
+		return HttpResponse(ret_str)
+
+def returnVirpath(request):
+	if 'id' in request.GET and request.GET['id'] and \
+		'name' in request.GET and request.GET['name'] and \
+		'path' in request.GET and request.GET['path'] and \
+		'flag' in request.GET and request.GET['flag']:
+
+		if request.GET['flag']=='1':
+			folder_name = request.GET['name']
+			virpath = request.GET['path']
+			virpath = virpath + folder_name + '/'
+
+			return HttpResponse(virpath)
+
+		elif request.GET['flag']=='2':
+			virpath = request.GET['path']
+			splitted = virpath.split('/')
+			num = len(splitted)
+			new_virpath = ''
+			for i in range(num - 2):
+				new_virpath = new_virpath + splitted[i] + '/'
+			return HttpResponse(new_virpath)
+
+def createFolder(request):
+	if __name__ == '__main__':
+		if 'course_id' in request.GET and request.GET['course_id'] and \
+			'path' in request.GET and request.GET['path'] and \
+			'folder_name' in request.GET and request.GET['folder_name']:
+
+			course_id = request.GET['course_id']
+			folder_name = request.GET['folder_name']
+			virpath = request.GET['path']
+
+			res = Resource(name=folder_name, path='new', virtual_path=virpath+folder_name+'/', course_id__id=course_id)
+			res.save()
+			return HttpResponse(str(res.id))
 

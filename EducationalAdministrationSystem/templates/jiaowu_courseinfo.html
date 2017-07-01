@@ -140,67 +140,6 @@
                                             <!--</form>-->
                                           <!--</div>-->
                     <!--</div>-->
-                    <div class="form-group">
-                                          <label class="col-sm-2 control-label"></label>
-                                          <div class="col-sm-8">
-                                            <div class="table-responsive">
-												<table class="table table-striped table-bordered table-hover" id="dataTables">
-													<thead>
-														<tr>
-															<th>姓名</th>
-															<th>学号</th>
-															<th>性别</th>
-														</tr>
-													</thead>
-													<tbody>
-														<!--<tr class="odd gradeX">-->
-															<!--<td>Trident</td>-->
-															<!--<td class="center">4</td>-->
-															<!--<td class="center">X</td>-->
-														<!--</tr>-->
-														<!--<tr class="even gradeC">-->
-															<!--<td>Trident</td>-->
-															<!--<td class="center">5</td>-->
-															<!--<td class="center">C</td>-->
-														<!--</tr>-->
-                                                        {% for s in stu %}
-														<tr class="odd gradeA">
-															<td>{{s.student_id.name}}</td>
-															<td class="center">{{s.student_id.number}}</td>
-															<td class="center">{{s.student_id.gender}}</td>
-														</tr>
-                                                        {% endfor %}
-														<!--<tr class="even gradeA">-->
-															<!--<td>Trident</td>-->
-															<!--<td class="center">6</td>-->
-															<!--<td class="center">A</td>-->
-														<!--</tr>-->
-														<!--<tr class="odd gradeA">-->
-															<!--<td>Trident</td>-->
-															<!--<td class="center">7</td>-->
-															<!--<td class="center">A</td>-->
-														<!--</tr>-->
-														<!--<tr class="even gradeA">-->
-															<!--<td>Trident</td>-->
-															<!--<td class="center">6</td>-->
-															<!--<td class="center">A</td>-->
-														<!--</tr>-->
-
-
-													</tbody>
-												</table>
-												<ul id="stupagination" class="pagination">
-													<li><a href="#"><</a></li>
-													<li><a href="#">1</a></li>
-													<li><a href="#">2</a></li>
-													<li><a href="#">3</a></li>
-													<li><a href="#">></a></li>
-												</ul>
-
-											</div>
-
-                                          </div>
-                                      </div>
 
                                   </form>
 
@@ -213,13 +152,12 @@
                           <div class="panel panel-default">
                               <div class="panel-heading">
                                   <div class="card-title">
-                                      <div class="title">课程信息</div>
+                                      <div class="title">学生名单</div>
                                   </div>
                               </div>
                               <div class="panel-body">
                                   <form class="form-horizontal" method="POST" enctype="multipart/form-data" action="/EducationalSystem/jiaowu_course/1/save/">
-
-                                        <div class="form-group">
+                                      <div class="form-group">
                                           <label class="col-sm-2 control-label">学生列表</label>
                                             <div class="col-sm-10">
                                                 <input type="file" class="col-sm-4" value="上传学生名单" name="fileupload"/>
@@ -227,6 +165,67 @@
                                                 <label style="font-weight:normal;">只支持.xlsx格式</label>
                                             </div>
                                         </div>
+                                      <div class="form-group">
+                                          <label class="col-sm-2 control-label"></label>
+                                          <div class="col-sm-8">
+                                              <div class="table-responsive">
+                                                  <table class="table table-striped table-bordered table-hover" id="dataTables">
+                                                      <thead>
+                                                      <tr>
+                                                          <th>姓名</th>
+                                                          <th>学号</th>
+                                                          <th>性别</th>
+                                                      </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                      <!--<tr class="odd gradeX">-->
+                                                      <!--<td>Trident</td>-->
+                                                      <!--<td class="center">4</td>-->
+                                                      <!--<td class="center">X</td>-->
+                                                      <!--</tr>-->
+                                                      <!--<tr class="even gradeC">-->
+                                                      <!--<td>Trident</td>-->
+                                                      <!--<td class="center">5</td>-->
+                                                      <!--<td class="center">C</td>-->
+                                                      <!--</tr>-->
+                                                      {% for s in stu %}
+                                                      <tr class="odd gradeA">
+                                                          <td>{{s.name}}</td>
+                                                          <td class="center">{{s.number}}</td>
+                                                          <td class="center">{{s.gender}}</td>
+                                                      </tr>
+                                                      {% endfor %}
+                                                      <!--<tr class="even gradeA">-->
+                                                      <!--<td>Trident</td>-->
+                                                      <!--<td class="center">6</td>-->
+                                                      <!--<td class="center">A</td>-->
+                                                      <!--</tr>-->
+                                                      <!--<tr class="odd gradeA">-->
+                                                      <!--<td>Trident</td>-->
+                                                      <!--<td class="center">7</td>-->
+                                                      <!--<td class="center">A</td>-->
+                                                      <!--</tr>-->
+                                                      <!--<tr class="even gradeA">-->
+                                                      <!--<td>Trident</td>-->
+                                                      <!--<td class="center">6</td>-->
+                                                      <!--<td class="center">A</td>-->
+                                                      <!--</tr>-->
+
+
+                                                      </tbody>
+                                                  </table>
+                                                  <ul id="stupagination" class="pagination">
+                                                      <li><a href="#"><</a></li>
+                                                      <li><a href="#">1</a></li>
+                                                      <li><a href="#">2</a></li>
+                                                      <li><a href="#">3</a></li>
+                                                      <li><a href="#">></a></li>
+                                                  </ul>
+
+                                              </div>
+
+                                          </div>
+                                      </div>
                                   </form>
 
                               </div>

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created by zhang on 2017/6/28.
  */
 // $(function () {
@@ -7,30 +7,83 @@
 $(function(){
 
     var $parent = $('#divall'),$bgcolor = $('#divall li '),$carry = $('.carrynews'),
-        $removenews = $('.remove'),$removeall = $('.removeall'),$removeright = $('#removethispc'),
+        $removenews = $('.remove'),$back = $('.back'),$removeright = $('#removethispc'),
         $namehide = $('#divall li input.changename'),$changename = $('#changename');
 
     // $removenews.hide();
 
     //新建
 
-    $carry.live('click' , function(){
-        alert('确定新建文件夹？')
+    $carry.click(function () {
+            layer.prompt({title: '请输入文件夹名称', formType: 2}, function(pass, index){
+                layer.close(index);
+                if(typeof pass === 'string'){
+                    // layer.msg(id)
+                    var id = $('.msgtransfer').attr('name');
+                    var filepath = $('.filepath').attr('name');
+                    var name = pass
+                    $.ajax({
+                        url:'???',
+                        type:'GET',
+                        data:{courseid:id,path:filepath,foldername:name},
+                        success:function (response) {
+                                $('#divall').append('<li class="myfolder"><input type="text" class="changename" name="1" value="2333"/><input class="checkbox" name="{{res.id}}" type="checkbox" value="" /></li>')
+                                // $('#divall').append(response)
+                                layer.msg("创建成功",{time: 1000 });
+                                /*绑定点击事件*/
+                                $('#divall li ').each(function () {
+                                    $(this).dblclick(function () {
+                                        if($(this).hasClass('myfolder')){
+                                            var txt=$(this).find('input[type="checkbox"]').attr("name"),foldername=$(this).find('input[type="text"]').attr("value"),courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
+                                            $.ajax({
+                                                    url: '/EducationalSystem/resource/doubleclick/',
+                                                    type: "GET",
+                                                    data: {id:txt, name:foldername, path:filepath},
+                                                    success: function (response) {
+                                                        //alert(response);
+                                                        $('#divall').html(response);
+
+                                                    },
+                                                }
+                                            )
+                                            $.ajax({
+                                                    url: '/EducationalSystem/resource/returnVirpath/',
+                                                    type: "GET",
+                                                    data: {id:txt, name:foldername, path:filepath,flag:'1'},
+                                                    success: function (response) {
+                                                        //alert(response);
+                                                        $('.filepath').attr("name",response);
+
+                                                    },
+                                                }
+                                            )
+                                        }
+                                    })
+                                })
+                            }
+                        }
+
+                    );
+                }
+            });
+    })
+
+    //返回
+    $back.live('click' , function(){
+        alert('确定返回？')
         setTimeout(
-
             function(){
-                $parent.append("<li class='myfolder'><input type='text' class='changename'\ value='新建文件夹'/><input class='checkbox' type='checkbox' value='' /></li>");
-            },500);
-    });
+				var id=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
+				$.ajax({
+					url: '/EducationalSystem/resource/待填/',
+					type: 'GET',
+					data: {courseid:id, path:filepath},
+					success: function (response) {
+					alert('进入下一级');
+					},
+					});
 
-    //清空
-    $removeall.live('click' , function(){
-        alert('确定清空所有文件夹？')
-        setTimeout(
-            function(){
-                $parent.empty();
-
-            },500);
+            },250);
     }); //新文件夹不起作用！！
 
     //复选框删除
@@ -44,8 +97,6 @@ $(function(){
             alert('确定删除文件夹？');
             setTimeout(
                 function(){
-                    if($bgcolor.hasClass('bgclocrc'))
-                    {
 						var txt='',courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
                         $('input[type="checkbox"]:checked').each(
 						function(){
@@ -63,88 +114,68 @@ $(function(){
 							});
                         $('.msgtransfer').val(txt);
                         $removenews.fadeOut(250);
-                    }else
-                    {
-                        alert('请选择文件')
-                    }
                 },250)
         }//
-
-        
-
-        //右键菜单
-        var container = document.getElementById('remove');
-        var menu = document.getElementById('menu');
-
-        /*显示菜单*/
-        function showMenu() {
-
-            var evt = window.event || arguments[0];
-
-            /*获取当前鼠标右键按下后的位置，据此定义菜单显示的位置*/
-            var rightedge = container.clientWidth-evt.clientX;
-            var bottomedge = container.clientHeight-evt.clientY;
-
-            /*如果从鼠标位置到容器右边的空间小于菜单的宽度，就定位菜单的左坐标（Left）为当前鼠标位置向左一个菜单宽度*/
-            if (rightedge < menu.offsetWidth)
-                menu.style.left = container.scrollLeft + evt.clientX - menu.offsetWidth + "px";
-            else
-            /*否则，就定位菜单的左坐标为当前鼠标位置*/
-                menu.style.left = container.scrollLeft + evt.clientX + "px";
-
-            /*如果从鼠标位置到容器下边的空间小于菜单的高度，就定位菜单的上坐标（Top）为当前鼠标位置向上一个菜单高度*/
-            if (bottomedge < menu.offsetHeight)
-                menu.style.top = container.scrollTop + evt.clientY - menu.offsetHeight + "px";
-            else
-            /*否则，就定位菜单的上坐标为当前鼠标位置*/
-                menu.style.top = container.scrollTop + evt.clientY + "px";
-
-            /*设置菜单可见*/
-            menu.style.display = "block";
-            LTEvent.addListener(menu,"contextmenu",LTEvent.cancelBubble);
-        }
-        /*隐藏菜单*/
-        function hideMenu() {
-            menu.style.display = 'none';
-        }
-        LTEvent.addListener(container,"contextmenu",LTEvent.cancelBubble);
-        LTEvent.addListener(container,"contextmenu",showMenu);
-        LTEvent.addListener(document,"click",hideMenu);
-
-        //
-        $changename.live('click' , function(){
-
-            if($bgcolor.hasClass('bgclocrc'))
-            {
-                $('#remove').find('.changename').val('');
-                $('#remove').find('.changename').css('border','1px solid #FF0000')
-            }else
-            {
-                alert('请选择文件')
-            }
-
-        });
-
     });
 
     //增加双击事件
     $bgcolor.each(function () {
         $(this).dblclick(function () {
-            // $(this).hide()
             if($(this).hasClass('myfolder')){
-                var txt=$('input[type="checkbox"]').attr("name"),courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
-                // alert("double click");
-                // alert(txt)
-                // $(this).hide()
-                txt+=',';
-                txt+=courseid;
-                $.ajax({
+                var txt=$(this).find('input[type="checkbox"]').attr("name"),foldername=$(this).find('input[type="text"]').attr("value"),courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
+				$.ajax({
                     url: '/EducationalSystem/resource/doubleclick/',
                     type: "GET",
-                    data: {doubleclick:txt, path:filepath}
+                    data: {id:txt, name:foldername, path:filepath},
+                    success: function (response) {
+                                //alert(response);
+                                $('#divall').html(response);
+								//$('#divall').html('<li class="myfile"><input type="text" class="changename" name="1" value="{{res.name}}"disabled="disabled"/><input class="checkbox" name="{{res.3id}}" type="checkbox" value="" /></li>');
+							    //为下次点击绑定事件
+				 $('#divall li ').each(function () {
+					$(this).dblclick(function () {
+						if($(this).hasClass('myfolder')){
+							var txt=$(this).find('input[type="checkbox"]').attr("name"),foldername=$(this).find('input[type="text"]').attr("value"),courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
+							$.ajax({
+								url: '/EducationalSystem/resource/doubleclick/',
+								type: "GET",
+								data: {id:txt, name:foldername, path:filepath},
+								success: function (response) {
+											//alert(response);
+											$('#divall').html(response);
+
+										},
+								}
+								)
+							$.ajax({
+								url: '/EducationalSystem/resource/returnVirpath/',
+								type: "GET",
+								data: {id:txt, name:foldername, path:filepath,flag:'1'},
+								success: function (response) {
+											//alert(response);
+											$('.filepath').attr("name",response);
+
+										},
+								}
+							)
+						}
+					})
+				})
+				//
+							},
+                    }
+				)
+				$.ajax({
+                    url: '/EducationalSystem/resource/returnVirpath/',
+                    type: "GET",
+                    data: {id:txt, name:foldername, path:filepath,flag:'1'},
+                    success: function (response) {
+                                //alert(response);
+								$('.filepath').attr("name",response);
+							},
                     }
                 )
-                location.reload();
+
             }
         })
     })

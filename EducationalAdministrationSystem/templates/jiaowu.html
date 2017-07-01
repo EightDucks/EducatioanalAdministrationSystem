@@ -41,6 +41,9 @@
           <div class="header">
             <h1 class="page-header">
                 教务管理
+                <small>
+                  学期名称{{t_id}}
+                </small>
             </h1>
           </div>
 
@@ -62,9 +65,10 @@
                                     <!--<option>2017学年上学期</option>-->
                                     <!--<option>2017学年下学期</option>-->
                                     <!--<option>2018学年上学期</option>-->
+                                    <option selected="selected">请选择……</option>
                                     {% for t in terms %}
                                     {% if t.id == t_id %}
-                                    <option value="{{t.id}}" selected="selected">{{t.name}}</option>
+                                    <option value="{{t.id}}">{{t.name}}</option>
                                     {% else %}
                                     <option value="{{t.id}}">{{t.name}}</option>
                                     {% endif %}
