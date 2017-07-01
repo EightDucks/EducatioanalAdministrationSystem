@@ -26,7 +26,6 @@ urlpatterns = {
     url(r'^student/$', views.displayCourseForStudent, name='student'),
     url(r'^teacher/$', views.displayCourseForTeacher, name='teacher'),
     url(r'^jiaowu_course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
-    url(r'^jiaowu_course/(\d+)/save/$', views.addCourseStudent, name='addCourseStudent'),
 
     url(r'^teacher/CouAsn/(\d+)/$', views.displayHwForTea, name='displayHwForTea'),
     url(r'^teacher/addAsn/(\d+)/$', views.displayAddAsn, name='displayAddAsn'),
@@ -42,7 +41,6 @@ urlpatterns = {
 
     url(r'^student/upldAsn/(\d+)/$', views.uploadHomework, name='uploadAssignment'),
     url(r'^teacher/dldAsn/asn_id(\d+)tid(\d+)/$', views.downloadHomework, name='downloadAssignment'),
-    url(r'^teacher/dldAsn/a_id(\d+)/$', views.downloadAllHomework, name='downloadAllHomework'),
 
     url(r'^teacher/setGd/$', views.displaySetGrade, name='displaySetGrade'),
 
@@ -55,4 +53,6 @@ urlpatterns = {
     url(r'resource/delete/$', views.deleteResource, name='deleteResource'),
     url(r'resource/upload/$', views.uploadResource, name='upload'),
     url(r'resource/doubleclick/$', views.doubleclick, name='doubleclick'),
+    url(r'resource/returnSuperiorMenu/$', views.returnSuperiorMenu, name='returnSuperiorMenu'),
+    url(r'resource/returnVirpath/$', views.returnVirpath, name='returnVirpath')
 }
