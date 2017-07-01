@@ -1,7 +1,9 @@
 # coding=utf-8
 import os
+import  tempfile, zipfile, zipstream
 import time
 from django.shortcuts import render
+from wsgiref.util import FileWrapper
 
 from .models import *
 
@@ -612,6 +614,7 @@ def uploadHomework(request,asn_id):
 
 				baseDir = os.path.dirname(os.path.abspath(__name__))
 				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
+				##filepath = os.path.join("/static/files/", file_obj.name)
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
 				# asn_res.save()
@@ -629,28 +632,41 @@ def uploadHomework(request,asn_id):
 		return HttpResponseRedirect("/EducationalSystem/student/")
 	return HttpResponseRedirect("/EducationalSystem/student/")
 
+# def downloadHomework(request, asn_id, tid):
+# 		# file_obj = request.FILES.getlist(asdfh)
+# 		team_asn = Team_Assignment.objects.get(team_id = tid, asn_id = asn_id)
+# 		asn_res =  Assignment_Resource.objects.filter(team_asn_id = team_asn)
+#
+# 		asn_res_path = asn_res.path
+# 		#asn_res_id = asn_res.team_asn_id
+#
+# 		def fileIterator(fpath, chunk_size = 1024):
+# 			with open(fpath) as f:
+# 				while(True):
+# 					print('yes')
+# 					c = f.read(chunk_size)
+# 					if c:
+# 						yield c
+# 					else:
+# 						break
+#
+#
+# 		aresponse = StreamingHttpResponse(fileIterator(asn_res_path))
+# 		aresponse['Content-Type'] = 'application/octet-stream'
+# 		aresponse['Content-Disposition'] = 'attachment;filename = "{0}"'.format(asn_res_path)
+# 		return aresponse
+
 def downloadHomework(request, asn_id, tid):
-		# file_obj = request.FILES.getlist(asdfh)
-		team_asn = Team_Assignment.objects.get(team_id = tid, asn_id = asn_id)
-		asn_res =  Assignment_Resource.objects.get(team_asn_id = team_asn.id)
-
-		asn_res_path = asn_res.path
-		asn_res_id = asn_res.team_asn_id
-
-		def fileIterator(fpath, chunk_size = 1024):
-			with open(fpath) as f:
-				while(True):
-					print('yes')
-					c = f.read(chunk_size)
-					if c:
-						yield c
-					else:
-						break
-
-		aresponse = StreamingHttpResponse(fileIterator(asn_res_path))
-		aresponse['Content-Type'] = 'application/octet-stream'
-		aresponse['Content-Disposition'] = 'attachment;filename = "{0}"'.format(asn_res_path)
-		return aresponse
+    team_asn = Team_Assignment.objects.get(team_id=tid, asn_id=asn_id)
+    asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
+    utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
+    for a_r in asn_res:
+        tmp_dl_path = a_r.path
+        utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
+    # utilities.close()
+    response = StreamingHttpResponse(utilities, content_type='application/zip')
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
+    return response
 
 def displaySetGrade(request):
 	return render_to_response("teacher_setgrade.html")
