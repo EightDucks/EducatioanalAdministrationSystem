@@ -872,4 +872,3 @@ def createFolder(request):
 			res = Resource(name=folder_name, path='new', virtual_path=virpath+folder_name+'/', course_id__id=course_id)
 			res.save()
 			return HttpResponse(str(res.id))
-
