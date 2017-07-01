@@ -156,17 +156,17 @@
                                             <!--内容都在tbody里加-->
                                             <form>
                                               <tr class="gradeA">
-                                                  <td class="center">{{t.id}}</td>
-                                                  <td>{{t.name}}</td>
+                                                  <td class="center">{{t.team_id.id}}</td>
+                                                  <td>{{t.team_id.name}}</td>
                                                   <td class="center">已提交</td>
                                                   <td>2017-6-26 12:00:00</td>
                                                   <td class="center">未批改</td>
                                                   <td>-</td>
                                                   <td class="center">
-                                                      <input type="text" style="display:none" name="team_id" value="{{t.id}}">
+                                                      <input type="text" style="display:none" name="team_id" value="{{t.team_id.id}}">
                                                       <!--<input type="submit" class="btn btn-info btn-xs" value="详细信息"> </input>-->
-                                                      <input type="submit" class="btn btn-primary btn-xs" value="设置分数与评价"> </input>
-                                                      <button type="submit" class="btn btn-success btn-xs" onclick="location.href='/EducationalSystem/teacher/dldAsn/asn_id{{asn.id}}tid{{t.id}}/'">下载原始作业附件</button>
+                                                      <button type="submit" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/setGd/TA_id{{t.id}}/'">设置分数与评价</button>
+                                                      <button type="submit" class="btn btn-success btn-xs" onclick="location.href='/EducationalSystem/teacher/dldAsn/asn_id{{asn.id}}tid{{t.team_id.id}}/'">下载原始作业附件</button>
                                                   </td>
                                               </tr>
                                             </form>

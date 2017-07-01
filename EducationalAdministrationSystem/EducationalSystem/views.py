@@ -1,9 +1,18 @@
 # coding=utf-8
 import os
+
+import xlrd		#pip3 install xlrd
+import xlwt		#pip3 install xlwt
+import random
+
 import  tempfile, zipfile, zipstream
+
 import time
+
 from django.shortcuts import render
 from wsgiref.util import FileWrapper
+
+from datetime import date, datetime
 
 from .models import *
 
@@ -409,24 +418,24 @@ def setTeamAssignmentMark(request):
 		TA_tmp.save()
 
 #给作业成绩页面：教师
-def displaySetGrade(request):
-	return render_to_response("teacher_setgrade.html")
+def displaySetGrade(request, TA_id):
+	ta = Team_Assignment.objects.get(id = TA_id)
+	return render(request, "teacher_setgrade.html", {'ta':ta})
+	#return render_to_response("teacher_setgrade.html")
 
 #给评价与成绩：教师
 def setTeamAssignmentCommentMark(request,TA_id):
-	if 'team_name' in request.GET and request.GET['team_name'] and\
-		'homework_name' in request.GET and request.GET['homework_name'] and \
-		'homework_grade' in request.GET and request.GET['homework_grade'] and \
+	if 	'homework_grade' in request.GET and request.GET['homework_grade'] and \
 		'homework_comment' in request.GET and request.GET['homework_comment']:
 
 		comment = request.GET['homework_comment']
 		mark = request.GET['homework_grade']
 
-
-		TA_tmp = Team_Assignment(id=TA_id)
+		TA_tmp = Team_Assignment.objects.get(id=TA_id)
 		TA_tmp.comment = comment
 		TA_tmp.mark = mark
 		TA_tmp.save()
+		return HttpResponseRedirect("/EducationalSystem/teacher/Asn/" + str(TA_tmp.asn_id.id) + "/")
 
 #展示添加作业页面，单独页面
 def displayAddAsn(request, cou_id):
@@ -513,7 +522,8 @@ def displayHw(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
 	cou = asn.course_id
 	tem = Team.objects.filter(course_id=cou)
-	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn, 'tem':tem, 'cou':cou})
+	tas = Team_Assignment.objects.filter(team_id__in = tem, asn_id = asn)
+	return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn, 'tem':tas, 'cou':cou, })
 
 # 删除作业
 def deleteAssignment(request, asn_id):
@@ -527,7 +537,7 @@ def deleteAssignment(request, asn_id):
 	asn = Assignment.objects.get(id=asn_id)
 	cou_id = asn.course_id.id
 	asn.delete()
-	return HttpResponseRedirect("/EducationalSystem/teacher/CouAsn/" + str(cou_id))
+	return HttpResponseRedirect("/EducationalSystem/teacher/CouAsn/" + str(cou_id) +"/")
 
 #从excel中添加课程学生表条目
 def addCourseStudent(request, cid):
@@ -664,7 +674,7 @@ def uploadHomework(request,asn_id):
 
 				baseDir = os.path.dirname(os.path.abspath(__name__))
 				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
-				##filepath = os.path.join("/static/files/", file_obj.name)
+
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
 				# asn_res.save()
@@ -706,6 +716,7 @@ def uploadHomework(request,asn_id):
 # 		aresponse['Content-Disposition'] = 'attachment;filename = "{0}"'.format(asn_res_path)
 # 		return aresponse
 
+
 def downloadHomework(request, asn_id, tid):
 	team_asn = Team_Assignment.objects.get(team_id=tid, asn_id__id=asn_id)
 	asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
@@ -730,8 +741,17 @@ def downloadAllHomework(request, asn_id):
 	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")  # 需要更改文件名
 	return response
 
-def displaySetGrade(request):
-	return render_to_response("teacher_setgrade.html")
+def downloadHomework(request, asn_id, tid):
+	team_asn = Team_Assignment.objects.get(team_id=tid, asn_id=asn_id)
+	asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
+	utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
+	for a_r in asn_res:
+		tmp_dl_path = a_r.path
+		utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
+	# utilities.close()
+	response = StreamingHttpResponse(utilities, content_type='application/zip')
+	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
+	return response
 
 #展示学生课程信息页面，单独页面
 def displayCouForStu(request, cou_id):
@@ -791,7 +811,6 @@ def doubleclick(request):
 		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
 		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
 		virpath = '/'
-
 		ret_str = fileSystemResponse(Resources, Folders)
 		return HttpResponse(ret_str)
 		#return render(request, 'resources.html',
@@ -863,3 +882,4 @@ def createFolder(request):
 			res = Resource(name=folder_name, path='new', virtual_path=virpath+folder_name+'/', course_id__id=course_id)
 			res.save()
 			return HttpResponse(str(res.id))
+
