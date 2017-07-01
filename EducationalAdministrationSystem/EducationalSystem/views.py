@@ -77,8 +77,10 @@ def jiaowu_addsemester(request):
 def jiaowu_courseinfo(request, cou_id):
 	course = Course.objects.get(id=cou_id)
 	tid = course.term_id
+	cou_stu = Course_Student.objects.filter(course_id=course)
+	#stu_id = cou_stu.student_id
 	#term = Term.objects.get(id=tid)
-	return render(request, "jiaowu_courseinfo.html", {'course':course, 'term':tid})
+	return render(request, "jiaowu_courseinfo.html", {'course':course, 'term':tid, 'stu':cou_stu})
 
 # 学生课程，单独页面
 def displayCourseForStudent(request):
@@ -213,7 +215,7 @@ def displayCourseForEA(request, t_id):
 		else:
 			cou1 = cou[0:3]
 			cou2 = cou[3:6]
-		return render(request, "jiaowu.html", {'terms': terms, 'cou1': cou1, 'cou2': cou2})
+		return render(request, "jiaowu.html", {'terms': terms, 'cou1': cou1, 'cou2': cou2, 't_id': t_id})
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
 
@@ -511,19 +513,47 @@ def deleteAssignment(request, asn_id):
 	return HttpResponseRedirect("/EducationalSystem/teacher/CouAsn/" + str(cou_id))
 
 #从excel中添加课程学生表条目
-def addCourseStudent(request):
-	if 'path' in request.GET and request.GET['path']:
-		path = request.GET['path']
+def addCourseStudent(request, cid):
+	if request.method == 'POST' :
+		print('cnm')
+		myFiles = request.FILE["fileupload"]
 
-		num, recs = readFromXLSX(path)
+
+		baseDir = os.path.dirname(os.path.abspath(__name__))
+		filepath = os.path.join(baseDir, 'static', 'files', myFiles.name)
+		destination = open(filepath, 'wb+')
+
+
+		for chunk in myFiles.chunks():
+			destination.write(chunk)
+
+		str = myFiles.name.split('.')
+		type = str[-1]
+		if type == "xlsx":
+			num, recs = readFromXLSX(filepath)
+		else:
+			return
 
 		for i in range(num):
-			c_id = recs[i][0].value
-			stu_id = recs[i][1].value
+			#c_id = recs[i][0].value
+			stu_id = recs[i][0].value
 			#stu_name = recs[i][2].value
-
-			cour_stu = Course_Student(course_id__id=c_id, stu_id__id=stu_id)
-			cour_stu.save()
+			cur_stu = Course_Student.objects.filter(course_id__id = cid, stu_id__id_number = stu_id)
+			if cur_stu:
+				continue
+			else:
+				cou = Course.objects.get(id=cid)
+				stu = Student.objects.filter(number=stu_id)
+				if stu:
+					stu1 = Student.objects.get(number=stu_id)
+					cour_stu = Course_Student(course_id=cou, stu_id=stu1)
+					cour_stu.save()
+				else:
+					continue
+		return HttpResponseRedirect('/EductionalSystem/jiaowu_course/' + str(cid) +"/")
+	else:
+		print("hhh")
+		return HttpResponseRedirect('/EductionalSystem/jiaowu_course/' + str(cid) +"/")
 
 def setCourseInfo(request, course_id):
 	print('team_uplimit' in request.GET, 'team_downlimit' in request.GET,
@@ -657,16 +687,28 @@ def uploadHomework(request,asn_id):
 # 		return aresponse
 
 def downloadHomework(request, asn_id, tid):
-    team_asn = Team_Assignment.objects.get(team_id=tid, asn_id=asn_id)
-    asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
-    utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
-    for a_r in asn_res:
-        tmp_dl_path = a_r.path
-        utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
-    # utilities.close()
-    response = StreamingHttpResponse(utilities, content_type='application/zip')
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
-    return response
+	team_asn = Team_Assignment.objects.get(team_id=tid, asn_id__id=asn_id)
+	asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
+	utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
+	for a_r in asn_res:
+		tmp_dl_path = a_r.path
+		utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
+	# utilities.close()
+	response = StreamingHttpResponse(utilities, content_type='application/zip')
+	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
+	return response
+
+def downloadAllHomework(request, asn_id):
+	team_asn = Team_Assignment.objects.filter(asn_id__id = asn_id)
+	asn_res = Assignment_Resource.objects.filter(team_asn_id__in=team_asn)
+	utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
+	for a_r in asn_res:
+		tmp_dl_path = a_r.path
+		utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
+	# utilities.close()
+	response = StreamingHttpResponse(utilities, content_type='application/zip')
+	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")  # 需要更改文件名
+	return response
 
 def displaySetGrade(request):
 	return render_to_response("teacher_setgrade.html")
