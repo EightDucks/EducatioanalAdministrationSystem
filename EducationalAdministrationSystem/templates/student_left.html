@@ -56,24 +56,23 @@ $(document).ready(function(){
     window.location.pathname=content;
   })
   $('#left_teamlist').click(function(){
-    var content="/EducationalSystem/teacher/allTeam/";
+    var content="/EducationalSystem/student/allTeam/";
     content+=i;
     content+="/";
     window.location.pathname=content;
   })
-  /*$('#left_myteam').click(function(){
-    var content="/EducationalSystem/teacher/teamDt/";
-    // 后面传的值为team_id
+  $('#left_myteam').click(function(){
+    var content="/EducationalSystem/student/team/";
     content+=i;
     content+="/";
     window.location.pathname=content;
-  })*/
-  /*$('#left_addteam').click(function(){
-    var content="/EducationalSystem/teacher/team/";
+  })
+  $('#left_addteam').click(function(){
+    var content="/EducationalSystem/student/applyCreateTeam/";
     content+=i;
     content+="/";
     window.location.pathname=content;
-  })*/
+  })
   $("#magry_chat").click(function () {
       var content="/EducationalSystem/chat_index/";
     content+=i;

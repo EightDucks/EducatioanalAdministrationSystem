@@ -16,13 +16,7 @@
                 <a href="#" id="magry_team"><i class="fa fa-fw fa-file"></i> 团队<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#">团队列表</a>
-                    </li>
-                    <li>
-                        <a href="#">团队审批</a>
-                    </li>
-                    <li>
-                        <a href="#">团队微调</a>
+                        <a href="#" id="left_teamlist">团队列表</a>
                     </li>
                 </ul>
             </li>
@@ -55,12 +49,12 @@ $(document).ready(function(){
     content+="/";
     window.location.pathname=content;
   })
-  /*$('#magry_team').click(function(){
-    var content="/EducationalSystem/teacher/course/";
+  $('#left_teamlist').click(function(){
+    var content="/EducationalSystem/teacher/courseTeam/";
     content+=i;
     content+="/";
     window.location.pathname=content;
-  })*/
+  })
   $("#magry_chat").click(function () {
       var content="/EducationalSystem/chat_index/";
     content+=i;
