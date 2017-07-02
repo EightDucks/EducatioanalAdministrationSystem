@@ -1106,7 +1106,11 @@ def disPlayTeamInfoForTeacher(request, team_id):
 			# 上该课的学生_课程
 			cs_have_course = Course_Student.objects.filter(course_id=cou_id)
 			# 有团队的学生_团队
-			ts_have_team = Student_Team.objects.filter(course_id=cou_id)
+			ts = Student_Team.objects.all()
+			ts_have_team = []
+			for i in ts:
+				if i.team_id.course_id.id == cou_id:
+					ts_have_team.append(i)
 			# 无团队的学生-查找
 			student_have_course = []
 			for st in cs_have_course:
@@ -1117,7 +1121,7 @@ def disPlayTeamInfoForTeacher(request, team_id):
 			# 无团队的学生
 			student_have_no_team=list(set(student_have_course).difference(set(student_have_team)))
 			# 团队学生列表
-			ts_member=Student_Team.objects.filter(course_id=cou_id, team_id=team_id)
+			ts_member=Student_Team.objects.filter(team_id=team_id)
 			student_teammember = []
 			for st in ts_member:
 				student_teammember.append(st.student_id)
