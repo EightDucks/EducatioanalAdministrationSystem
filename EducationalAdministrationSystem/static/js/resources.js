@@ -9,18 +9,18 @@ $(function(){
     var $parent = $('#divall'),$bgcolor = $('#divall li '),$carry = $('.carrynews'),
         $removenews = $('.remove'),$back = $('.back'),$removeright = $('#removethispc'),
         $namehide = $('#divall li input.changename'),$changename = $('#changename'),
-        $uploadbutton=$('#uploadbutton'),$uploadfile=$('#exampleInputFile');
+        $uploadbutton=$('#uploadbutton'),$uploadfile=$('#exampleInputFile'),
+		$mydownload=$('#downloadbutton');
 
     // $removenews.hide();
 	// 下载
     $mydownload.click(function () {
-        // alert('233');
         var txt='',courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
         $('input[type="checkbox"]:checked').each(
             function(){
-				if($(this).hasClass('myfolder'))
+				if($(this).parent().find('input[type="text"]').hasClass('myfolder'))
 				{
-					alert("包括了文件夹")
+					alert("包括了文件夹");
 					return false
 				}
                 txt+=$(this).attr("name")+',';
@@ -32,7 +32,7 @@ $(function(){
         $.ajax({
             url: '/EducationalSystem/resource/???/',
             type: 'GET',
-            data: {del: txt, path:filepath},
+            data: {down: txt, path:filepath},
             success: function (response) {
 				
                 alert('下载成功');
