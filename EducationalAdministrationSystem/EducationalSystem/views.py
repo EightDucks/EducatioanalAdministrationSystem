@@ -888,3 +888,66 @@ def createFolder(request):
 			res.save()
 			return HttpResponse(str(res.id))
 
+#ABOUT TEAM
+def displayMyTeam(request, cid):
+	if "id" in request.session and request.session["id"] and \
+		"type" in request.session and request.session["type"] == "s":
+		stu_id = request.session["id"]
+		stu_tem = Student_Team.objects.get(team_id__course_id__id=cid, student_id=stu_id)
+		tem = stu_tem.team_id
+		stus = Student_Team.objects.filter(team_id=tem)
+
+		is_manager = Team.object.fliter(id=tem, manager_id=stu_id)
+		sts = ""
+		if (len(is_manager) == 0):
+			stu_dt = Student_Team.objects.get(team_id=tem, student_id__id=stu_id)
+			if stu_dt.is_approved == False:
+				sts = "申请中"
+			else:
+				sts = "申请通过"
+			# is not a manager
+		else:
+			# is a manager
+			if tem.status == 0:
+				sts = "组建中"
+			elif tem.status == 1:
+				sts = "未审核"
+			elif tem.status == 2:
+				sts = "审核通过"
+			elif tem.status == 3:
+				sts = "审核未通过"
+		return render(request, "student_course_myteam.html", {"tem":tem, "stus":stus, "status":sts})
+	return HttpResponseRedirect('/EducationalSystem/')
+
+def displayTeamDt(request, tem_id):
+	if "id" in request.session and request.session["id"] and \
+		"type" in request.session and request.session["type"] == "s":
+		stu_id = request.session["id"]
+		tem = Team.objects.get(id=tem_id)
+		sts = ""
+		if tem.status == 0:
+			sts = "组建中"
+		elif tem.status == 1:
+			sts = "未审核"
+		elif tem.status == 2:
+			sts = "审核通过"
+		elif tem.status == 3:
+			sts = "审核未通过"
+		stus = Student_Team.objects.filter(team_id=tem)
+		return render(render, "student_course_teamdetails.html", {"tem":tem, "stus":stus, "status":sts})
+	return HttpResponseRedirect("/EducationalSystem/")
+
+def teamApply(request, tem_id):
+	if "id" in request.session and request.session["id"] and \
+		"type" in request.session and request.session["type"] == "s":
+		stu_id = request.session["id"]
+		tem = Team.objects.get(id=tem_id)
+		cou = tem.course_id.id
+		stu = Student.objects.get(id=stu_id)
+		stu_tem = Student_Team(team_id=tem, student_id=stu, is_approved=False)
+		stu_tem.save()
+		return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou) +"/")
+	return HttpResponseRedirect("/EducationalSystem/")
+
+def displayAllTeam(request):
+	return render_to_response("student_course_teamlist.html")
