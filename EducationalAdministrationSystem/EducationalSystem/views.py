@@ -1133,7 +1133,9 @@ def disPlayTeamInfoForTeacher(request, team_id):
 			student_teammember = []
 			for st in ts_member:
 				student_teammember.append(st.student_id)
-			return render(request, "teacher_course_team_teaminfo.html", {'cou':team.course_id, 'team':team, 'student_have_no_team':student_have_no_team, 'teammember': student_teammember})
+			uplimit = team.course_id.team_uplimit
+			team_member_cnt=ts_member.count()
+			return render(request, "teacher_course_team_teaminfo.html", {'cou':team.course_id, 'team':team, 'student_have_no_team':student_have_no_team, 'teammember': student_teammember, 'uplimit':uplimit, 'cnt':team_member_cnt})
 	else:
 		# 禁止访问
 		return HttpResponseRedirect("/EducationalSystem/")

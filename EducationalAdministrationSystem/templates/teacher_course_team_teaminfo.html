@@ -146,6 +146,7 @@
                                     </div>
                                   </div>
                                   <br>
+                                  {% if cnt >= uplimit %}
                                   <!--禁止信息，满员时提醒-->
                                   <label class="col-sm-2 control-label"></label>
                                   <div class="col-sm-10">
@@ -155,7 +156,7 @@
                                   </div>
                                   <!--禁止信息结束-->
                                 </div>
-
+                                {% else %}
                                 <div class="form-group" id="list_student_noteam">
                                   <label class="col-sm-2 control-label"></label>
                                   <div class="col-sm-10">
@@ -196,7 +197,7 @@
                                     </div>
                                   </div>
                                 </div>
-
+                                {% endif %}
                               </div>
 
                           </div>
