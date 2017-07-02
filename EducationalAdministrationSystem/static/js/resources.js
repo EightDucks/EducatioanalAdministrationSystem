@@ -62,7 +62,7 @@ $(function(){
             //}
 
             // 提交ajax的请求
-            alert('ajax ready .');
+            //alert('ajax ready .');
             $.ajax({
                 url:'/EducationalSystem/resource/upload/',
                 type:'POST',
@@ -72,9 +72,10 @@ $(function(){
                 contentType: false, // tell jquery not to set contentType
                 success: function(callback) {
 					$('#divall').append(callback);
+					alert('上传成功');
                 }
             }); // end ajax
-            alert('ajax end.');
+            //alert('ajax end.');
     })
     //新建
 
@@ -138,7 +139,6 @@ $(function(){
 
     //返回
     $back.live('click' , function(){
-        alert('确定返回？')
         setTimeout(
             function(){			
 				/*$('#divall').html('<li class="myfolder"><input type="text" class="changename" name="1" value="{{res.name}}"disabled="disabled"/><input class="checkbox" name="{{res.3id}}" type="checkbox" value="" /></li>');
@@ -199,12 +199,11 @@ $(function(){
                     type: "GET",
                     data: {id:courseid, path:filepath,flag:'2'},
                     success: function (response) {
-                                alert(response);
 								$('.filepath').attr("name",response);
 							},
                     }
                 )
-				alter("返回结束")
+
 				
             },250);
     }); //新文件夹不起作用！！

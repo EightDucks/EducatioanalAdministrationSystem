@@ -614,8 +614,9 @@ def uploadResource(request):
 	# 	f.write(chunk)
 	# f.close()
 	# return HttpResponse('ok')
-	if request.method == 'POST' :
+	if request.method == 'POST':
 		myFiles = request.FILES.getlist("file", None)
+		print(myFiles)
 		course_id = request.POST.get('courseid')
 		virpath = request.POST.get('path')
 		cou = Course.objects.get(id=course_id)
