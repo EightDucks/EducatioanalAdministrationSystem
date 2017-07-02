@@ -8,74 +8,10 @@ $(function(){
 
     var $parent = $('#divall'),$bgcolor = $('#divall li '),$carry = $('.carrynews'),
         $removenews = $('.remove'),$back = $('.back'),$removeright = $('#removethispc'),
-        $namehide = $('#divall li input.changename'),$changename = $('#changename'),
-        $uploadbutton=$('#uploadbutton'),$uploadfile=$('#exampleInputFile');
+        $namehide = $('#divall li input.changename'),$changename = $('#changename');
 
     // $removenews.hide();
-	// 下载
-    $mydownload.click(function () {
-        // alert('233');
-        var txt='',courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
-        $('input[type="checkbox"]:checked').each(
-            function(){
-				if($(this).hasClass('myfolder'))
-				{
-					alert("包括了文件夹")
-					return false
-				}
-                txt+=$(this).attr("name")+',';
-                
-            })
-        txt+=courseid;
-        alert(txt);
-        //发起ajax删除请求
-        $.ajax({
-            url: '/EducationalSystem/resource/???/',
-            type: 'GET',
-            data: {del: txt, path:filepath},
-            success: function (response) {
-				
-                alert('下载成功');
-            },
-        });
-        $('.msgtransfer').val(txt);
-    })
-	
-	//上传
-	$uploadbutton.click(function () {
-            //alert($uploadfile.attr("value"));
-            var courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
-			var form_data = new FormData();
-            //var file_info = $('#exampleInputFile')[0].files[0]
-            var length=$('#exampleInputFile')[0].files.length;
-            for(var i=0;i<length;i++)
-            {
-                form_data.append('file',$('#exampleInputFile')[0].files[i]);
-            }
-            //form_data.append('file',file_info);
-            form_data.append('path',filepath);
-            form_data.append('courseid',courseid);
-            alert($('#exampleInputFile')[0].files[0]);
-            //if(file_info==undefined)暂且不许要判断是否有附件
-                //alert('你没有选择任何文件');
-                //return false
-            //}
 
-            // 提交ajax的请求
-            alert('ajax ready .');
-            $.ajax({
-                url:'/EducationalSystem/resource/upload/',
-                type:'POST',
-               // data: {file:form_data,courseid:id,path:filepath},
-                data: form_data,
-                processData: false,  // tell jquery not to process the data
-                contentType: false, // tell jquery not to set contentType
-                success: function(callback) {
-					$('#divall').append(callback);
-                }
-            }); // end ajax
-            alert('ajax end.');
-    })
     //新建
 
     $carry.click(function () {
