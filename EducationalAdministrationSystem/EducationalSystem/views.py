@@ -687,7 +687,7 @@ def deleteResource(request):
 
 		if 'type' in request.session and request.session['type'] == 's':
 			sen_type = 's'
-		elif 'type' in request.session request.session['type'] == 't':
+		elif 'type' in request.session and request.session['type'] == 't':
 			sen_type = 't'
 		else:
 			sen_type = 'err'
@@ -701,7 +701,7 @@ def deleteResource(request):
 		virpath = '/'
 		if 'type' in request.session and request.session['type'] == 's':
 			sen_type = 's'
-		elif 'type' in request.session request.session['type'] == 't':
+		elif 'type' in request.session and request.session['type'] == 't':
 			sen_type = 't'
 		else:
 			sen_type = 'err'
