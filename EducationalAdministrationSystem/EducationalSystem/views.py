@@ -889,6 +889,20 @@ def createFolder(request):
 				res.name + '"/><input class="checkbox" name="' + str(res.id) + '" type="checkbox" value="" /></li>'
 		return HttpResponse(ret_str)
 
+def displayInfo(request):
+	if "id" in request.session and request.session["id"] and "type" in request.session and request.session["type"]:
+		user_id = request.session["id"]
+		user_type = request.session["type"]
+		if user_type == "s":
+			stu = Student.objects.get(id=user_id)
+			return render(request, "student_profile.html", {"stu":stu})
+		elif user_type == "t":
+			tea = Teacher.objects.get(id=user_id)
+			return render(request, "teacher_and_admin_profile.html", {"user":tea})
+		elif user_type == "e":
+			ea = EduAdmin.objects.get(id=user_id)
+			return render(request, "teacher_and_admin_profile.html", {"user":ea})
+
 def chat_index(request,cou_id):
 	cou = Course.objects.get(id=cou_id)
 	chats = list(Chat.objects.filter(courseid=cou_id))[-10:]
