@@ -59,6 +59,18 @@ urlpatterns = {
     url(r'resource/returnVirpath/$', views.returnVirpath, name='returnVirpath'),
     url(r'resource/createFolder/$', views.createFolder, name='createFolder'),
 
+<<<<<<< HEAD
     url(r'student/applyCreateTeam/(\d+)/save/$', views.applyCreateTeam, name='applyCreateTeam'),
     url(r'student/applyCreateTeam/(\d+)/$', views.displayMyTeam, name='displayMyTeam'),
+=======
+    #ABOUT TEAM
+    url(r'student/team/(\d+)/$', views.displayMyTeam, name='displayMyTeam'),
+    url(r'student/teamDt/$', views.displayTeamDt, name='displayTeamDt'),
+    url(r'student/apply/$', views.teamApply, name='teamApply'),
+    url(r'student/allTeam/$', views.displayAllTeam, name='displayAllTeam'),
+
+
+    url(r'^chat_index/(\d+)/$',views.chat_index, name='chat_index'),
+    url(r'^chat/$',views.chat, name='chat'),
+>>>>>>> ba87a6558dba763b026dda6c1c6b004f2ad3c3a2
 }

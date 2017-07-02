@@ -60,14 +60,16 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label ">团队名称</label>
                                 <div class="col-sm-10">
-                                  <label class="control-label" style="font-weight:normal;">StromTeam</label>
+                                  <label class="control-label" style="font-weight:normal;">{{tem.name}}</label>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">审核状态</label>
                                 <div class="col-sm-10">
-                                  <label class="control-label" style="font-weight:normal;">队长审核中</label>
+                                  <label class="control-label" style="font-weight:normal;">
+                                      {{status}}
+                                  </label>
                                 </div>
                             </div>
                         </form>
@@ -95,12 +97,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for s in stus %}
                                         <tr class="gradeA">
-                                            <td>{{a.name}}</td>
-                                            <td>{{a.duetime}}</td>
-                                            <td>男</td>
+                                            <td>{{s.student_id.name}}</td>
+                                            <td>{{s.student_id.number}}</td>
+                                            <td>{{s.student_id.gender}}</td>
+                                            {% if forloop.first %}
                                             <td class="center">队长</td>
+                                            {% else %}
+                                             <td class="center">队员</td>
+                                            {% endif %}
                                         </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
