@@ -614,8 +614,9 @@ def uploadResource(request):
 	# 	f.write(chunk)
 	# f.close()
 	# return HttpResponse('ok')
-	if request.method == 'POST' :
+	if request.method == 'POST':
 		myFiles = request.FILES.getlist("file", None)
+		print(myFiles)
 		course_id = request.POST.get('courseid')
 		virpath = request.POST.get('path')
 		cou = Course.objects.get(id=course_id)
@@ -942,37 +943,44 @@ def displayInfo(request):
 			return render(request, "teacher_and_admin_profile.html", {"user":ea})
 
 def chat_index(request,cou_id):
-	cou = Course.objects.get(id=cou_id)
-	chats = list(Chat.objects.filter(courseid=cou_id))[-10:]
-	return render(request, 'chat.html', {'chats': chats, 'cou': cou})
+    if 'type' in request.session and request.session['type'] == 's':
+        sen_type = 's'
+    elif 'type' in request.session and request.session['type'] == 't':
+        sen_type = 't'
+    cou = Course.objects.get(id=cou_id)
+    chats = list(Chat.objects.filter(courseid=cou_id))[-4:]
+    return render(request, 'chat.html', {'chats': chats, 'cou': cou, 'sen_type':sen_type})
 
 
 def chat(request):
-	if request.method == 'POST':
-		#print("get post")
-		post_type = request.POST.get('post_type')
-		cou_id = request.POST.get('cou_id_holder')
-		if post_type == 'send_chat':
-			#print("enter sendchat")
-			if 'id' in request.session and request.session['id'] \
-					and 'type' in request.session and request.session['type'] == 's':
-				sid = request.session['id']
-				name = Student.objects.get(id=sid).name
-				sender_type = "学生"
-			elif 'id' in request.session and request.session['id'] \
-					and 'type' in request.session and request.session['type'] == 't':
-				sender_type = "老师"
-				tid = request.session['id']
-				name = Teacher.objects.get(id=tid).name
-			new_chat = Chat.objects.create(content=request.POST.get('content'),sender=name,courseid_id=cou_id,type=sender_type)
-			new_chat.save()
-			#chats = list(Chat.objects.filter(id=cou_id))
-			return HttpResponse()
-		elif post_type == 'get_chat':
-			#print("enter getchat")
-			#print(cou_id)
-			chats = list(Chat.objects.filter(courseid_id = cou_id))[-10:]
-			return render(request, 'chat_list.html',{'chats': chats})
+    if request.method == 'POST':
+        #print("get post")
+        post_type = request.POST.get('post_type')
+        cou_id = request.POST.get('cou_id_holder')
+        if post_type == 'send_chat':
+            #print("enter sendchat")
+            if 'id' in request.session and request.session['id'] \
+                    and 'type' in request.session and request.session['type'] == 's':
+                sid = request.session['id']
+                name = Student.objects.get(id=sid).name
+                sender_type = "学生"
+            elif 'id' in request.session and request.session['id'] \
+                    and 'type' in request.session and request.session['type'] == 't':
+                sender_type = "老师"
+                tid = request.session['id']
+                name = Teacher.objects.get(id=tid).name
+            new_chat = Chat.objects.create(content=request.POST.get('content'),sender=name,courseid_id=cou_id,type=sender_type)
+            new_chat.save()
+            #chats = list(Chat.objects.filter(id=cou_id))
+            return HttpResponse()
+        elif post_type == 'get_chat':
+            #print("enter getchat")
+            #print(cou_id)
+            #chats = list(Chat.objects.filter(courseid_id = cou_id))[-4:]
+            last_chat_id = int(request.POST.get('last_chat_id'))
+            # print last_chat_id
+            chats = Chat.objects.filter(id__gt=last_chat_id)
+            return render(request, 'chat_list.html',{'chats': chats})
 
 #ABOUT TEAM
 def displayMyTeam(request, cid):

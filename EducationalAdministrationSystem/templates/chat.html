@@ -27,7 +27,12 @@
 
 
         <!--这个nav是左边的东西，稍后会改成student_left相关-->
-        <div class="student_left"></div>
+        {% if sen_type == 't' %}
+            <div class="teacher_left"></div>
+        {% elif sen_type == 's' %}
+            <div class="student_left"></div>
+        {% endif %}
+
         <div style="display:none;">
           <input id="cou_id_holder" value="{{cou.id}}" >
         </div>
@@ -51,19 +56,14 @@
             <div class="list-group col-xs-12 well">
 
                     <div class="list-group-item">
-                    <div data-spy="scroll" data-target="#navbar-example" data-offset="10" style="height: 300px;overflow: auto;">
-
+                    <div class="scoll" data-spy="scroll" data-target="#navbar-example" data-offset="10" style="height: 300px;overflow: auto;">
                         {% for chat in chats %}
-                        <!--
-                         <p class="list-group-item-heading" style="">{{chat.sender}}:{{chat.content}}</>
-                         <li class="list-group-item-text" style="">{{chat.time}}</li>
-                         -->
                             <p class="list-group-item-heading" style="">{{ chat.type}}:{{chat.sender}}--{{chat.time}}</p>
                             <div class="col-xs-4">
-                            <input class="form-control" disabled value="{{ chat.content }}"/>
+                                <input class="form-control" disabled value="{{ chat.content }}"/>
                             </div>
-                         <input type="hidden" class="chat_id" value="{{chat.id}}"/>
-                         <br>
+                            <input type="hidden" class="chat_id" value="{{chat.id}}"/>
+                            <br>
                         {% endfor %}
                     </div>
                 </div>
@@ -187,11 +187,13 @@ function updateMsg() {
     	"/EducationalSystem/chat/",
     	{
     		post_type: "get_chat",
-            cou_id_holder: {{ cou.id }}
+            cou_id_holder: {{ cou.id }},
+            last_chat_id: $(".chat_id").last().val()
 		},
 		function(data) {
-
-    	   $('.list-group-item').replaceWith(data);
+    	   //$('.list-group-item').replaceWith(data);
+            $('.scoll').append(data);
+    	   //$('.scoll').scrollTop= $('.scoll').scrollHeight;
 
     });
     setTimeout("updateMsg()", 1000);
