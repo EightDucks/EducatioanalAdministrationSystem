@@ -40,7 +40,7 @@
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="../../">软件工程过程</a></li>
+                <li><a href="../../">{{cou.name}}</a></li>
                 <li class="active">所有团队</li>
 			</ol>
           </div>
@@ -67,28 +67,21 @@
                                         </thead>
                                         <tbody>
                                             <!--内容都在tbody里加-->
-
+                                            {% for t in tem %}
                                             <tr class="gradeA">
-                                                <td>StormTeam</td>
-                                                <td>朱正北</td>
-                                                <td class="center">组建中</td>
+                                                <td>{{t.name}}</td>
+                                                <td>{{t.manager_id.name}}</td>
+                                                <td class="center">{{status}}</td>
                                                 <td class="center">
-                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/student/Asn/{{a.id}}/'">查看详细</button>
+                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/student/teamDt/{{t.id}}/'">查看详细</button>
                                                     <!--可以通过判断团队状态决定这个button是否显示-->
-                                                    <button type="button" class="btn btn-success btn-xs" onclick="location.href=''">申请加入</button>
+                                                    {% if t.status == 0 %}
+                                                    <button type="button" class="btn btn-success btn-xs" onclick="location.href='/EducationalSystem/student/apply/{{t.id}}/'">申请加入</button>
                                                     <!--<button type="button" class="btn btn-success btn-xs" disabled>查看报表</button>-->
+                                                    {% endif %}
                                                 </td>
                                             </tr>
-
-                                            <tr class="gradeA">
-                                                <td>StormTeam2</td>
-                                                <td>朱正西</td>
-                                                <td class="center">审核中</td>
-                                                <td class="center">
-                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href=''">查看详细</button>
-                                                    <!--<button type="button" class="btn btn-success btn-xs" disabled>查看报表</button>-->
-                                                </td>
-                                            </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>

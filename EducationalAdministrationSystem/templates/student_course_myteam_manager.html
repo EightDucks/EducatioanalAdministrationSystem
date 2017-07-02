@@ -41,7 +41,7 @@
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="../../">软件工程过程</a></li>
+                <li><a href="../../">{{cou.name}}</a></li>
                 <li class="active">我的团队</li>
             </ol>
         </div>
@@ -109,8 +109,10 @@
                                              <td class="center">队员</td>
                                             {% endif %}
                                             <td>
+                                                {% if s.is_approved == False %}
                                                 <button type="button" class="btn btn-success btn-xs" onclick="location.href=''">同意</button>
                                                 <button type="button" class="btn btn-danger btn-xs" onclick="location.href=''">拒绝</button>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                         {% endfor %}
