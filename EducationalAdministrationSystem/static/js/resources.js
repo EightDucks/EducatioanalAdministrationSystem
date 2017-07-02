@@ -72,17 +72,72 @@ $(function(){
     $back.live('click' , function(){
         alert('确定返回？')
         setTimeout(
-            function(){
-				var id=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
-				$.ajax({
-					url: '/EducationalSystem/resource/待填/',
-					type: 'GET',
-					data: {courseid:id, path:filepath},
-					success: function (response) {
-					alert('进入下一级');
-					},
-					});
+            function(){			
+				/*$('#divall').html('<li class="myfolder"><input type="text" class="changename" name="1" value="{{res.name}}"disabled="disabled"/><input class="checkbox" name="{{res.3id}}" type="checkbox" value="" /></li>');
+							    //为下次点击绑定事件
+				 $('#divall li ').each(function () {
+					$(this).dblclick(function () {
+						alert("123");
+						if($(this).hasClass('myfolder')){
+							$('#divall').html('<li class="myfile"><input type="text" class="changename" name="1" value="{{res.name}}"disabled="disabled"/><input class="checkbox" name="{{res.3id}}" type="checkbox" value="" /></li>');
 
+							}
+						})
+					})	*/
+				alert('确定返回？')
+				var courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
+				$.ajax({
+                    url: '/EducationalSystem/resource/returnSuperiorMenu/',
+                    type: "GET",
+                    data: {id:courseid, path:filepath},
+                    success: function (response) {
+                                $('#divall').html(response);
+							    //为下次点击绑定事件
+								 $('#divall li ').each(function () {
+									$(this).dblclick(function () {
+										if($(this).hasClass('myfolder')){
+											var txt=$(this).find('input[type="checkbox"]').attr("name"),foldername=$(this).find('input[type="text"]').attr("value"),filepath=$('.filepath').attr("name");
+											$.ajax({
+												url: '/EducationalSystem/resource/doubleclick/',
+												type: "GET",
+												data: {id:txt, name:foldername, path:filepath},
+												success: function (response) {
+															//alert(response);
+															$('#divall').html(response);
+
+														},
+													}
+												)
+												$.ajax({
+													url: '/EducationalSystem/resource/returnVirpath/',
+													type: "GET",
+													data: {id:txt, name:foldername, path:filepath,flag:'1'},
+													success: function (response) {
+																//alert(response);
+																$('.filepath').attr("name",response);
+
+															},
+													}
+												)
+											}
+										})
+									})
+									//
+							},
+                    }
+				)					
+				$.ajax({
+                    url: '/EducationalSystem/resource/returnVirpath/',
+                    type: "GET",
+                    data: {id:courseid, path:filepath,flag:'2'},
+                    success: function (response) {
+                                alert(response);
+								$('.filepath').attr("name",response);
+							},
+                    }
+                )
+				alter("返回结束")
+				
             },250);
     }); //新文件夹不起作用！！
 
@@ -145,23 +200,23 @@ $(function(){
 											$('#divall').html(response);
 
 										},
-								}
-								)
-							$.ajax({
-								url: '/EducationalSystem/resource/returnVirpath/',
-								type: "GET",
-								data: {id:txt, name:foldername, path:filepath,flag:'1'},
-								success: function (response) {
-											//alert(response);
-											$('.filepath').attr("name",response);
+									}
+									)
+								$.ajax({
+									url: '/EducationalSystem/resource/returnVirpath/',
+									type: "GET",
+									data: {id:txt, name:foldername, path:filepath,flag:'1'},
+									success: function (response) {
+												//alert(response);
+												$('.filepath').attr("name",response);
 
-										},
-								}
-							)
-						}
+											},
+									}
+								)
+							}
+						})
 					})
-				})
-				//
+					//
 							},
                     }
 				)
