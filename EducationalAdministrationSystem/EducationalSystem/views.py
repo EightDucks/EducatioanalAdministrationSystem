@@ -1164,8 +1164,10 @@ def disapproveTeam(request, team_id):
 			and 'refuse_reason' in request.GET:
 		team = Team.objects.get(id=team_id)
 		team.status = 3
-		team.save()
 		team.reason = request.GET['refuse_reason']
+		team.save()
+		#给各位发站内信？？？
+		Student_Team.objects.filter(team_id=team).delete()
 		messages.success(request,"拒绝申请成功")
 		direct="/EducationalSystem/teacher/teamDt/"+team_id
 		return HttpResponseRedirect(direct)
@@ -1186,6 +1188,7 @@ def add_team_member(request, team_id, student_id):
 	else:
 		team_members = Student_Team.objects.filter(team_id=team_id)
 		team = Team.objects.get(id=team_id)
+		student = Student.objects.get(id=student_id)
 		if (len(team_members) >= team.course_id.team_uplimit):
 			# 团队成员人数大于等于上限
 			msg="操作失败：该团队成员已达到设定上限"
@@ -1193,10 +1196,11 @@ def add_team_member(request, team_id, student_id):
 			direct="/EducationalSystem/teacher/teamDt/"+team_id
 			return HttpResponseRedirect(direct)
 		else:
-			new_team_member = Student_Team(team_id=team_id, student_id=student_id, is_approved=True)
+			new_team_member = Student_Team(team_id=team, student_id=student, is_approved=True)
 			new_team_member.save()
-			msg="学生 "+student_id.name+" 已成功加入该团队"
+			msg="学生 "+student.name+" 已成功加入该团队"
 			messages.success(request, msg)
+			print(msg)
 			direct="/EducationalSystem/teacher/teamDt/"+team_id
 			return HttpResponseRedirect(direct)
 
