@@ -625,7 +625,7 @@ def deleteResource(request):
 	print('del' in request.GET)
 
 	if 'del' in request.GET and request.GET['del'] and \
-					'path' in request.GET and request.GET['path']:
+		'path' in request.GET and request.GET['path']:
 
 		unsplitted = request.GET['del']
 		splitted = unsplitted.split(',')
@@ -877,16 +877,19 @@ def returnVirpath(request):
 				return HttpResponse(new_virpath)
 
 def createFolder(request):
-	if __name__ == '__main__':
-		if 'course_id' in request.GET and request.GET['course_id'] and \
-			'path' in request.GET and request.GET['path'] and \
-			'folder_name' in request.GET and request.GET['folder_name']:
+	if 'courseid' in request.GET and request.GET['courseid'] and \
+		'path' in request.GET and request.GET['path'] and \
+		'foldername' in request.GET and request.GET['foldername']:
 
-			course_id = request.GET['course_id']
-			folder_name = request.GET['folder_name']
-			virpath = request.GET['path']
+		course_id = request.GET['courseid']
+		folder_name = request.GET['foldername']
+		virpath = request.GET['path']
 
-			res = Resource(name=folder_name, path='new', virtual_path=virpath+folder_name+'/', course_id__id=course_id)
-			res.save()
-			return HttpResponse(str(res.id))
+		print(folder_name, virpath+folder_name+'/', course_id)
+
+		res = Resource(name=folder_name, path=None, virtual_path=virpath, course_id_id=course_id)
+		res.save()
+		ret_str = '<li class="myfolder"><input type="text" class="changename" name="1" value="' + \
+				res.name + '"/><input class="checkbox" name="' + str(res.id) + '" type="checkbox" value="" /></li>'
+		return HttpResponse(ret_str)
 

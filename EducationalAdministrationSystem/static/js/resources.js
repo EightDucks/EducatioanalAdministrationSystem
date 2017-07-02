@@ -23,11 +23,11 @@ $(function(){
                     var filepath = $('.filepath').attr('name');
                     var name = pass
                     $.ajax({
-                        url:'???',
+                        url:'/EducationalSystem/resource/createFolder/',
                         type:'GET',
                         data:{courseid:id,path:filepath,foldername:name},
                         success:function (response) {
-                                $('#divall').append('<li class="myfolder"><input type="text" class="changename" name="1" value="2333"/><input class="checkbox" name="{{res.id}}" type="checkbox" value="" /></li>')
+                                $('#divall').append(response)
                                 // $('#divall').append(response)
                                 layer.msg("创建成功",{time: 1000 });
                                 /*绑定点击事件*/
@@ -60,6 +60,10 @@ $(function(){
                                         }
                                     })
                                 })
+
+
+
+
                             }
                         }
 
@@ -144,7 +148,7 @@ $(function(){
     //复选框删除
     $bgcolor.live('click' , function(){
         var btns = document.getElementById('removebutton');
-        $removenews.fadeIn(250);
+        //$removenews.fadeIn(250);
         $(this).addClass('bgclocrc');
         $(this).attr("id",'remove');
         
@@ -168,7 +172,7 @@ $(function(){
 							},
 							});
                         $('.msgtransfer').val(txt);
-                        $removenews.fadeOut(250);
+                        //$removenews.fadeOut(250);
                 },250)
         }//
     });

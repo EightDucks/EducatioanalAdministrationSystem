@@ -56,5 +56,6 @@ urlpatterns = {
     url(r'resource/upload/$', views.uploadResource, name='upload'),
     url(r'resource/doubleclick/$', views.doubleclick, name='doubleclick'),
     url(r'resource/returnSuperiorMenu/$', views.returnSuperiorMenu, name='returnSuperiorMenu'),
-    url(r'resource/returnVirpath/$', views.returnVirpath, name='returnVirpath')
+    url(r'resource/returnVirpath/$', views.returnVirpath, name='returnVirpath'),
+    url(r'resource/createFolder/$', views.createFolder, name='createFolder'),
 }
