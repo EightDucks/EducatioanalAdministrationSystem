@@ -28,29 +28,11 @@
 
 
     <!--这个nav是左边的东西-->
-    <nav class="navbar-default navbar-side" role="navigation">
-        <div class="sidebar-collapse">
-            <!--左边栏的内容-->
-            <ul class="nav" id="main-menu">
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 基本信息</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 资源</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 作业</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 团队</a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-file"></i> 交流</a>
-                </li>
-            </ul>
-        </div>
+    <div class="teacher_left"></div>
+    <div style="display:none;">
+        <input id="cou_id_holder" value="{{course_id}}" >
+    </div>
 
-    </nav>
     <!--  这个page-wrapper是右边   -->
     <div id="page-wrapper">
         <div class="header">
@@ -136,6 +118,8 @@
 <script src="/static/js/addheader.js"></script>
 <script src="/static/js/resources.js"></script>
 <script src="/static/js/layer/layer.js"></script>
+<!--添加教师页nav左边js-->
+<script src="/static/js/add_teacher_left.js"></script>
 
 
 </body>
