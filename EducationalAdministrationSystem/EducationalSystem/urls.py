@@ -28,6 +28,9 @@ urlpatterns = {
     url(r'^jiaowu_course/(\d+)/$', views.jiaowu_courseinfo, name='jiaowu_courseinfo'),
     url(r'^jiaowu_course/(\d+)/save/$', views.addCourseStudent, name='addCourseStudent'),
 
+    # modify profile page
+    url(r'^profile/$', views.displayInfo, name='displayInfo'),
+
     url(r'^teacher/CouAsn/(\d+)/$', views.displayHwForTea, name='displayHwForTea'),
     url(r'^teacher/addAsn/(\d+)/$', views.displayAddAsn, name='displayAddAsn'),
     url(r'^teacher/addAsn/(\d+)/save/$', views.addAssignment, name='addAssignment'),
@@ -59,13 +62,24 @@ urlpatterns = {
     url(r'resource/returnVirpath/$', views.returnVirpath, name='returnVirpath'),
     url(r'resource/createFolder/$', views.createFolder, name='createFolder'),
 
+
+    url(r'student/applyCreateTeam/(\d+)/save/$', views.applyCreateTeam, name='applyCreateTeam'),
+    url(r'student/applyCreateTeam/(\d+)/$', views.applyTeam, name='applyTeam    '),
+
     #ABOUT TEAM
     url(r'student/team/(\d+)/$', views.displayMyTeam, name='displayMyTeam'),
-    url(r'student/teamDt/$', views.displayTeamDt, name='displayTeamDt'),
-    url(r'student/apply/$', views.teamApply, name='teamApply'),
-    url(r'student/allTeam/$', views.displayAllTeam, name='displayAllTeam'),
+    url(r'student/teamDt/(\d+)/$', views.displayTeamDt, name='displayTeamDt'),
+    url(r'student/apply/(\d+)/$', views.teamApply, name='teamApply'),
+    url(r'student/allTeam/(\d+)/$', views.displayAllTeam, name='displayAllTeam'),
+
+    url(r'teacher/courseTeam/(\d+)/$', views.displayTeamListForTeacher, name='displayTeamListForTeacher'),
+    url(r'teacher/teamDt/(\d+)/$', views.disPlayTeamInfoForTeacher, name='disPlayTeamInfoForTeacher'),
+    url(r'teacher/teamDt/(\d+)/approve/$', views.approveTeam, name='approveTeam'),
+    url(r'teacher/teamDt/(\d+)/reject/$', views.disapproveTeam, name='disapproveTeam'),
+    url(r'teacher/teamDt/team_id(\d+)/addStu/student_id(\d+)/$', views.add_team_member, name='add_team_member'),
 
 
     url(r'^chat_index/(\d+)/$',views.chat_index, name='chat_index'),
     url(r'^chat/$',views.chat, name='chat'),
+
 }

@@ -43,9 +43,9 @@
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="#">软件工程过程</a></li>
-                <li><a href="#">所有团队</a></li>
-                <li class="active">StormTeam</li>
+                <li><a href="/EducationalSystem/teacher">{{cou.name}}</a></li>
+                <li><a href="/EducationalSystem/teacher/courseTeam/{{cou.id}}">所有团队</a></li>
+                <li class="active">{{team.name}}</li>
             </ol>
         </div>
 
@@ -64,29 +64,40 @@
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">团队名称</label>
                                   <div class="col-sm-10">
-                                    <label class="control-label" style="font-weight:normal;">StormTeam</label>
+                                    <label class="control-label" style="font-weight:normal;">{{team.name}}</label>
                                   </div>
                               </div>
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">团队ID</label>
                                   <div class="col-sm-10">
-                                    <label class="control-label" style="font-weight:normal;">未分配</label>
+                                    <label class="control-label" style="font-weight:normal;">
+                                      {% if team.status == 2 %}
+                                      {{team.id}}
+                                      {% else %}
+                                      未分配
+                                      {% endif %}
+                                    </label>
                                   </div>
                               </div>
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">团队负责人姓名</label>
                                   <div class="col-sm-10">
-                                    <label class="control-label" style="font-weight:normal;">朱正南</label>
+                                    <label class="control-label" style="font-weight:normal;">{{team.manager_id.name}}</label>
                                   </div>
                               </div>
 
                               <div class="form-group">
                                   <label class="col-sm-2 control-label">团队状态</label>
                                   <div class="col-sm-10">
-                                    <label class="control-label" style="font-weight:normal;">未提交</label>
-                                    <!--<label class="control-label" style="font-weight:normal;">已提交，未审核</label>-->
-                                    <!--<label class="control-label" style="font-weight:normal;">已审核，通过</label>-->
-                                    <!--<label class="control-label" style="font-weight:normal;">已审核，不通过</label>-->
+                                    {% if team.status == 0 %}
+                                    <label class="control-label" style="font-weight:normal;">组建中</label>
+                                    {% elif team.status == 1 %}
+                                    <label class="control-label" style="font-weight:normal;">待审核</label>
+                                    {% elif team.status == 2 %}
+                                    <label class="control-label" style="font-weight:normal;">已同意</label>
+                                    {% else %}
+                                    <label class="control-label" style="font-weight:normal;">已拒绝</label>
+                                    {% endif %}
                                   </div>
                               </div>
 
@@ -94,28 +105,33 @@
                                   <label class="col-sm-2 control-label">操作</label>
                                   <div class="col-sm-10">
                                     <!--已提交未审核-->
+                                    {% if team.status == 1 %}
                                     <button type="button" class="btn btn-success" id="btn_approve_team" onclick="">批准团队申请</button>
                                     <button type="button" class="btn btn-danger" id="btn_refuse_team"  onclick="">拒绝团队申请</button>
                                     <button type="button" class="btn btn-default magry_hide" id="btn_refuse_team_hide"  onclick="">收起</button>
                                     <!--已审核通过-->
+                                    {% elif team.status == 2 %}
                                     <button type="button" class="btn btn-primary" id="btn_adj_team" onclick="">调整团队成员</button>
                                     <button type="button" class="btn btn-default magry_hide" id="btn_adj_team_hide"  onclick="">收起</button>
+                                    {% endif %}
                                   </div>
                               </div>
                               <!--拒绝理由-->
                               <div class="magry_hide" id="refuse_reason">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">拒绝理由</label>
-                                    <div class="col-sm-8">
-                                      <textarea class="form-control" name="refuse_reason" rows="7" placeholder="请写出拒绝团队申请的理由或建议" required></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label"></label>
-                                    <div class="col-sm-10">
-                                      <button type="button" class="btn btn-danger" id="btn_refuse_team_check"  onclick="">确认拒绝</button>
-                                    </div>
-                                </div>
+                                <form action="/EducationalSystem/teacher/teamDt/{{team.id}}/reject/">
+                                  <div class="form-group">
+                                      <label class="col-sm-2 control-label">拒绝理由</label>
+                                      <div class="col-sm-8">
+                                        <textarea class="form-control" name="refuse_reason" rows="7" placeholder="请写出拒绝团队申请的理由或建议" required></textarea>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-sm-2 control-label"></label>
+                                      <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-danger" id="btn_refuse_team_check">确认拒绝</button>
+                                      </div>
+                                  </div>
+                                </form>
                               </div>
                               <!--调整团队-->
                               <div class="magry_hide" id="adj_team">
@@ -159,18 +175,20 @@
                                             </thead>
                                             <tbody>
                                                 <!--内容都在tbody里加-->
+                                                {% for i in student_have_no_team%}
                                                 <form>
                                                   <tr class="gradeA">
-                                                      <td>14211221</td>
-                                                      <td>李雷</td>
-                                                      <td>男</td>
+                                                      <td>{{i.number}}</td>
+                                                      <td>{{i.name}}</td>
+                                                      <td>{{i.gender}}</td>
                                                       <td>
-                                                        <button type="button" class="btn btn-primary btn-xs" onclick="">
+                                                        <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/teamDt/team_id{{team.id}}/addStu/student_id{{i.id}}/'">
                                                           添加该成员
                                                         </button>
                                                       </td>
                                                   </tr>
                                                 </form>
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
@@ -207,15 +225,20 @@
                                 <tbody>
                                     <!--内容都在tbody里加-->
                                     <form>
+                                      {% for i in teammember %}
                                       <tr class="gradeA">
-                                          <td>14211221</td>
-                                          <td>李雷</td>
-                                          <td>男</td>
+                                          <td>{{i.number}}</td>
+                                          <td>{{i.name}}</td>
+                                          <td>{{i.gender}}</td>
                                           <td>
-                                            <!--团队负责人-->
+                                            {% if i.id == team.manager_id.id %}
+                                            团队负责人
+                                            {% else %}
                                             团队成员
+                                            {% endif %}
                                           </td>
                                       </tr>
+                                      {% endfor %}
                                     </form>
                                 </tbody>
                             </table>

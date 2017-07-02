@@ -50,12 +50,12 @@
                             组建团队
                         </div>
                         <div class="panel-body">
-                            <form class="form-horizontal" id="form_limit" method="get" action="./save/">
+                            <form class="form-horizontal" id="form_limit" method="get" action="/EducationalSystem/student/applyCreateTeam/{{cou.id}}/save/">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">最大人数</label>
+                                    <label class="col-sm-2 control-label">团队名称</label>
                                     <div class="col-sm-3">
                                         <!--仅可输入数字-->
-                                        <input id = "team_uplimit" type="text" class="form-control" name="team_uplimit" required placeholder="队伍名">
+                                        <input id = "team_name" type="text" class="form-control" name="team_name" required placeholder="队伍名">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button id="submit_button" class="btn btn-default">提交</button>
+                                        <input type=submit id="submit_button" class="btn btn-default" value="提交"></input>
                                     </div>
                                 </div>
 

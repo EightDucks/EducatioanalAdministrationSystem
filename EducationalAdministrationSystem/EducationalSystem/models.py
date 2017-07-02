@@ -77,6 +77,7 @@ class Team(models.Model):
     status = models.IntegerField()
     reason = models.TextField(null=True)
     manager_id = models.ForeignKey(Student)
+    discription = models.TextField()
 
 class Team_Assignment(models.Model):
     team_id = models.ForeignKey(Team)
