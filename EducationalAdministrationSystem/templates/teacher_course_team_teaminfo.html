@@ -106,13 +106,13 @@
                                   <div class="col-sm-10">
                                     <!--已提交未审核-->
                                     {% if team.status == 1 %}
-                                    <button type="button" class="btn btn-success" id="btn_approve_team" onclick="">批准团队申请</button>
+                                    <button type="button" class="btn btn-success" id="btn_approve_team" onclick="location.href='/EducationalSystem/teacher/teamDt/{{team.id}}/approve/'">批准团队申请</button>
                                     <button type="button" class="btn btn-danger" id="btn_refuse_team"  onclick="">拒绝团队申请</button>
                                     <button type="button" class="btn btn-default magry_hide" id="btn_refuse_team_hide"  onclick="">收起</button>
                                     <!--已审核通过-->
                                     {% elif team.status == 2 %}
                                     <button type="button" class="btn btn-primary" id="btn_adj_team" onclick="">调整团队成员</button>
-                                    <button type="button" class="btn btn-default magry_hide" id="btn_adj_team_hide"  onclick="">收起</button>
+                                    <button type="button" class="btn btn-default magry_hide" id="btn_adj_team_hide" onclick="">收起</button>
                                     {% endif %}
                                   </div>
                               </div>

@@ -1176,7 +1176,7 @@ def add_team_member(request, team_id, student_id):
 		direct="/EducationalSystem/teacher/teamDt/"+team_id
 		return HttpResponseRedirect(direct)
 	else:
-		team_members = Student_Team.objects.fliter(team_id=team_id)
+		team_members = Student_Team.objects.filter(team_id=team_id)
 		team = Team.objects.get(id=team_id)
 		if (len(team_members) >= team.course_id.team_uplimit):
 			# 团队成员人数大于等于上限
