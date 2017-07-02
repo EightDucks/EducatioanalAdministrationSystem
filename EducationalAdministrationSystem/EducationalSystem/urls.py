@@ -61,7 +61,7 @@ urlpatterns = {
 
 
     url(r'student/applyCreateTeam/(\d+)/save/$', views.applyCreateTeam, name='applyCreateTeam'),
-    url(r'student/applyCreateTeam/(\d+)/$', views.displayMyTeam, name='displayMyTeam'),
+    url(r'student/applyCreateTeam/(\d+)/$', views.applyTeam, name='applyTeam    '),
 
     #ABOUT TEAM
     url(r'student/team/(\d+)/$', views.displayMyTeam, name='displayMyTeam'),

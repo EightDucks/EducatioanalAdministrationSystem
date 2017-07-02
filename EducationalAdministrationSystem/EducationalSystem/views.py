@@ -602,22 +602,60 @@ def setCourseInfo(request, course_id):
 	else:
 		return HttpResponseRedirect("/EducationalSystem/teacher/")
 
-def uploadResource(request, cou_id):
+def uploadResource(request):
+	# print('updateResource')
+	# #file_obj = request.POST.get('file')
+	# file_obj = request.FILES.get('file')
+	# print(file_obj)
+	# path = request.POST.get('path')
+	# print(path)
+	# f = open(os.path.join('C:\\Users\\Administrator\\Desktop\\', file_obj.name), 'wb+')
+	# for chunk in file_obj.chunks():
+	# 	f.write(chunk)
+	# f.close()
+	# return HttpResponse('ok')
 	if request.method == 'POST' :
-		myFiles = request.FILES.getlist("fileupload", None)
-		cou = Course.objects.get(id=cou_id)
+		myFiles = request.FILES.getlist("file", None)
+		course_id = request.POST.get('courseid')
+		virpath = request.POST.get('path')
+		cou = Course.objects.get(id=course_id)
 		if not myFiles:
 			dstatus = ("No file to upload")
+			return
+		ret_str = ''
 		for f in myFiles:
 			baseDir = os.path.dirname(os.path.abspath(__name__))
 			filepath = os.path.join(baseDir, 'static', 'files', f.name)
 			destination = open(filepath, 'wb+')
-			res = Resource(name=f.name, path=filepath, course_id=cou, virtual_path="")
+			print(filepath)
+			res = Resource(name=f.name, path=filepath, course_id=cou, virtual_path=virpath)
 			res.save()
 			for chunk in f.chunks():
 				destination.write(chunk)
 			destination.close()
-		return HttpResponse("/EducationalSystem/resource/" + str(cou_id))
+
+			ret_str = ret_str + '<li class="myfile"><input type="text" class="changename" name="1" value="' + \
+				res.name + '"/><input class="checkbox" name="' + str(res.id) + '" type="checkbox" value="" /></li>' + '\n'
+			print(ret_str)
+
+		print('ready to return')
+		return HttpResponse(ret_str)
+	# file_obj = request.FILES.get('file')
+	# if file_obj:  # 处理附件上传到方法
+	# 	request_set = {}
+	# 	print('file--obj', file_obj)
+	# 	# user_home_dir = "upload/%s" % (request.user.userprofile.id)
+	# 	accessory_dir = settings.accessory_dir
+	# 	if not os.path.isdir(accessory_dir):
+	# 		os.mkdir(accessory_dir)
+	# 	upload_file = "%s/%s" % (accessory_dir, file_obj.name)
+	# 	recv_size = 0
+	# 	with open(upload_file, 'wb') as new_file:
+	# 		for chunk in file_obj.chunks():
+	# 			new_file.write(chunk)
+	# 	order_id = time.strftime("%Y%m%d%H%M%S", time.localtime())
+	# 	cache.set(order_id, upload_file)
+	# 	return HttpResponse(order_id)
 
 def deleteResource(request):
 	print('del' in request.GET)
@@ -1151,6 +1189,6 @@ def applyCreateTeam(request, cou_id):
 			tm.save()
 		return HttpResponseRedirect("/EducationalSystem/student/")
 
-def displayMyTeam(request, cou_id):
+def applyTeam(request, cou_id):
 	cou = Course.objects.get(id = cou_id)
 	return render(request, "apply_team.html", {'cou' : cou})
