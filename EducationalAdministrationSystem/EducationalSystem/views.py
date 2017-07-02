@@ -625,7 +625,7 @@ def deleteResource(request):
 	print('del' in request.GET)
 
 	if 'del' in request.GET and request.GET['del'] and \
-					'path' in request.GET and request.GET['path']:
+		'path' in request.GET and request.GET['path']:
 
 		unsplitted = request.GET['del']
 		splitted = unsplitted.split(',')
@@ -817,10 +817,10 @@ def doubleclick(request):
 		#			  {'resources': Resources, 'folders':Folders, 'course_id': course_id, 'virpath': virpath})
 
 def returnSuperiorMenu(request):
-	if 'courseid' in request.GET and request.GET['courseid'] and \
+	if 'id' in request.GET and request.GET['id'] and \
 		'path' in request.GET and request.GET['path']:
 
-		course_id = request.GET['courseid']
+		course_id = request.GET['id']
 		virpath = request.GET['path']
 
 		splitted = virpath.split('/')
@@ -831,8 +831,8 @@ def returnSuperiorMenu(request):
 		for i in range(num-2):
 			new_virpath = new_virpath + splitted[i] + '/'
 
-		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True, virtual_path=new_virpath)
-		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False, virtual_path=new_virpath)
+		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=False, virtual_path=new_virpath)
+		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=True, virtual_path=new_virpath)
 
 		ret_str = fileSystemResponse(Folders, Resources)
 
@@ -848,37 +848,48 @@ def returnSuperiorMenu(request):
 		return HttpResponse(ret_str)
 
 def returnVirpath(request):
-	if 'id' in request.GET and request.GET['id'] and \
-		'name' in request.GET and request.GET['name'] and \
-		'path' in request.GET and request.GET['path'] and \
-		'flag' in request.GET and request.GET['flag']:
+
+	print('id' in request.GET, 'name' in request.GET, 'path' in request.GET, 'flag' in request.GET)
+	# print(request.GET['id'], request.GET['name'], request.GET['path'], request.GET['flag'])
+
+	if 'flag' in request.GET and request.GET['flag']:
 
 		if request.GET['flag']=='1':
-			folder_name = request.GET['name']
-			virpath = request.GET['path']
-			virpath = virpath + folder_name + '/'
+			if 'id' in request.GET and request.GET['id'] and \
+				'name' in request.GET and request.GET['name'] and \
+				'path' in request.GET and request.GET['path']:
+				folder_name = request.GET['name']
+				virpath = request.GET['path']
+				virpath = virpath + folder_name + '/'
 
-			return HttpResponse(virpath)
+				return HttpResponse(virpath)
 
 		elif request.GET['flag']=='2':
-			virpath = request.GET['path']
-			splitted = virpath.split('/')
-			num = len(splitted)
-			new_virpath = ''
-			for i in range(num - 2):
-				new_virpath = new_virpath + splitted[i] + '/'
-			return HttpResponse(new_virpath)
+			if 'id' in request.GET and request.GET['id'] and \
+				'path' in request.GET and request.GET['path']:
+
+				virpath = request.GET['path']
+				splitted = virpath.split('/')
+				num = len(splitted)
+				new_virpath = ''
+				for i in range(num - 2):
+					new_virpath = new_virpath + splitted[i] + '/'
+				return HttpResponse(new_virpath)
 
 def createFolder(request):
-	if __name__ == '__main__':
-		if 'course_id' in request.GET and request.GET['course_id'] and \
-			'path' in request.GET and request.GET['path'] and \
-			'folder_name' in request.GET and request.GET['folder_name']:
+	if 'courseid' in request.GET and request.GET['courseid'] and \
+		'path' in request.GET and request.GET['path'] and \
+		'foldername' in request.GET and request.GET['foldername']:
 
-			course_id = request.GET['course_id']
-			folder_name = request.GET['folder_name']
-			virpath = request.GET['path']
+		course_id = request.GET['courseid']
+		folder_name = request.GET['foldername']
+		virpath = request.GET['path']
 
-			res = Resource(name=folder_name, path='new', virtual_path=virpath+folder_name+'/', course_id__id=course_id)
-			res.save()
-			return HttpResponse(str(res.id))
+		print(folder_name, virpath+folder_name+'/', course_id)
+
+		res = Resource(name=folder_name, path=None, virtual_path=virpath, course_id_id=course_id)
+		res.save()
+		ret_str = '<li class="myfolder"><input type="text" class="changename" name="1" value="' + \
+				res.name + '"/><input class="checkbox" name="' + str(res.id) + '" type="checkbox" value="" /></li>'
+		return HttpResponse(ret_str)
+

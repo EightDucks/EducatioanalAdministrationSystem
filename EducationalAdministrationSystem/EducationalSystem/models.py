@@ -35,7 +35,7 @@ class Term(models.Model):
     week = models.IntegerField()
     is_over = models.BooleanField(default=False)
 
-class Course(models.Model):#课时
+class Course(models.Model):
     name = models.CharField(max_length=50)
     credit = models.IntegerField()
     time = models.CharField(max_length=50)
@@ -58,7 +58,7 @@ class Course_Student(models.Model):
 
 class Resource(models.Model):
     name = models.CharField(max_length=50)
-    path = models.CharField(max_length=100)
+    path = models.CharField(max_length=100, null=True)
     course_id = models.ForeignKey(Course)
     virtual_path = models.CharField(max_length=100)
 
@@ -74,7 +74,7 @@ class Assignment(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=50)
     course_id = models.ForeignKey(Course)
-    is_approved = models.BooleanField(default=False)
+    status = models.IntegerField()
     reason = models.TextField(null=True)
     manager_id = models.ForeignKey(Student)
 
@@ -99,3 +99,10 @@ class Student_Grade(models.Model):
     student_id = models.ForeignKey(Student)
     team_asn_id = models.ForeignKey(Team_Assignment)
     weight = models.FloatField(null=True)
+
+class Chat(models.Model):
+    sender = models.CharField(max_length=30)
+    type = models.CharField(max_length=10)
+    time = models.DateTimeField(auto_now_add=True, null=False)
+    courseid = models.ForeignKey(Course)
+    content = models.TextField()

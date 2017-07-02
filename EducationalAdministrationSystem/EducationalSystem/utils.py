@@ -34,6 +34,11 @@ def fileSystemResponse(Resources, Folders):
 
     return ret_str
 
+def deleteResource(path):
+    for res_path in path:
+        print(res_path)
+
+
 if __name__ == '__main__':
     r_len, r = readFromXLSX(path='test.xlsx')
 
