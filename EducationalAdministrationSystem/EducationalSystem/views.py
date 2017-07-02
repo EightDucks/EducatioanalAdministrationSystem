@@ -614,8 +614,9 @@ def uploadResource(request):
 	# 	f.write(chunk)
 	# f.close()
 	# return HttpResponse('ok')
-	if request.method == 'POST' :
+	if request.method == 'POST':
 		myFiles = request.FILES.getlist("file", None)
+		print(myFiles)
 		course_id = request.POST.get('courseid')
 		virpath = request.POST.get('path')
 		cou = Course.objects.get(id=course_id)
@@ -942,9 +943,13 @@ def displayInfo(request):
 			return render(request, "teacher_and_admin_profile.html", {"user":ea})
 
 def chat_index(request,cou_id):
+	if 'type' in request.session and request.session['type'] == 's':
+		sen_type = 's'
+	elif 'type' in request.session and request.session['type'] == 't':
+		sen_type = 't'
 	cou = Course.objects.get(id=cou_id)
-	chats = list(Chat.objects.filter(courseid=cou_id))[-10:]
-	return render(request, 'chat.html', {'chats': chats, 'cou': cou})
+	chats = list(Chat.objects.filter(courseid=cou_id))[-4:]
+	return render(request, 'chat.html', {'chats': chats, 'cou': cou, 'sen_type':sen_type})
 
 
 def chat(request):
@@ -971,7 +976,10 @@ def chat(request):
 		elif post_type == 'get_chat':
 			#print("enter getchat")
 			#print(cou_id)
-			chats = list(Chat.objects.filter(courseid_id = cou_id))[-10:]
+			#chats = list(Chat.objects.filter(courseid_id = cou_id))[-4:]
+			last_chat_id = int(request.POST.get('last_chat_id'))
+			# print last_chat_id
+			chats = Chat.objects.filter(id__gt=last_chat_id)
 			return render(request, 'chat_list.html',{'chats': chats})
 
 #ABOUT TEAM
@@ -981,6 +989,14 @@ def displayMyTeam(request, cid):
 		stu_id = request.session["id"]
 		cou = Course.objects.get(id=cid)
 		stu_tem = Student_Team.objects.get(team_id__course_id__id=cid, student_id=stu_id)
+		if not stu_tem:
+			tem = Team.objects.get(manager_id__id=stu_id, course_id=cou)
+			if not tem:
+				pass
+			else:
+				stus = None
+				sts = "审核未通过"
+				return render(request, "student_course_myteam_manager.html", {"tem": tem, "stus": stus, "status": sts, "cou": cou})
 		tem = stu_tem.team_id
 
 
@@ -1000,7 +1016,7 @@ def displayMyTeam(request, cid):
 			if tem.status == 0:
 				sts = "组建中"
 			elif tem.status == 1:
-				sts = "未审核"
+				sts = "审核中"
 			elif tem.status == 2:
 				sts = "审核通过"
 			elif tem.status == 3:
@@ -1015,17 +1031,25 @@ def displayTeamDt(request, tem_id):
 		stu_id = request.session["id"]
 		tem = Team.objects.get(id=tem_id)
 		cou = tem.course_id
+		stu_team = Student_Team.objects.get(team_id__course_id=cou, student_id__id=stu_id)
+		psSts = False
+		if not stu_team:
+			psSts = True
+		else:
+			psSts = False
+
 		sts = ""
+
 		if tem.status == 0:
 			sts = "组建中"
 		elif tem.status == 1:
-			sts = "未审核"
+			sts = "审核中"
 		elif tem.status == 2:
 			sts = "审核通过"
 		elif tem.status == 3:
 			sts = "审核未通过"
 		stus = Student_Team.objects.filter(team_id=tem)
-		return render(render, "student_course_teamdetails.html", {"tem":tem, "stus":stus, "status":sts, "cou":cou})
+		return render(request, "student_course_teamdetails.html", {"tem":tem, "stus":stus, "status":sts, "cou":cou, "psSts":psSts})
 	return HttpResponseRedirect("/EducationalSystem/")
 
 def teamApply(request, tem_id):
@@ -1044,16 +1068,23 @@ def displayAllTeam(request, cou_id):
 	if "id" in request.session and request.session["id"] and \
 		"type" in request.session and request.session["type"] == "s":
 		tem = Team.objects.filter(course_id__id=cou_id)
-		cou = tem.course_id
-		if tem.status == 0:
-			sts = "组建中"
-		elif tem.status == 1:
-			sts = "未审核"
-		elif tem.status == 2:
-			sts = "审核通过"
-		elif tem.status == 3:
-			sts = "审核未通过"
-	return render(request, "student_course_teamlist.html", {"tem":tem, "status":sts, "cou":cou})
+		cou = Course.objects.get(id=cou_id)
+		stu_id = request.session["id"]
+		Stu_team = Student_Team.objects.get(team_id__course_id__id=cou_id, student_id__id=stu_id)
+		psSts = False
+		if not Stu_team:
+			psSts = True
+		else:
+			psSts = False
+		# if tem.status == 0:
+		# 	sts = "组建中"
+		# elif tem.status == 1:
+		# 	sts = "未审核"
+		# elif tem.status == 2:
+		# 	sts = "审核通过"
+		# elif tem.status == 3:
+		# 	sts = "审核未通过"
+	return render(request, "student_course_teamlist.html", {"tem":tem, "cou":cou, "psSts":psSts})
 
 def acceptApply(request, st_id):
 	st = Student_Team.objects.get(id=st_id)
@@ -1067,6 +1098,17 @@ def refuseApply(request, st_id):
 	cou = st.team_id.course_id.id
 	st.delete()
 	return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou) + "/")
+
+def submitApply(request, tem_id):
+	tem = Team.objects.get(id=tem_id)
+	cou = tem.course_id
+	stu_tem = Student_Team.objects.filter(team_id=tem)
+	if cou.team_downlimit is not None:
+		if len(stu_tem) < cou.team_downlimit:
+			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#不允许审核
+	tem.status = 1
+	tem.save()
+	return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#允许审核
 
 def displayTeamListForTeacher(request, cou_id):
 	if 'id' in request.session and request.session['id'] \
@@ -1106,7 +1148,11 @@ def disPlayTeamInfoForTeacher(request, team_id):
 			# 上该课的学生_课程
 			cs_have_course = Course_Student.objects.filter(course_id=cou_id)
 			# 有团队的学生_团队
-			ts_have_team = Student_Team.objects.filter(course_id=cou_id)
+			ts = Student_Team.objects.all()
+			ts_have_team = []
+			for i in ts:
+				if i.team_id.course_id.id == cou_id:
+					ts_have_team.append(i)
 			# 无团队的学生-查找
 			student_have_course = []
 			for st in cs_have_course:
@@ -1117,7 +1163,7 @@ def disPlayTeamInfoForTeacher(request, team_id):
 			# 无团队的学生
 			student_have_no_team=list(set(student_have_course).difference(set(student_have_team)))
 			# 团队学生列表
-			ts_member=Student_Team.objects.filter(course_id=cou_id, team_id=team_id)
+			ts_member=Student_Team.objects.filter(team_id=team_id)
 			student_teammember = []
 			for st in ts_member:
 				student_teammember.append(st.student_id)
@@ -1172,7 +1218,7 @@ def add_team_member(request, team_id, student_id):
 		direct="/EducationalSystem/teacher/teamDt/"+team_id
 		return HttpResponseRedirect(direct)
 	else:
-		team_members = Student_Team.objects.fliter(team_id=team_id)
+		team_members = Student_Team.objects.filter(team_id=team_id)
 		team = Team.objects.get(id=team_id)
 		if (len(team_members) >= team.course_id.team_uplimit):
 			# 团队成员人数大于等于上限
@@ -1204,5 +1250,15 @@ def applyCreateTeam(request, cou_id):
 		return HttpResponseRedirect("/EducationalSystem/student/")
 
 def applyTeam(request, cou_id):
-	cou = Course.objects.get(id = cou_id)
-	return render(request, "apply_team.html", {'cou' : cou})
+	if 'id' in request.session and request.session['id'] \
+		and 'type' in request.session and request.session['type'] == 's':
+		stu_id = request.session["id"]
+		stu_team = Student_Team.objects.filter(student_id=stu_id, team_id__course_id__id=cou_id)
+		sts = False
+		if not stu_team:
+			sts = True
+		else:
+			sts = False
+		cou = Course.objects.get(id = cou_id)
+		return render(request, "apply_team.html", {'cou' : cou, 'sts':sts})
+	return HttpResponseRedirect("/EducationalSystem/")

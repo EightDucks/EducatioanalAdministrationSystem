@@ -71,13 +71,25 @@
                                             <tr class="gradeA">
                                                 <td>{{t.name}}</td>
                                                 <td>{{t.manager_id.name}}</td>
-                                                <td class="center">{{status}}</td>
+                                                <td class="center">
+                                                    {% if t.status == 0 %}
+                                                    组建中
+                                                    {% elif t.status == 1 %}
+                                                    审核中
+                                                    {% elif t.status == 2 %}
+                                                    审核通过
+                                                    {% elif t.status == 3 %}
+                                                    审核未通过
+                                                    {% endif %}
+                                                </td>
                                                 <td class="center">
                                                     <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/student/teamDt/{{t.id}}/'">查看详细</button>
                                                     <!--可以通过判断团队状态决定这个button是否显示-->
                                                     {% if t.status == 0 %}
+                                                    {% if psSts == True %}
                                                     <button type="button" class="btn btn-success btn-xs" onclick="location.href='/EducationalSystem/student/apply/{{t.id}}/'">申请加入</button>
                                                     <!--<button type="button" class="btn btn-success btn-xs" disabled>查看报表</button>-->
+                                                    {% endif %}
                                                     {% endif %}
                                                 </td>
                                             </tr>

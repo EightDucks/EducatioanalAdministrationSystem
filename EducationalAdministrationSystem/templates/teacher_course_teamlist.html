@@ -60,7 +60,7 @@
                                         <thead>
                                             <tr>
                                                 <th>团队名称</th>
-                                                <th>团队ID</th>
+                                                <!--<th>团队ID</th>-->
                                                 <th>团队队长</th>
                                                 <th>团队状态</th>
                                                 <th>操作</th>
@@ -71,13 +71,13 @@
                                             {% for t in team_list %}
                                             <tr class="gradeA">
                                                 <td>{{t.name}}</td>
-                                                <td>
+                                                <!--<td>
                                                   {% if t.status == 2 %}
                                                   {{t.id}}
                                                   {% else %}
                                                   未分配
                                                   {% endif%}
-                                                </td>
+                                                </td>-->
                                                 <td>{{t.manager_id.name}}</td>
                                                 <td class="center">
                                                   {% if t.status == 0 %}
@@ -89,9 +89,9 @@
                                                   {% else %}
                                                   已拒绝
                                                   {% endif %}
+                                                </td>
                                                 <td>
-                                                <td class="center">
-                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href='teacher/teamDt/{{t.id}}/'">团队详细及操作</button>
+                                                    <button type="button" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/teamDt/{{t.id}}/'">团队详细及操作</button>
                                                     <!--<button type="button" class="btn btn-success btn-xs" disabled>查看报表</button>-->
                                                 </td>
                                             </tr>

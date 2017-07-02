@@ -72,6 +72,10 @@ urlpatterns = {
     url(r'student/apply/(\d+)/$', views.teamApply, name='teamApply'),
     url(r'student/allTeam/(\d+)/$', views.displayAllTeam, name='displayAllTeam'),
 
+    url(r'student/team/accept/(\d+)/$', views.acceptApply, name='acceptApply'),
+    url(r'student/team/refuse/(\d+)/$', views.refuseApply, name='refuseApply'),
+    url(r'student/team/submit/(\d+)/$', views.submitApply, name='submitApply'),
+
     url(r'teacher/courseTeam/(\d+)/$', views.displayTeamListForTeacher, name='displayTeamListForTeacher'),
     url(r'teacher/teamDt/(\d+)/$', views.disPlayTeamInfoForTeacher, name='disPlayTeamInfoForTeacher'),
     url(r'teacher/teamDt/(\d+)/approve/$', views.approveTeam, name='approveTeam'),
