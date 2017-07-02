@@ -686,7 +686,7 @@ def uploadHomework(request,asn_id):
 
 				destination.close()
 				i = i + 1
-			else:
+			else:	
 				break
 
 		return HttpResponseRedirect("/EducationalSystem/student/")

@@ -1,0 +1,81 @@
+dbus-update-activation-environment: setting DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+dbus-update-activation-environment: setting DISPLAY=:0
+dbus-update-activation-environment: setting XAUTHORITY=/home/jenningshu/.Xauthority
+dbus-update-activation-environment: setting GTK_MODULES=gail:atk-bridge
+dbus-update-activation-environment: setting QT_ACCESSIBILITY=1
+dbus-update-activation-environment: setting QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
+dbus-update-activation-environment: setting CLUTTER_IM_MODULE=xim
+dbus-update-activation-environment: setting LANG=zh_CN.UTF-8
+dbus-update-activation-environment: setting GDM_LANG=zh_CN
+dbus-update-activation-environment: setting DISPLAY=:0
+dbus-update-activation-environment: setting COMPIZ_CONFIG_PROFILE=ubuntu
+dbus-update-activation-environment: setting GTK2_MODULES=overlay-scrollbar
+dbus-update-activation-environment: setting XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/jenningshu
+dbus-update-activation-environment: setting USER=jenningshu
+dbus-update-activation-environment: setting DESKTOP_SESSION=ubuntu
+dbus-update-activation-environment: setting QT4_IM_MODULE=fcitx
+dbus-update-activation-environment: setting PWD=/home/jenningshu
+dbus-update-activation-environment: setting HOME=/home/jenningshu
+dbus-update-activation-environment: setting QT_ACCESSIBILITY=1
+dbus-update-activation-environment: setting XDG_SESSION_TYPE=x11
+dbus-update-activation-environment: setting XDG_DATA_DIRS=/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+dbus-update-activation-environment: setting XDG_SESSION_DESKTOP=ubuntu
+dbus-update-activation-environment: setting GTK_MODULES=gail:atk-bridge
+dbus-update-activation-environment: setting SHELL=/bin/bash
+dbus-update-activation-environment: setting XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+dbus-update-activation-environment: setting QT_IM_MODULE=fcitx
+dbus-update-activation-environment: setting XMODIFIERS=@im=fcitx
+dbus-update-activation-environment: setting IM_CONFIG_PHASE=1
+dbus-update-activation-environment: setting XDG_CURRENT_DESKTOP=Unity:Unity7
+dbus-update-activation-environment: setting QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
+dbus-update-activation-environment: setting SHLVL=1
+dbus-update-activation-environment: setting LANGUAGE=zh_CN:zh
+dbus-update-activation-environment: setting GDMSESSION=ubuntu
+dbus-update-activation-environment: setting LOGNAME=jenningshu
+dbus-update-activation-environment: setting DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+dbus-update-activation-environment: setting XDG_RUNTIME_DIR=/run/user/1000
+dbus-update-activation-environment: setting XAUTHORITY=/home/jenningshu/.Xauthority
+dbus-update-activation-environment: setting XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session0
+dbus-update-activation-environment: setting XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+dbus-update-activation-environment: setting PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+dbus-update-activation-environment: setting GTK_IM_MODULE=fcitx
+dbus-update-activation-environment: setting _=/usr/bin/dbus-update-activation-environment
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-cloudpinyin.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-kimpanel-ui.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-vk.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-xkb.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-xim.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-pinyin.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-pinyin-enhance.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-unicode.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-notificationitem.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-xkbdbus.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-lua.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-ipc.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-spell.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-fullwidth-char.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-freedesktop-notify.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-punc.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-classic-ui.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-keyboard.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-autoeng.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-dbus.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-x11.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-imselector.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-clipboard.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-chttrans.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-quickphrase.conf
+(INFO-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/addon.c:151) 加载附加组件配置文件: fcitx-remote-module.conf
+(ERROR-1673 /build/fcitx-Hy8Ptu/fcitx-4.2.9.1/src/lib/fcitx/ime.c:432) fcitx-keyboard-cm-mmuock already exists
+=========================
+FCITX 4.2.9.1 -- Get Signal No.: 15
+Date: try "date -d @1498899926" if you are using GNU date ***
+ProcessID: 1673
+/usr/bin/fcitx(+0x14d6)[0x556fd0f164d6]
+/lib/x86_64-linux-gnu/libc.so.6(+0x357f0)[0x7f0bd11af7f0]
+/usr/bin/fcitx(+0x1140)[0x556fd0f16140]
+/lib/x86_64-linux-gnu/libc.so.6(+0x357f0)[0x7f0bd11af7f0]
+/lib/x86_64-linux-gnu/libc.so.6(__select+0x33)[0x7f0bd1278b73]
+/usr/lib/x86_64-linux-gnu/fcitx/fcitx-cloudpinyin.so(+0x5fbc)[0x7f0bca628fbc]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x76da)[0x7f0bd15486da]
+/lib/x86_64-linux-gnu/libc.so.6(clone+0x5f)[0x7f0bd1282d7f]
