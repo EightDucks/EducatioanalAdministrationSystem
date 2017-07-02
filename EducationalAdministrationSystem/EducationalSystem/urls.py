@@ -57,10 +57,15 @@ urlpatterns = {
     url(r'resource/doubleclick/$', views.doubleclick, name='doubleclick'),
     url(r'resource/returnSuperiorMenu/$', views.returnSuperiorMenu, name='returnSuperiorMenu'),
     url(r'resource/returnVirpath/$', views.returnVirpath, name='returnVirpath'),
+    url(r'resource/createFolder/$', views.createFolder, name='createFolder'),
 
     #ABOUT TEAM
     url(r'student/team/(\d+)/$', views.displayMyTeam, name='displayMyTeam'),
     url(r'student/teamDt/$', views.displayTeamDt, name='displayTeamDt'),
     url(r'student/apply/$', views.teamApply, name='teamApply'),
     url(r'student/allTeam/$', views.displayAllTeam, name='displayAllTeam'),
+
+
+    url(r'^chat_index/(\d+)/$',views.chat_index, name='chat_index'),
+    url(r'^chat/$',views.chat, name='chat'),
 }

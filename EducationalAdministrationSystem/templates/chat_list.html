@@ -1,0 +1,17 @@
+<div class="list-group-item">
+<div data-spy="scroll" data-target="#navbar-example" data-offset="10" style="height: 300px;overflow: auto;">
+
+                        {% for chat in chats %}
+                        <!--
+                         <p class="list-group-item-heading" style="">{{chat.sender}}:{{chat.content}}</>
+                         <li class="list-group-item-text" style="">{{chat.time}}</li>
+                         -->
+                            <p class="list-group-item-heading" style="">{{ chat.type}}:{{chat.sender}}--{{chat.time}}</p>
+                            <div class="col-xs-4">
+                            <input class="form-control" disabled value="{{ chat.content }}"/>
+                            </div>
+                         <input type="hidden" class="chat_id" value="{{chat.id}}"/>
+                         <br>
+                        {% endfor %}
+</div>
+</div>

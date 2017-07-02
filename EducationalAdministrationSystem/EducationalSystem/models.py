@@ -58,7 +58,7 @@ class Course_Student(models.Model):
 
 class Resource(models.Model):
     name = models.CharField(max_length=50)
-    path = models.CharField(max_length=100)
+    path = models.CharField(max_length=100, null=True)
     course_id = models.ForeignKey(Course)
     virtual_path = models.CharField(max_length=100)
 
