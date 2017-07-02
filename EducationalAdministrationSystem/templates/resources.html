@@ -85,7 +85,7 @@
                         <li class="myfile"><input type="text" class="changename" name="1" value="{{res.name}}"/><input class="checkbox" name="{{res.id}}" type="checkbox" value="" /></li>
                         {% endfor %}
                         {% for folder in folders %}
-                        <li class="myfolder"><input type="text" class="changename" name="1" value="{{folder.name}}"/><input class="checkbox" name="{{folder.id}}" type="checkbox" value="" /></li>
+                        <li class="myfolder"><input type="text" class="changename" name="3" value="{{folder.name}}"/><input class="checkbox" name="{{folder.id}}" type="checkbox" value="" /></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -101,15 +101,15 @@
             </div>
 
             <div class="operator_bar">
+                <button type="submit" id='downloadbutton' class="btn-default btn remove">下载文件</button>
                 <button type="submit"  class="btn-default btn carrynews">创建新文件夹</button>
                 <button type="submit" id='removebutton' class="btn-default btn remove">删除文件夹</button>
                 <button type="submit"  class="btn-default btn back">返回上一级</button>
-
                 <form id="uploadForm" method="POST" enctype="multipart/form-data" action="">
-				<input type='submit' id='uploadbutton' class="btn-default btn" value='上传文件'>
-            
-				<input type="file"  id="exampleInputFile" name="fileupload" multiple="">
-				</form>
+                    <input type='submit' id='uploadbutton' class="btn-default btn" value='上传文件'>
+
+                    <input type="file"  id="exampleInputFile" name="fileupload" multiple="">
+                </form>
             </div>
 
         </div>
@@ -134,6 +134,7 @@
 <script src="/static/js/addheader.js"></script>
 <script src="/static/js/resources.js"></script>
 <script src="/static/js/layer/layer.js"></script>
+
 
 </body>
 </html>
