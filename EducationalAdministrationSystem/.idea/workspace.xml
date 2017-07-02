@@ -24,7 +24,7 @@
       <file leaf-file-name="teacher_setgrade.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/teacher_setgrade.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
+            <state relative-caret-position="855">
               <caret line="45" column="96" selection-start-line="45" selection-start-column="96" selection-end-line="45" selection-end-column="96" />
               <folding />
             </state>
@@ -34,7 +34,7 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EducationalSystem/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
+            <state relative-caret-position="1292">
               <caret line="70" column="30" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
@@ -46,8 +46,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EducationalSystem/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="63" column="80" selection-start-line="63" selection-start-column="80" selection-end-line="63" selection-end-column="80" />
+            <state relative-caret-position="263">
+              <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -56,7 +56,7 @@
       <file leaf-file-name="apply_team.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/apply_team.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
+            <state relative-caret-position="988">
               <caret line="52" column="148" selection-start-line="52" selection-start-column="148" selection-end-line="52" selection-end-column="148" />
               <folding />
             </state>
@@ -66,8 +66,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="1191" column="9" selection-start-line="1191" selection-start-column="9" selection-end-line="1191" selection-end-column="9" />
+            <state relative-caret-position="22401">
+              <caret line="1206" column="9" selection-start-line="1206" selection-start-column="9" selection-end-line="1206" selection-end-column="9" />
               <folding>
                 <element signature="e#15#24#0" expanded="true" />
               </folding>
@@ -107,8 +107,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="63" />
     <option name="y" value="24" />
-    <option name="width" value="1377" />
-    <option name="height" value="876" />
+    <option name="width" value="1857" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -135,6 +135,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -211,8 +213,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -407,10 +407,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="63" y="24" width="1377" height="876" extended-state="6" />
-    <editor active="true" />
+    <frame x="63" y="24" width="1857" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33478576" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33441034" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32686415" sideWeight="0.50188476" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -547,9 +547,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="5" column="22" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#29#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -798,9 +795,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="22" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#29#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -834,7 +828,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/teacher_setgrade.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
+        <state relative-caret-position="855">
           <caret line="45" column="96" selection-start-line="45" selection-start-column="96" selection-end-line="45" selection-end-column="96" />
           <folding />
         </state>
@@ -842,7 +836,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/apply_team.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
+        <state relative-caret-position="988">
           <caret line="52" column="148" selection-start-line="52" selection-start-column="148" selection-end-line="52" selection-end-column="148" />
           <folding />
         </state>
@@ -850,7 +844,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EducationalSystem/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
+        <state relative-caret-position="1292">
           <caret line="70" column="30" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
@@ -860,8 +854,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EducationalSystem/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="1191" column="9" selection-start-line="1191" selection-start-column="9" selection-end-line="1191" selection-end-column="9" />
+        <state relative-caret-position="22401">
+          <caret line="1206" column="9" selection-start-line="1206" selection-start-column="9" selection-end-line="1206" selection-end-column="9" />
           <folding>
             <element signature="e#15#24#0" expanded="true" />
           </folding>
@@ -870,8 +864,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EducationalSystem/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="63" column="80" selection-start-line="63" selection-start-column="80" selection-end-line="63" selection-end-column="80" />
+        <state relative-caret-position="263">
+          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding />
         </state>
       </provider>
