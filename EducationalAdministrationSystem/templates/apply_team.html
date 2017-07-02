@@ -27,6 +27,10 @@
 
     <!--这个nav是左边的东西-->
     <div class="student_left"></div>
+    <div style="display:none;">
+      <input id="cou_id_holder" value="{{cou.id}}" >
+    </div>
+
     <!--  这个page-wrapper是右边   -->
     <div id="page-wrapper">
         <div class="header">
@@ -35,8 +39,10 @@
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="../../">{{cou.name}}</a></li>
-                <li><a href="#">团队</a></li>
+
+                <li><a href="/EducationalSystem/student/">{{cou.name}}</a></li>
+                <li><a href="/EducationalSystem/student/allTeam/{{cou.id}}">团队</a></li>
+
                 <li class="active">组建团队</li>
             </ol>
         </div>

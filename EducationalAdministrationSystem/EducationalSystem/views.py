@@ -992,7 +992,7 @@ def displayMyTeam(request, cid):
 		if not stu_tem:
 			tem = Team.objects.get(manager_id__id=stu_id, course_id=cou)
 			if not tem:
-				pass
+				return render(request, "student_course_myteam_noteam.html", {"cou":cou})
 			else:
 				stus = None
 				sts = "审核未通过"
@@ -1167,7 +1167,9 @@ def disPlayTeamInfoForTeacher(request, team_id):
 			student_teammember = []
 			for st in ts_member:
 				student_teammember.append(st.student_id)
-			return render(request, "teacher_course_team_teaminfo.html", {'cou':team.course_id, 'team':team, 'student_have_no_team':student_have_no_team, 'teammember': student_teammember})
+			uplimit = team.course_id.team_uplimit
+			team_member_cnt=ts_member.count()
+			return render(request, "teacher_course_team_teaminfo.html", {'cou':team.course_id, 'team':team, 'student_have_no_team':student_have_no_team, 'teammember': student_teammember, 'uplimit':uplimit, 'cnt':team_member_cnt})
 	else:
 		# 禁止访问
 		return HttpResponseRedirect("/EducationalSystem/")
@@ -1198,8 +1200,10 @@ def disapproveTeam(request, team_id):
 			and 'refuse_reason' in request.GET:
 		team = Team.objects.get(id=team_id)
 		team.status = 3
-		team.save()
 		team.reason = request.GET['refuse_reason']
+		team.save()
+		#给各位发站内信？？？
+		Student_Team.objects.filter(team_id=team).delete()
 		messages.success(request,"拒绝申请成功")
 		direct="/EducationalSystem/teacher/teamDt/"+team_id
 		return HttpResponseRedirect(direct)
@@ -1220,6 +1224,7 @@ def add_team_member(request, team_id, student_id):
 	else:
 		team_members = Student_Team.objects.filter(team_id=team_id)
 		team = Team.objects.get(id=team_id)
+		student = Student.objects.get(id=student_id)
 		if (len(team_members) >= team.course_id.team_uplimit):
 			# 团队成员人数大于等于上限
 			msg="操作失败：该团队成员已达到设定上限"
@@ -1227,10 +1232,11 @@ def add_team_member(request, team_id, student_id):
 			direct="/EducationalSystem/teacher/teamDt/"+team_id
 			return HttpResponseRedirect(direct)
 		else:
-			new_team_member = Student_Team(team_id=team_id, student_id=student_id, is_approved=True)
+			new_team_member = Student_Team(team_id=team, student_id=student, is_approved=True)
 			new_team_member.save()
-			msg="学生 "+student_id.name+" 已成功加入该团队"
+			msg="学生 "+student.name+" 已成功加入该团队"
 			messages.success(request, msg)
+			print(msg)
 			direct="/EducationalSystem/teacher/teamDt/"+team_id
 			return HttpResponseRedirect(direct)
 
