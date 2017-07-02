@@ -1,11 +1,9 @@
 # coding=utf-8
 import os
 
-import xlrd		#pip3 install xlrd
-import xlwt		#pip3 install xlwt
 import random
 
-import  tempfile, zipfile, zipstream
+import tempfile, zipfile, zipstream
 
 import time
 
