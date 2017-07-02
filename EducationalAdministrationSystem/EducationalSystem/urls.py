@@ -58,4 +58,7 @@ urlpatterns = {
     url(r'resource/returnSuperiorMenu/$', views.returnSuperiorMenu, name='returnSuperiorMenu'),
     url(r'resource/returnVirpath/$', views.returnVirpath, name='returnVirpath'),
     url(r'resource/createFolder/$', views.createFolder, name='createFolder'),
+
+    url(r'^chat_index/(\d+)/$',views.chat_index),
+    url(r'^chat/$',views.chat),
 }

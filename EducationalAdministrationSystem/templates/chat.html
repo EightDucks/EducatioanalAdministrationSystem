@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta content="" name="description" />
+    <meta content="webthemez" name="author" />
+    <title>Bootstrap HTML5 Admin Template</title>
+	<!-- Bootstrap Styles-->
+    <link href="/static/4assets/css/bootstrap.css" rel="stylesheet" />
+     <!-- FontAwesome Styles-->
+    <link href="/static/4assets/css/font-awesome.css" rel="stylesheet" />
+        <!-- Custom Styles-->
+    <link href="/static/css/jiaowu.css" rel="stylesheet" />
+     <!-- Google Fonts-->
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+
+
+</head>
+<body>
+    <!--wrapper 是根节点，最外层的div容器-->
+    <div id="wrapper">
+
+        <!--最上面的导航栏集成于.headerer-->
+        <div class="headerer"></div>
+
+
+        <!--这个nav是左边的东西，稍后会改成student_left相关-->
+        <div class="student_left"></div>
+        <div style="display:none;">
+          <input id="cou_id_holder" value="{{cou.id}}" >
+        </div>
+
+        <!--  这个page-wrapper是右边   -->
+        <div id="page-wrapper">
+          <div class="header">
+            <h1 class="page-header">
+                交流
+            </h1>
+            <!--可选择返回的不知道叫什么的东西-->
+            <ol class="breadcrumb">
+                <li><a href="../../">{{cou.name}}</a></li>
+                <li class="active">聊天室</li>
+			</ol>
+          </div>
+
+            <!--这是我们操作的主题框-->
+        <div id="page-inner" class="col-xs-12">
+
+            <div class="list-group col-xs-12 well">
+
+                    <div class="list-group-item">
+                    <div data-spy="scroll" data-target="#navbar-example" data-offset="10" style="height: 300px;overflow: auto;">
+
+                        {% for chat in chats %}
+                        <!--
+                         <p class="list-group-item-heading" style="">{{chat.sender}}:{{chat.content}}</>
+                         <li class="list-group-item-text" style="">{{chat.time}}</li>
+                         -->
+                            <p class="list-group-item-heading" style="">{{ chat.type}}:{{chat.sender}}--{{chat.time}}</p>
+                            <div class="col-xs-4">
+                            <input class="form-control" disabled value="{{ chat.content }}"/>
+                            </div>
+                         <input type="hidden" class="chat_id" value="{{chat.id}}"/>
+                         <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <form id="chatForm" class="form-horizontal panel container col-xs-12" method="POST" action="">{% csrf_token %}
+                <div class="form-group col-xs-10">
+                    <br>
+                    <div class="col-xs-8">
+                        <input name="content" id="content" value="" class="form-control" rows="2" placeholder=""></input>
+                    </div>
+                    <div class="form-group col-xs-2">
+                        <input type="submit" class="btn btn-primary" value="发送"/>
+                        <input type="hidden" name="post_type" value="send_chat"/>
+                        <input type="hidden" name="cou_id_holder" value="{{cou.id}}"/>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+
+
+        </div>
+
+             <!-- /. PAGE INNER  -->
+        </div>
+             <!-- /. PAGE INNER  -->
+        </div>
+
+     <!-- /. WRAPPER  -->
+
+</body>
+
+
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="/static/4assets/js/jquery-1.10.2.js"></script>
+      <!-- Bootstrap Js -->
+    <script src="/static/4assets/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Js -->
+    <script src="/static/4assets/js/jquery.metisMenu.js"></script>
+      <!-- Custom Js -->
+    <!--<script src="assets/js/custom-scripts.js"></script>-->
+    <!--添加教务、学生、教师页头部js-->
+    <script src="/static/js/addheader.js"></script>
+    <!-- DATA TABLE SCRIPTS -->
+    <script src="/static/4assets/js/dataTables/jquery.dataTables.js"></script>
+    <script src="/static/4assets/js/dataTables/dataTables.bootstrap.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#dataTables-example').dataTable();
+            });
+    </script>
+    <!--添加学生页nav左边js-->
+    <script src="/static/js/add_student_left.js"></script>
+
+<script>
+    jQuery(document).ajaxSend(function(event, xhr, settings) {
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    function sameOrigin(url) {
+        // url could be relative or scheme relative or absolute
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        // Allow absolute or scheme relative URLs to same origin
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            // or any other URL that isn't scheme relative or absolute i.e relative.
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+    function safeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+    }
+});
+
+
+
+    $(document).ready(function() {
+
+   updateMsg();    //更细信息
+            //表单 submit 事件
+    $("#chatForm").submit(function() {
+        //ajax 提交表单
+        $.post("/EducationalSystem/chat/",
+        	$('#chatForm').serialize(),
+        	function(data) {
+            $("#content").val("");
+            //$('.list-group-item').replaceWith(data);
+            //消息发送成功后清空内容框
+            //addMsg(xml);    //处理 xml
+        });
+        return false;       //阻止表单提交
+    });
+});
+
+//更新消息
+function updateMsg() {
+    $.post(
+    	"/EducationalSystem/chat/",
+    	{
+    		post_type: "get_chat",
+            cou_id_holder: {{ cou.id }}
+		},
+		function(data) {
+
+    	   $('.list-group-item').replaceWith(data);
+
+    });
+    setTimeout("updateMsg()", 1000);
+    // 每秒更新一次
+
+}
+</script>
+
+
+</html>
