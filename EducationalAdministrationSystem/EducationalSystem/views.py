@@ -681,12 +681,10 @@ def uploadHomework(request,asn_id):
 				asn_res.save()
 				for chunk in file_obj.chunks():
 					destination.write(chunk)
-
 				destination.close()
 				i = i + 1
 			else:
 				break
-
 		return HttpResponseRedirect("/EducationalSystem/student/")
 	return HttpResponseRedirect("/EducationalSystem/student/")
 
@@ -1137,3 +1135,22 @@ def add_team_member(request, team_id, student_id):
 			messages.success(request, msg)
 			direct="/EducationalSystem/teacher/teamDt/"+team_id
 			return HttpResponseRedirect(direct)
+
+def applyCreateTeam(request, cou_id):
+	if 'team_name' in request.GET and request.GET['team_name'] and \
+		'description' in request.GET and request.GET['description']and \
+		'id' in request.session and request.session['id']:
+		nm = request.GET['team_name']
+		dis = request.GET['description']
+		sid = request.session['id']
+		stu = Student.objects.get(id = sid)
+		cid = Course.objects.get(id = cou_id)
+		tm = Team(name = nm, course_id = cid, status = 0, manager_id = stu, discription = dis)
+		tm_chek = Team.objects.filter(name = nm, course_id = cou_id, status = 0 or 1 or 2)
+		if not tm_chek:
+			tm.save()
+		return HttpResponseRedirect("/EducationalSystem/student/")
+
+def displayMyTeam(request, cou_id):
+	cou = Course.objects.get(id = cou_id)
+	return render(request, "apply_team.html", {'cou' : cou})
