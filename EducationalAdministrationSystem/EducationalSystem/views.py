@@ -324,8 +324,17 @@ def displayAllResource(request, course_id):
 	Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False, virtual_path='/')
 	print('display resource')
 	print([res.id for res in Resources], [f.id for f in Folders], course_id, '/')
-	return render(request, 'resources.html',
-				  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': '/'})
+	if 'id' in request.session and request.session['id'] and 'type' in request.session:
+		if request.session['type'] == 's':
+			sen_type = 's'
+		elif request.session['type'] == 't':
+			sen_type = 't'
+		else:
+			return HttpResponseRedirect("/EducationalSystem/")
+		return render(request, 'resources.html',
+				  	{'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': '/', 'sen_type': sen_type})
+	else:
+		return HttpResponseRedirect("/EducationalSystem/")
 
 
 # 上传资源：教师
@@ -676,15 +685,28 @@ def deleteResource(request):
 		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
 		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
 
+		if 'type' in request.session and request.session['type'] == 's':
+			sen_type = 's'
+		elif 'type' in request.session request.session['type'] == 't':
+			sen_type = 't'
+		else:
+			sen_type = 'err'
+
 		return render(request, 'resources.html',
-					  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': virpath})
+					  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': virpath, 'sen_type': sen_type})
 	else:
 		course_id = 0
 		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
 		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
 		virpath = '/'
+		if 'type' in request.session and request.session['type'] == 's':
+			sen_type = 's'
+		elif 'type' in request.session request.session['type'] == 't':
+			sen_type = 't'
+		else:
+			sen_type = 'err'
 		return render(request, 'resources.html',
-					  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': virpath})
+					  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': virpath, 'sen_type': sen_type})
 
 
 def uploadHomework(request,asn_id):
