@@ -20,7 +20,7 @@ $(function(){
             function(){
                 txt+=$(this).attr("name")+',';               
             })
-        alert(txt);
+        layer.msg("开始下载",{time: 1000 });
         window.location.href='/EducationalSystem/resource/download/' + txt;
 		
 //        $.ajax({
@@ -72,7 +72,7 @@ $(function(){
     //新建
 
     $carry.click(function () {
-            layer.prompt({title: '请输入文件夹名称', formType: 2}, function(pass, index){
+            layer.prompt({title: '请输入文件夹名称', formType: 3}, function(pass, index){
                 layer.close(index);
                 if(typeof pass === 'string'){
                     // layer.msg(id)

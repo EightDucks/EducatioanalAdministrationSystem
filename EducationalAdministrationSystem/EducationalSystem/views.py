@@ -1397,3 +1397,22 @@ def teacherUpldAsn(request):
 				break
 		return HttpResponseRedirect("/EducationalSystem/teacher/")
 	return HttpResponseRedirect("/EducationalSystem/teacher/")
+
+def exportAssignment(request, asn_id):
+	Team_asns = Team_Assignment.objects.filter(asn_id__id=asn_id)
+
+	Teams = []
+	for team_asn in Team_asns:
+		row = []
+		row.append(team_asn.team_id.id)
+		row.append(team_asn.team_id.name)
+		if team_asn.submit_times == 0:
+			row.append('未提交')
+			row.append(0)
+		else:
+			row.append('已提交')
+			row.append(team_asn.mark)
+		Teams.append(row)
+
+	writeAssignment(Teams, asn_id)
+
