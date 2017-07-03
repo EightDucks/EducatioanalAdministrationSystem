@@ -61,6 +61,7 @@ urlpatterns = {
     url(r'resource/returnSuperiorMenu/$', views.returnSuperiorMenu, name='returnSuperiorMenu'),
     url(r'resource/returnVirpath/$', views.returnVirpath, name='returnVirpath'),
     url(r'resource/createFolder/$', views.createFolder, name='createFolder'),
+    url(r'resource/download/$', views.downloadResource, name='downloadResource'),
 
 
     url(r'student/applyCreateTeam/(\d+)/save/$', views.applyCreateTeam, name='applyCreateTeam'),
