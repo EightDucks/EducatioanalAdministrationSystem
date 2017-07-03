@@ -300,6 +300,16 @@ def addCourse(request):
 		Course_tmp = Course(name=name, credit=credit, time=time, location=location, term_id=term, hour=hour)
 		Course_tmp.save()
 
+		cid = Course_tmp.id
+		dirname = 'course' + str(cid)
+		baseDir = os.path.dirname(os.path.abspath(__name__))
+		filepath = os.path.join(baseDir, 'static', 'files', dirname)
+		os.makedirs(filepath)
+		rspath = os.path.join(filepath, 'rs')
+		hwpath = os.path.join(filepath, 'hw')
+		os.makedirs(rspath)
+		os.makedirs(hwpath)
+
 		while True:
 			strq = strhead + str(count)
 			if strq not in request.GET:
@@ -320,8 +330,8 @@ def addCourse(request):
 #czy
 #展示所有资源：教师/学生
 def displayAllResource(request, course_id):
-	Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True, virtual_path='/')
-	Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False, virtual_path='/')
+	Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True, virtual_path='/')
+	Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False, virtual_path='/')
 	print('display resource')
 	print([res.id for res in Resources], [f.id for f in Folders], course_id, '/')
 	if 'id' in request.session and request.session['id'] and 'type' in request.session:
@@ -338,19 +348,6 @@ def displayAllResource(request, course_id):
 
 
 # 上传资源：教师
-def addResource(request):
-	if 'name' in request.GET and request.GET['name'] and \
-					'path' in request.GET and request.GET['path'] and \
-					'virtual_path' in request.GET and request.GET['virtual_path'] and \
-					'course_id' in request.GET and request.GET['course_id']:
-		course_id = request.GET['course_id']
-		name = request.GET['name']
-		path = request.GET['path']
-		virtual_path = request.GET['virtual_path']
-
-		Resource_tmp = Resource(name=name, path=path, virtual_path=virtual_path, course_id=course_id)
-		Resource_tmp.save()
-
 
 # mine
 
@@ -468,6 +465,13 @@ def addAssignment(request, cou_id):
 		cou = Course.objects.get(id=cou_id)
 		asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=duetime, submit_limits =submit_limits, weight=weight, course_id=cou )
 		asn.save()
+
+		dirname = "course" + str(cou_id)
+		asnname = asn.id
+		baseDir = os.path.dirname(os.path.abspath(__name__))
+		filepath = os.path.join(baseDir, 'static', 'files', dirname, 'hw', str(asnname))
+		os.makedirs(filepath)
+
 
 	return HttpResponseRedirect("/EducationalSystem/teacher/")
 
@@ -638,7 +642,7 @@ def uploadResource(request):
 			filepath = os.path.join(baseDir, 'static', 'files', f.name)
 			destination = open(filepath, 'wb+')
 			print(filepath)
-			res = Resource(name=f.name, path=filepath, course_id=cou, virtual_path=virpath)
+			res = Resource(name=f.name, path=filepath, course_id=cou, virtual_path=virpath, is_dir=False)
 			res.save()
 			for chunk in f.chunks():
 				destination.write(chunk)
@@ -682,8 +686,8 @@ def deleteResource(request):
 		for i in range(num):
 			Resource.objects.get(id=int(splitted[i])).delete()
 
-		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
-		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
+		Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True)
+		Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False)
 
 		if 'type' in request.session and request.session['type'] == 's':
 			sen_type = 's'
@@ -696,8 +700,8 @@ def deleteResource(request):
 					  {'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': virpath, 'sen_type': sen_type})
 	else:
 		course_id = 0
-		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
-		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
+		Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True)
+		Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False)
 		virpath = '/'
 		if 'type' in request.session and request.session['type'] == 's':
 			sen_type = 's'
@@ -732,8 +736,11 @@ def uploadHomework(request,asn_id):
 			if newStr in request.FILES:
 				file_obj = request.FILES[newStr]
 
+				asn = Assignment.objects.get(id=asn_id)
+				cou = asn.course_id
+				couDir = "course" + str(cou.id)
 				baseDir = os.path.dirname(os.path.abspath(__name__))
-				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
+				filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), file_obj.name)
 
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
@@ -848,9 +855,9 @@ def doubleclick(request):
 
 		print(course_id, folder_name, virpath)
 		#Folders = Resource.objects.filter(course_id__id=course_id, path_isnull=True, virtual_path=virpath)
-		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True, virtual_path=virpath)
+		Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True, virtual_path=virpath)
 		print('Folder done.')
-		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False, virtual_path=virpath)
+		Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False, virtual_path=virpath)
 
 		print('ready to render '+virpath)
 		print([res.id for res in Resources], [f.id for f in Folders], course_id, virpath)
@@ -866,8 +873,8 @@ def doubleclick(request):
 		return HttpResponse(ret_str)
 	else:
 		course_id = 0
-		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
-		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
+		Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True)
+		Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False)
 		virpath = '/'
 		ret_str = fileSystemResponse(Resources, Folders)
 		return HttpResponse(ret_str)
@@ -889,8 +896,8 @@ def returnSuperiorMenu(request):
 		for i in range(num-2):
 			new_virpath = new_virpath + splitted[i] + '/'
 
-		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=False, virtual_path=new_virpath)
-		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=True, virtual_path=new_virpath)
+		Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True, virtual_path=new_virpath)
+		Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False, virtual_path=new_virpath)
 
 		ret_str = fileSystemResponse(Folders, Resources)
 
@@ -898,8 +905,8 @@ def returnSuperiorMenu(request):
 
 	else:
 		course_id = 0
-		Folders = Resource.objects.filter(course_id__id=course_id, path__isnull=True)
-		Resources = Resource.objects.filter(course_id__id=course_id, path__isnull=False)
+		Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True)
+		Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False)
 		virpath = '/'
 
 		ret_str = fileSystemResponse(Resources, Folders)
@@ -945,7 +952,7 @@ def createFolder(request):
 
 		print(folder_name, virpath+folder_name+'/', course_id)
 
-		res = Resource(name=folder_name, path=None, virtual_path=virpath, course_id_id=course_id)
+		res = Resource(name=folder_name, path=virpath+folder_name+'/', virtual_path=virpath, course_id_id=course_id, is_dir=True)
 		res.save()
 		ret_str = '<li class="myfolder"><input type="text" class="changename" name="1" value="' + \
 				res.name + '"/><input class="checkbox" name="' + str(res.id) + '" type="checkbox" value="" /></li>'
@@ -960,10 +967,10 @@ def displayInfo(request):
 			return render(request, "student_profile.html", {"stu":stu})
 		elif user_type == "t":
 			tea = Teacher.objects.get(id=user_id)
-			return render(request, "teacher_and_admin_profile.html", {"user":tea})
+			return render(request, "teacher_and_admin_profile.html", {"user":tea,"type":"t"})
 		elif user_type == "e":
 			ea = EduAdmin.objects.get(id=user_id)
-			return render(request, "teacher_and_admin_profile.html", {"user":ea})
+			return render(request, "teacher_and_admin_profile.html", {"user":ea,"type":"e"})
 
 def chat_index(request,cou_id):
 	if 'type' in request.session and request.session['type'] == 's':
@@ -1011,16 +1018,16 @@ def displayMyTeam(request, cid):
 		"type" in request.session and request.session["type"] == "s":
 		stu_id = request.session["id"]
 		cou = Course.objects.get(id=cid)
-		stu_tem = Student_Team.objects.get(team_id__course_id__id=cid, student_id=stu_id)
-		if not stu_tem:
-			tem = Team.objects.get(manager_id__id=stu_id, course_id=cou)
-			if not tem:
+		stu_tem = Student_Team.objects.filter(team_id__course_id__id=cid, student_id=stu_id)
+		if stu_tem.count() < 1:
+			tem = Team.objects.filter(manager_id__id=stu_id, course_id=cou)
+			if tem.count() < 1:
 				return render(request, "student_course_myteam_noteam.html", {"cou":cou})
 			else:
 				stus = None
 				sts = "审核未通过"
-				return render(request, "student_course_myteam_manager.html", {"tem": tem, "stus": stus, "status": sts, "cou": cou})
-		tem = stu_tem.team_id
+				return render(request, "student_course_myteam_manager.html", {"tem": tem[0], "stus": stus, "status": sts, "cou": cou})
+		tem = stu_tem[0].team_id
 
 
 		#is_manager = Team.object.fliter(id=tem, manager_id=stu_id)
@@ -1054,9 +1061,9 @@ def displayTeamDt(request, tem_id):
 		stu_id = request.session["id"]
 		tem = Team.objects.get(id=tem_id)
 		cou = tem.course_id
-		stu_team = Student_Team.objects.get(team_id__course_id=cou, student_id__id=stu_id)
+		stu_team = Student_Team.objects.filter(team_id__course_id=cou, student_id__id=stu_id)
 		psSts = False
-		if not stu_team:
+		if stu_team.count() < 1:
 			psSts = True
 		else:
 			psSts = False
@@ -1093,9 +1100,9 @@ def displayAllTeam(request, cou_id):
 		tem = Team.objects.filter(course_id__id=cou_id)
 		cou = Course.objects.get(id=cou_id)
 		stu_id = request.session["id"]
-		Stu_team = Student_Team.objects.get(team_id__course_id__id=cou_id, student_id__id=stu_id)
+		Stu_team = Student_Team.objects.filter(team_id__course_id__id=cou_id, student_id__id=stu_id)
 		psSts = False
-		if not Stu_team:
+		if Stu_team.count() < 1:
 			psSts = True
 		else:
 			psSts = False

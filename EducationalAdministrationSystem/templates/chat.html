@@ -45,7 +45,11 @@
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="../../">{{cou.name}}</a></li>
+                {% if sen_type == 't' %}
+                    <li><a href="../../teacher">{{cou.name}}</a></li>
+                {% elif sen_type == 's' %}
+                    <li><a href="../../student">{{cou.name}}</a></li>
+                {% endif %}
                 <li class="active">聊天室</li>
 			</ol>
           </div>

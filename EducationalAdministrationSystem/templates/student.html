@@ -41,7 +41,7 @@
         </nav>
         <!--  这个page-wrapper是右边   -->
         <div id="page-wrapper">
-          <div class="header"> 
+          <div class="header">
             <h1 class="page-header">
                 课程列表
             </h1>
@@ -49,7 +49,18 @@
 
             <!--这是我们操作的主题框-->
             <div id="page-inner">
-                
+              {% if messages %}
+              <div class="row">
+                <div class="col-xs-12">
+                  {% for message in messages %}
+                    <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      {{message}}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
                 <!--</div>-->
                 <div class="row">
                     {% for c in cou1 %}
