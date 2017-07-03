@@ -11,6 +11,28 @@ def readFromXLSX(path):
 
     return rows_len-1, ws_rows[1:rows_len]
 
+def writeAssignment(teams, asn_id):
+    wb = workbook()
+    ws = wb.active
+
+    row_num = len(teams)
+
+    ws['A1'] = '团队ID'
+    ws['B1'] = '团队名称'
+    ws['C1'] = '作业提交情况'
+    ws['D1'] = '作业分数'
+
+    for i in range(row_num):
+        ws['A'+str(i+2)] = teams[i][0]
+        ws['B'+str(i+2)] = teams[i][1]
+        ws['C'+str(i+2)] = teams[i][2]
+        ws['D'+str(i+2)] = teams[i][3]
+
+    save_path = '作业' + str(asn_id) +'.xlsx'
+    wb.save(save_path)
+
+    return save_path
+
 def fileSystemResponse(Resources, Folders):
     R1 = '<li class="myfile"><input type="text" class="changename" name="1" value="'
     R2 = '"/><input class="checkbox" name="'
