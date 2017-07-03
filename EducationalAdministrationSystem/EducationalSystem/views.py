@@ -713,7 +713,8 @@ def uploadHomework(request,asn_id):
 	if request.method == 'POST' and 'id' in request.session and request.session['id']:
 
 		sid = request.session['id']
-
+		stu = Student_Team.objects.get(student_id__id=sid)
+		stu_team =stu.team_id
 		# teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
 		# if not teamAsn:
 		# 	teamAsn.submit_times = 1
@@ -737,7 +738,7 @@ def uploadHomework(request,asn_id):
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
 				# asn_res.save()
-				t_a = Team_Assignment.objects.get(id=1)
+				t_a = Team_Assignment.objects.get(asn_id__id=asn_id, team_id=stu_team)
 				asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
 				asn_res.save()
 				for chunk in file_obj.chunks():
@@ -1290,3 +1291,27 @@ def applyTeam(request, cou_id):
 		cou = Course.objects.get(id = cou_id)
 		return render(request, "apply_team.html", {'cou' : cou, 'sts':sts})
 	return HttpResponseRedirect("/EducationalSystem/")
+
+def teacherUpldAsn(request):
+	if request.method == 'POST':
+		strA = "assignment_attachment_"
+		i = 0
+		while True:
+			newStr = strA + str(i)
+			if newStr in request.FILES:
+				file_obj = request.FILES[newStr]
+
+				baseDir = os.path.dirname(os.path.abspath(__name__))
+				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
+				destination = open(filepath, 'wb+')
+				asn_res = Assignment_Resource.objects.get(path=filepath)
+				asn_res.iscorrected = True
+				asn_res.save()
+				for chunk in file_obj.chunks():
+					destination.write(chunk)
+				destination.close()
+				i = i + 1
+			else:
+				break
+		return HttpResponseRedirect("/EducationalSystem/teacher/")
+	return HttpResponseRedirect("/EducationalSystem/teacher/")
