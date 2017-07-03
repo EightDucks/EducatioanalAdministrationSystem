@@ -86,4 +86,5 @@ urlpatterns = {
     url(r'^chat_index/(\d+)/$',views.chat_index, name='chat_index'),
     url(r'^chat/$',views.chat, name='chat'),
 
+
 }

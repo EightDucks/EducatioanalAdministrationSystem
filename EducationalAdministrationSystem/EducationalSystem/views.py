@@ -300,6 +300,16 @@ def addCourse(request):
 		Course_tmp = Course(name=name, credit=credit, time=time, location=location, term_id=term, hour=hour)
 		Course_tmp.save()
 
+		cid = Course_tmp.id
+		dirname = 'course' + str(cid)
+		baseDir = os.path.dirname(os.path.abspath(__name__))
+		filepath = os.path.join(baseDir, 'static', 'files', dirname)
+		os.makedirs(filepath)
+		rspath = os.path.join(filepath, 'rs')
+		hwpath = os.path.join(filepath, 'hw')
+		os.makedirs(rspath)
+		os.makedirs(hwpath)
+
 		while True:
 			strq = strhead + str(count)
 			if strq not in request.GET:
@@ -468,6 +478,13 @@ def addAssignment(request, cou_id):
 		cou = Course.objects.get(id=cou_id)
 		asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=duetime, submit_limits =submit_limits, weight=weight, course_id=cou )
 		asn.save()
+
+		dirname = "course" + str(cou_id)
+		asnname = asn.id
+		baseDir = os.path.dirname(os.path.abspath(__name__))
+		filepath = os.path.join(baseDir, 'static', 'files', dirname, 'hw', str(asnname))
+		os.makedirs(filepath)
+
 
 	return HttpResponseRedirect("/EducationalSystem/teacher/")
 
@@ -731,8 +748,11 @@ def uploadHomework(request,asn_id):
 			if newStr in request.FILES:
 				file_obj = request.FILES[newStr]
 
+				asn = Assignment.objects.get(id=asn_id)
+				cou = asn.course_id
+				couDir = "course" + str(cou.id)
 				baseDir = os.path.dirname(os.path.abspath(__name__))
-				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
+				filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), file_obj.name)
 
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
@@ -1290,3 +1310,4 @@ def applyTeam(request, cou_id):
 		cou = Course.objects.get(id = cou_id)
 		return render(request, "apply_team.html", {'cou' : cou, 'sts':sts})
 	return HttpResponseRedirect("/EducationalSystem/")
+
