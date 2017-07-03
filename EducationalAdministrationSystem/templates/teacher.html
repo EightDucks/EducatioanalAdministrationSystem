@@ -13,7 +13,7 @@
         <!-- Custom Styles-->
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
-   
+
 
 </head>
 <body>
@@ -73,6 +73,12 @@
                                 <!--<p>课时: 32</p>-->
                                 <!--<p>上课时间： 周一，23节</p>-->
                                 <!--<p>上课地点： 工程训练中心317</p>-->
+                                <div class="myfont">
+                                  开课学期：{{c.term_id.name}}
+                                  {% if c.term_id.is_current == True %}
+                                  <strong>（当前学期）</strong>
+                                  {% endif %}
+                                </div>
                                 <div class="myfont">学分: {{c.credit}}</div>
                                 <div class="myfont">课时: {{c.hour}}</div>
                                 <div class="myfont">上课时间： {{c.time}}</div>
@@ -96,6 +102,12 @@
                                 <!--<p>课时: 32</p>-->
                                 <!--<p>上课时间： 周一，23节</p>-->
                                 <!--<p>上课地点： 工程训练中心317</p>-->
+                                <div class="myfont">
+                                  开课学期：{{c.term_id.name}}
+                                  {% if c.term_id.is_current == True %}
+                                  <strong>（当前学期）</strong>
+                                  {% endif %}
+                                </div>
                                 <div class="myfont">学分: {{c.credit}}</div>
                                 <div class="myfont">课时: {{c.hour}}</div>
                                 <div class="myfont">上课时间： {{c.time}}</div>

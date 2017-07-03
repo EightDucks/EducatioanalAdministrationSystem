@@ -70,6 +70,12 @@
                                 <a href="/EducationalSystem/student/course/{{c.id}}/">{{c.name}}</a>
                             </div>
                             <div class="panel-body">
+                                <div class="myfont">
+                                  开课学期：{{c.term_id.name}}
+                                  {% if c.term_id.is_current == True %}
+                                  <strong>（当前学期）</strong>
+                                  {% endif %}
+                                </div>
                                 <div class="myfont">学分: {{c.credit}}</div>
                                 <div class="myfont">课时: {{c.hour}}</div>
                                 <div class="myfont">上课时间： {{c.time}}</div>
@@ -87,6 +93,12 @@
                                 <a href="/EducationalSystem/student/course/{{c.id}}/">{{c.name}}</a>
                             </div>
                             <div class="panel-body">
+                                <div class="myfont">
+                                  开课学期：{{c.term_id.name}}
+                                  {% if c.term_id.is_current == True %}
+                                  <strong>（当前学期）</strong>
+                                  {% endif %}
+                                </div>
                                 <div class="myfont">学分: {{c.credit}}</div>
                                 <div class="myfont">课时: {{c.hour}}</div>
                                 <div class="myfont">上课时间： {{c.time}}</div>

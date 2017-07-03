@@ -15,6 +15,7 @@ urlpatterns = {
     url(r'^jiaowu_addcourse/$', views.jiaowu_addcourse, name='jiaowu_addcourse'),
     url(r'^jiaowu_addsemester/$', views.jiaowu_addsemester, name='jiaowu_addsemester'),
     url(r'^jiaowu_rewritecourse/(\d+)?',views.jiaowu_rewriteCourse,name='jiaowu_rewritecourse'),
+    url(r'^jiaowu_setCurrentSemester/(\d+)$', views.jiaowu_setcurrentsemester, name='jiaowu_setcurrentsemester'),
 
 
     # 教务、学生、教师页头部

@@ -115,6 +115,19 @@ def jiaowu_courseinfo(request, cou_id):
     #term = Term.objects.get(id=tid)
     return render(request, "jiaowu_courseinfo.html", {'course':course, 'term':tid, 'stu':stu, 'tea': tea})
 
+# 设置当前学期，教务，跳转到原页面
+def jiaowu_setcurrentsemester(request, term_id):
+    try:
+        Term.objects.all().update(is_current=False)
+        term = Term.objects.get(id=term_id)
+        term.is_current=True
+        term.save()
+        messages.success(request,"操作成功")
+        return HttpResponseRedirect("/EducationalSystem/jiaowu/"+term_id)
+    except:
+        messages.error(request,"操作失败")
+        return HttpResponseRedirect("/EducationalSystem/jiaowu/"+term_id)
+
 # 学生课程，单独页面
 def displayCourseForStudent(request):
     if 'id' in request.session and request.session['id'] \
@@ -240,7 +253,14 @@ def displayCourseForEA(request, t_id):
         thisTerm = -1
         terms = Term.objects.order_by("-id")
         if not t_id:
-            thisTerm = terms[0]
+            flag = False
+            for i in terms:
+                if i.is_current == True:
+                    thisTerm = i
+                    flag = True
+                    break
+            if flag == False:
+                thisTerm = terms[0]
         else:
             t = Term.objects.get(id=t_id)
             thisTerm = t

@@ -44,6 +44,15 @@
                 <small>
                   {{thisTerm.name}}
                 </small>
+                {% if thisTerm.is_current == False %}
+                <button type="button" class="btn btn-default" onclick="location.href='/EducationalSystem/jiaowu_setCurrentSemester/{{thisTerm.id}}'">
+                  设置该学期为当前学期
+                </button>
+                {% else %}
+                <button type="button" class="btn btn-default" disabled>
+                  该学期已经是当前学期
+                </button>
+                {% endif %}
             </h1>
           </div>
 
