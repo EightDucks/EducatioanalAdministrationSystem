@@ -34,6 +34,7 @@ class Term(models.Model):
     end = models.DateField()
     week = models.IntegerField()
     is_over = models.BooleanField(default=False)
+    is_current = models.BooleanField(default=False)
 
 class Course(models.Model):
     name = models.CharField(max_length=50)

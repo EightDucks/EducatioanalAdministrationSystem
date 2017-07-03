@@ -240,11 +240,11 @@ def displayCourseForEA(request, t_id):
         thisTerm = -1
         terms = Term.objects.order_by("-id")
         if not t_id:
-            thisTerm = terms[0].id
+            thisTerm = terms[0]
         else:
             t = Term.objects.get(id=t_id)
-            thisTerm = t.id
-        cou = Course.objects.filter(term_id__id=thisTerm)
+            thisTerm = t
+        cou = Course.objects.filter(term_id__id=thisTerm.id)
         if len(cou) < 3:
             cou1 = cou[0:len(cou)]
             cou2 = None
@@ -254,7 +254,7 @@ def displayCourseForEA(request, t_id):
         else:
             cou1 = cou[0:3]
             cou2 = cou[3:6]
-        return render(request, "jiaowu.html", {'terms': terms, 'cou1': cou1, 'cou2': cou2, 't_id': t_id})
+        return render(request, "jiaowu.html", {'terms': terms, 'cou1': cou1, 'cou2': cou2, 't_id': t_id, 'thisTerm': thisTerm})
     else:
         return HttpResponseRedirect("/EducationalSystem/")
 
@@ -1649,5 +1649,3 @@ def exportTeams(request, course_id):
     response.write(content)
 
     return response
-
-
