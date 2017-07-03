@@ -1102,8 +1102,9 @@ def chat_index(request,cou_id):
     elif 'type' in request.session and request.session['type'] == 't':
         sen_type = 't'
     cou = Course.objects.get(id=cou_id)
-    chats = list(Chat.objects.filter(courseid=cou_id))[-4:]
-    return render(request, 'chat.html', {'chats': chats, 'cou': cou, 'sen_type':sen_type})
+    chats = list(Chat.objects.filter(courseid_id=cou_id))[-4:]
+    last_chat = list(Chat.objects.all())[-1:]
+    return render(request, 'chat.html', {'chats': chats, 'cou': cou, 'sen_type':sen_type, 'last_chat':last_chat})
 
 
 def chat(request):
@@ -1128,12 +1129,13 @@ def chat(request):
             #chats = list(Chat.objects.filter(id=cou_id))
             return HttpResponse()
         elif post_type == 'get_chat':
+            cou_id = int(request.POST.get('cou_id_holder'))
             #print("enter getchat")
             #print(cou_id)
             #chats = list(Chat.objects.filter(courseid_id = cou_id))[-4:]
             last_chat_id = int(request.POST.get('last_chat_id'))
-            # print last_chat_id
-            chats = Chat.objects.filter(id__gt=last_chat_id)
+            print(last_chat_id)
+            chats = Chat.objects.filter(id__gt=last_chat_id,courseid_id=cou_id)
             return render(request, 'chat_list.html',{'chats': chats})
 
 #ABOUT TEAM
