@@ -38,6 +38,20 @@ def student_left(request):
 def index(request):
     from django.contrib.messages import get_messages
     storage = get_messages(request)
+    if 'id' in request.session and request.session['id'] \
+            and 'type' in request.session and request.session['type']:
+        tp = request.session['type']
+        uid = request.session['id']
+        if tp == 's':
+            per = Student.objects.get(id=uid)
+            ustr = "Student"
+        elif tp == 't':
+            per = Teacher.objects.get(id=uid)
+            ustr = "Teacher"
+        elif tp == 'e':
+            per = EduAdmin.objects.get(id=uid)
+            ustr = "Administrator"
+        return render(request, "index.html", {'msg': storage, 'len': len(storage), 'str': ustr, 'per': per})
     return render(request, "index.html", {'msg': storage, 'len': len(storage)})
 
 
