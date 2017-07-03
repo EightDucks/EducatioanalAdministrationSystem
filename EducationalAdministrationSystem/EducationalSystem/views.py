@@ -717,7 +717,8 @@ def uploadHomework(request,asn_id):
 	if request.method == 'POST' and 'id' in request.session and request.session['id']:
 
 		sid = request.session['id']
-
+		stu = Student_Team.objects.get(student_id__id=sid)
+		stu_team =stu.team_id
 		# teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
 		# if not teamAsn:
 		# 	teamAsn.submit_times = 1
@@ -744,7 +745,7 @@ def uploadHomework(request,asn_id):
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
 				# asn_res.save()
-				t_a = Team_Assignment.objects.get(id=1)
+				t_a = Team_Assignment.objects.get(asn_id__id=asn_id, team_id=stu_team)
 				asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
 				asn_res.save()
 				for chunk in file_obj.chunks():
@@ -1135,6 +1136,10 @@ def submitApply(request, tem_id):
 	if cou.team_downlimit is not None:
 		if len(stu_tem) < cou.team_downlimit:
 			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#不允许审核
+	for member in stu_tem:
+		if member.is_approved == 0:
+			# 存在未通过申请的学生， 不允许审核
+			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")
 	tem.status = 1
 	tem.save()
 	return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#允许审核
@@ -1282,7 +1287,10 @@ def applyCreateTeam(request, cou_id):
 		tm_chek = Team.objects.filter(name = nm, course_id = cou_id, status = 0 or 1 or 2)
 		if not tm_chek:
 			tm.save()
-		return HttpResponseRedirect("/EducationalSystem/student/")
+			st = Student_Team(team_id=tm, student_id=stu, is_approved=True)
+			st.save()
+			cou = tm.course_id.id
+			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou) +"/")
 
 def applyTeam(request, cou_id):
 	if 'id' in request.session and request.session['id'] \
@@ -1298,3 +1306,26 @@ def applyTeam(request, cou_id):
 		return render(request, "apply_team.html", {'cou' : cou, 'sts':sts})
 	return HttpResponseRedirect("/EducationalSystem/")
 
+def teacherUpldAsn(request):
+	if request.method == 'POST':
+		strA = "assignment_attachment_"
+		i = 0
+		while True:
+			newStr = strA + str(i)
+			if newStr in request.FILES:
+				file_obj = request.FILES[newStr]
+
+				baseDir = os.path.dirname(os.path.abspath(__name__))
+				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
+				destination = open(filepath, 'wb+')
+				asn_res = Assignment_Resource.objects.get(path=filepath)
+				asn_res.iscorrected = True
+				asn_res.save()
+				for chunk in file_obj.chunks():
+					destination.write(chunk)
+				destination.close()
+				i = i + 1
+			else:
+				break
+		return HttpResponseRedirect("/EducationalSystem/teacher/")
+	return HttpResponseRedirect("/EducationalSystem/teacher/")
