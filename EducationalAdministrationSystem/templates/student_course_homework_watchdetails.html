@@ -114,37 +114,18 @@
                                       </div>
                                   </div>
 
-                                  <!--<div class="form-group">-->
-                                      <!--<label class="col-sm-2 control-label">作业附件</label>-->
-                                      <!--<div class="col-sm-10">-->
-                                        <!--<div>-->
-                                          <!--<label class="control-label" style="font-weight: normal; text-align: left;">您没有提交作业</label><br>-->
-                                          <!--<a>文件名称</a><br>-->
-                                          <!--<a>文件名称</a><br>-->
-                                        <!--</div>-->
-                                      <!--</div>-->
-                                  <!--</div>-->
-
                                   <div class="form-group">
-                                      <label class="col-sm-2 control-label">上传作业</label>
+                                      <label class="col-sm-2 control-label">作业附件</label>
                                       <div class="col-sm-10">
-                                        <a class="btn btn-primary btn-sm" id="assignment_attachment_add"><span class="glyphicon glyphicon-plus"></span></a>
-                                        <a class="btn btn-danger btn-sm magry_hide" id="assignment_attachment_rm"><span class="glyphicon glyphicon-minus"></span></a>
+                                        <div>
+                                          <label class="control-label" style="font-weight: normal; text-align: left;">目前无作业提交</label><br>
+                                            {% for f in ans_res %}
+                                            <a>{{f.path}}</a><br>
+                                            {% endfor %}
+                                        </div>
                                       </div>
                                   </div>
 
-                                  <div class="form-group magry_assignment" id="assignment_attachment_holder_0">
-                                      <label class="col-sm-2 control-label"></label>
-                                          <input type="file" class="col-sm-6" name="assignment_attachment_0"/>
-                                  </div>
-
-                                  <div id="multi-assignment-holder"></div>
-
-                                  <div class="form-group">
-                                      <div class="col-sm-offset-2 col-sm-10">
-                                          <input type="submit" class="btn btn-default" value="上传并提交"> </input>
-                                      </div>
-                                  </div>
                               </form>
                           </div>
                       </div>
@@ -173,41 +154,6 @@
     <!--<script src="assets/js/custom-scripts.js"></script>-->
     <!--添加教务、学生、教师页头部js-->
     <script src="/static/js/addheader.js"></script>
-    <!-- DATA TABLE SCRIPTS -->
-    <script src="/static/4assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="/static/4assets/js/dataTables/dataTables.bootstrap.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#dataTables-example').dataTable();
-            });
-            /*多附件相关*/
-            //var cnt=1;
-            $('#assignment_attachment_add').click(function () {
-              var i=$('.magry_assignment').length;
-              var head = "<div class=\"form-group magry_assignment\" id=\"assignment_attachment_holder_"
-              var mid="\"><label class=\"col-sm-2 control-label\"></label><input type=\"file\" class=\"col-sm-6\" name=\"assignment_attachment_"
-              var tail = "\"/></div>"
-              var content = head;
-              content+=i;
-              content+=mid;
-              content+=i;
-              content+=tail;
-              $('#multi-assignment-holder').before(content);
-              if($('.magry_assignment').length>1){
-                $('#assignment_attachment_rm').removeClass('magry_hide');
-              }
-            })
-            $('#assignment_attachment_rm').click(function () {
-              var i=$('.magry_assignment').length-1;
-              var item = "#assignment_attachment_holder_"
-              item += i;
-              $(item).remove();
-              if($('.magry_assignment').length<=1){
-                $('#assignment_attachment_rm').addClass('magry_hide');
-              }
-            })
-
-    </script>
     <!--添加学生页nav左边js-->
     <script src="/static/js/add_student_left.js"></script>
 

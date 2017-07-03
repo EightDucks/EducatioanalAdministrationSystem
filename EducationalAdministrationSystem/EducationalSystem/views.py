@@ -884,8 +884,24 @@ def displayHwForStu(request, cou_id):
 
 #展示学生某一作业，单独页面
 def displayStuHw(request, asn_id):
-	asn = Assignment.objects.get(id=asn_id)
-	cou = asn.course_id
+	if 'id' in request.GET and request.GET['id'] and \
+		'type' in request.GET and request.GET['type'] == 's':
+
+		stu_id = request.GET['id']
+		stu = Student.objects.get(id=stu_id)
+		asn = Assignment.objects.get(id=asn_id)
+		cou = asn.course_id
+		tem = Team.objects.filter(course_id=cou, manager_id=stu)
+		if not tem:
+			#not manager
+			stu_tem = Student_Team.objects.get(team_id__course_id=cou, asn_id=asn)
+			hisTem = stu_tem.team_id
+			tem_asn = Team_Assignment.objects.get(team_id=hisTem, asn_id=asn)
+			asn_res = Assignment_Resource.objects.filter(team_asn_id=tem_asn)
+			return render(request, "student_course_homework_watchdetails.html", {'cou': cou, 'asn': asn, "asn_res":asn_res})
+		else:
+			tem_asn = Team_Assignment.objects.get(team_id__in=tem, asn_id=asn)
+
 	return render(request, "student_course_homework_watchdetails.html", {'cou':cou, 'asn':asn})
 
 def doubleclick(request):
