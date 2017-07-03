@@ -36,7 +36,9 @@ def student_left(request):
 
 # 主页
 def index(request):
-	return render_to_response('index.html')
+	from django.contrib.messages import get_messages
+	storage = get_messages(request)
+	return render(request, "index.html", {'msg': storage, 'len': len(storage)})
 
 
 # 头部
@@ -939,6 +941,9 @@ def returnSuperiorMenu(request):
 		course_id = request.GET['id']
 		virpath = request.GET['path']
 
+		if virpath == '/':
+			return HttpResponse('root')
+
 		splitted = virpath.split('/')
 		num = len(splitted)
 
@@ -987,6 +992,8 @@ def returnVirpath(request):
 				'path' in request.GET and request.GET['path']:
 
 				virpath = request.GET['path']
+				if virpath=='/':
+					return HttpResponse('/')
 				splitted = virpath.split('/')
 				num = len(splitted)
 				new_virpath = ''
