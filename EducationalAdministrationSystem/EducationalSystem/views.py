@@ -822,48 +822,49 @@ def deleteResource(request):
 
 
 def uploadHomework(request,asn_id):
-    if request.method == 'POST' and 'id' in request.session and request.session['id']:
+	if request.method == 'POST' and 'id' in request.session and request.session['id']:
 
-        sid = request.session['id']
-        stu = Student_Team.objects.get(student_id__id=sid)
-        stu_team =stu.team_id
+		sid = request.session['id']
+		stu = Student_Team.objects.get(student_id__id=sid)
+		stu_team =stu.team_id
 
-        strA = "assignment_attachment_"
-        i = 0
+		strA = "assignment_attachment_"
+		i = 0
 
-        while True:
-            newStr = strA + str(i)
-            if newStr in request.FILES:
-                file_obj = request.FILES[newStr]
+		while True:
+			newStr = strA + str(i)
+			if newStr in request.FILES:
+				file_obj = request.FILES[newStr]
 
-                asn = Assignment.objects.get(id=asn_id)
-                cou = asn.course_id
-                couDir = "course" + str(cou.id)
-                baseDir = os.path.dirname(os.path.abspath(__name__))
-                filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), file_obj.name)
+				asn = Assignment.objects.get(id=asn_id)
+				cou = asn.course_id
+				couDir = "course" + str(cou.id)
+				baseDir = os.path.dirname(os.path.abspath(__name__))
+				filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), file_obj.name)
 
-                destination = open(filepath, 'wb+')
-                # asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
-                # asn_res.save()
-                t_a = Team_Assignment.objects.get(asn_id=asn, team_id=stu_team)
-                t_a.submit_times = t_a.submit_times + 1
-                if t_a.submit_times > cou.submit_limit:
-                    messages.error(request, "提交次数超过上限")
-                    return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+				destination = open(filepath, 'wb+')
+				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
+				# asn_res.save()
+				t_a = Team_Assignment.objects.get(asn_id=asn, team_id=stu_team)
+				t_a.submit_times = t_a.submit_times + 1
+				if t_a.submit_times > asn.submit_limits:
+					messages.error(request, "提交次数超过上限")
+					return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
 
-                t_a.save()
-                asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
-                asn_res.save()
-                for chunk in file_obj.chunks():
-                    destination.write(chunk)
-                destination.close()
-                i = i + 1
-            else:
-                break
-        messages.success(request, "提交成功")
-        return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
-    messages.error(request, "无文件提交")
-    return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+				t_a.save()
+				asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
+				asn_res.save()
+				for chunk in file_obj.chunks():
+					destination.write(chunk)
+				destination.close()
+				i = i + 1
+			else:
+				break
+		messages.success(request, "提交成功")
+		return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+	messages.error(request, "无文件提交")
+	return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+
 
 # def downloadHomework(request, asn_id, tid):
 # 		# file_obj = request.FILES.getlist(asdfh)
@@ -1432,45 +1433,101 @@ def applyTeam(request, cou_id):
         return render(request, "apply_team.html", {'cou' : cou, 'sts':sts})
     return HttpResponseRedirect("/EducationalSystem/")
 
-def teacherUpldAsn(request):
-    if request.method == 'POST':
-        strA = "assignment_attachment_"
-        i = 0
-        while True:
-            newStr = strA + str(i)
-            if newStr in request.FILES:
-                file_obj = request.FILES[newStr]
-
-                baseDir = os.path.dirname(os.path.abspath(__name__))
-                filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
-                destination = open(filepath, 'wb+')
-                asn_res = Assignment_Resource.objects.get(path=filepath)
-                asn_res.iscorrected = True
-                asn_res.save()
-                for chunk in file_obj.chunks():
-                    destination.write(chunk)
-                destination.close()
-                i = i + 1
-            else:
-                break
-        return HttpResponseRedirect("/EducationalSystem/teacher/")
-    return HttpResponseRedirect("/EducationalSystem/teacher/")
+def teacherUpldAsn(request,asn_id):
+	if request.method == 'POST':
+		asn = Assignment.objects.get(id=asn_id)
+		cou = asn.course_id
+		couDir = "course" + str(cou.id)
+		myFiles = request.FILES.getlist("assignment_attachment_",None)
+		print(myFiles)
+		print('hello')
+		if not myFiles:
+			return
+		for f in myFiles:
+			baseDir = os.path.dirname(os.path.abspath(__name__))
+			filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), f.name)
+			print(filepath)
+			destination = open(filepath, 'wb+')
+			asn_res = Assignment_Resource.objects.get(path=filepath)
+			asn_res.is_corrected = True
+			asn_res.save()
+			print(asn_res.is_corrected)
+			for chunk in f.chunks():
+				destination.write(chunk)
+			destination.close()
+		return HttpResponseRedirect("/EducationalSystem/teacher/upldAsn/" + str(asn.id) + "/")
+	return HttpResponseRedirect("/EducationalSystem/teacher/Asn/" + str(asn_id) + "/")
 
 def exportAssignment(request, asn_id):
-    Team_asns = Team_Assignment.objects.filter(asn_id__id=asn_id)
+	Team_asns = Team_Assignment.objects.filter(asn_id__id=asn_id)
 
-    Teams = []
-    for team_asn in Team_asns:
-        row = []
-        row.append(team_asn.team_id.id)
-        row.append(team_asn.team_id.name)
-        if team_asn.submit_times == 0:
-            row.append('未提交')
-            row.append(0)
-        else:
-            row.append('已提交')
-            row.append(team_asn.mark)
-        Teams.append(row)
+	Teams = []
+	for team_asn in Team_asns:
+		row = []
+		row.append(team_asn.team_id.id)
+		row.append(team_asn.team_id.name)
+		if team_asn.submit_times == 0:
+			row.append('未提交')
+			row.append(0)
+		else:
+			row.append('已提交')
+			row.append(team_asn.mark)
+		Teams.append(row)
 
-    writeAssignment(Teams, asn_id)
+	xlsx = writeAssignment(Teams, Assignment.objects.get(id=asn_id).get)
+	print(xlsx)
 
+	return HttpResponseRedirect("/EducationalSystem/teacher/")
+
+def exportAllAssignment(request, course_id):
+	Teams = Team.objects.filter(course_id__id=course_id)
+	form = []
+	for team in Teams:
+		team_id = team.id
+		team_name = team.name
+		TAs = Team_Assignment.objects.filter(team_id__id=team_id).order_by('asn_id__id')
+		rows = []
+		rows.append([team_id, team_name, '', ''])
+		rows.append(['作业ID', '作业名称', '作业提交情况', '作业分数'])
+		for ta in TAs:
+			row = []
+			row.append(ta.asn_id.id)
+			row.append(ta.asn_id.name)
+			if ta.submit_times == 0:
+				row.append('未提交')
+				row.append(0)
+			else:
+				row.append('已提交')
+				row.append(ta.mark)
+			rows.append(row)
+		form.append(rows)
+
+	xlsx = writeAllAssignment(form, Course.objects.get(id=course_id).name)
+	print(xlsx)
+
+	return HttpResponseRedirect("/EducationalSystem/teacher/")
+
+def exportTeams(request, course_id):
+	Teams = Team.objects.filter(course_id__id=course_id, status=2)
+	form = []
+	for team in Teams:
+		STs = Student_Team.objects.filter(team_id__id=team.id)
+		rows = []
+		for st in STs:
+			student = Student.objects.get(id=st.student_id.id)
+			row = []
+			row.append(team.id)
+			row.append(team.name)
+			row.append(student.id)
+			row.append(student.name)
+			if (student.id==team.manager_id.id):
+				row.append('组长')
+			else:
+				row.append('组员')
+			rows.append(row)
+		form.append(rows)
+
+	xlsx = writeTeam(form, Course.objects.get(id=course_id).name)
+	print(xlsx)
+
+	return HttpResponseRedirect("/EducationalSystem/teacher/")

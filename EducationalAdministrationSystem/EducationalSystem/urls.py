@@ -50,6 +50,7 @@ urlpatterns = {
     url(r'^student/upldAsn/(\d+)/$', views.uploadHomework, name='uploadAssignment'),
     url(r'^teacher/dldAsn/asn_id(\d+)tid(\d+)/$', views.downloadHomework, name='downloadAssignment'),
     url(r'^teacher/dldAsn/a_id(\d+)/$', views.downloadAllHomework, name='downloadAllHomework'),
+    url(r'^teacher/upldAsn/(\d+)/$', views.teacherUpldAsn, name='uploadCorrectedHomework'),
 
     url(r'^teacher/setGd/TA_id(\d+)/$', views.displaySetGrade, name='displaySetGrade'),
     url(r'^teacher/setGd/TA_id(\d+)/save/$', views.setTeamAssignmentCommentMark, name='setTeamAssignmentCommentMark'),
@@ -90,6 +91,10 @@ urlpatterns = {
 
     url(r'^chat_index/(\d+)/$',views.chat_index, name='chat_index'),
     url(r'^chat/$',views.chat, name='chat'),
+
+    url(r'^exportAssignment/(\d+)/$', views.exportAssignment, name='exportAssignment'),
+    url(r'^exportAllAssignment/(\d+)/$', views.exportAllAssignment, name='exportAllAssignment'),
+    url(r'^exportTeams/(\d+)/$', views.exportTeams, name='exportTeams'),
 
 
 }
