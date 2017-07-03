@@ -986,6 +986,8 @@ def returnVirpath(request):
 				'path' in request.GET and request.GET['path']:
 
 				virpath = request.GET['path']
+				if virpath=='/':
+					return HttpResponse('/')
 				splitted = virpath.split('/')
 				num = len(splitted)
 				new_virpath = ''

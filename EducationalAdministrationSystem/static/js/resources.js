@@ -22,6 +22,7 @@ $(function(){
             })
         alert(txt);
         window.location.href='/EducationalSystem/resource/download/' + txt;
+		
 //        $.ajax({
 //            url: '/EducationalSystem/resource/download/',
 //            type: 'GET',
@@ -63,7 +64,8 @@ $(function(){
                 contentType: false, // tell jquery not to set contentType
                 success: function(callback) {
 					$('#divall').append(callback);
-					alert("上传成功");
+					//alert("上传成功");
+					layer.msg("上传成功",{time: 1000 });
                 }
             }); // end ajax
     })
@@ -77,7 +79,6 @@ $(function(){
                     var id = $('.msgtransfer').attr('name');
                     var filepath = $('.filepath').attr('name');
                     var name = pass
-                    alert('ajax ready')
                     $.ajax({
                         url:'/EducationalSystem/resource/createFolder/',
                         type:'GET',
@@ -143,7 +144,6 @@ $(function(){
 							}
 						})
 					})	*/
-				alert('确定返回？')
 				var courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
 				$.ajax({
                     url: '/EducationalSystem/resource/returnSuperiorMenu/',
@@ -152,7 +152,8 @@ $(function(){
                     success: function (response) {
 								if(response=='root')
 								{
-									alert("已在根目录");
+									//alert("已在根目录");
+									layer.msg("已在根目录",{time: 1000 });
 								}
 								else
 								{
@@ -216,7 +217,7 @@ $(function(){
         $(this).attr("id",'remove');
         
         btns.onclick = function(){//js 调用
-            alert('确定删除文件？');
+            //alert('确定删除文件？');
             setTimeout(
                 function(){
 						var txt='',courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
@@ -231,7 +232,7 @@ $(function(){
 							type: 'GET',
 							data: {del: txt, path:filepath},
 							success: function (response) {
-								alert('删除成功');
+								layer.msg("删除成功",{time: 1000 });
 							},
 							});
                         //$('.msgtransfer').val(txt);
