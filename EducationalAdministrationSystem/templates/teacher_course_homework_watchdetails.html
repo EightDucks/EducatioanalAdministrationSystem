@@ -138,6 +138,8 @@
                                 </label>
                                 <button type="button" class="btn btn-success btn-sm" onclick="location.href='/EducationalSystem/teacher/dldAsn/a_id{{asn.id}}/'"><span class="glyphicon glyphicon-download"></span>下载所有作业</button>
                                 <button type="button" class="btn btn-default btn-sm" id="btn-multi-assignment-upload"><span class="glyphicon glyphicon-upload"></span>上传所有批改后作业</button>
+                                <!--<button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span>查看全部作业报表</button>-->
+                                <button type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-download-alt"></span>下载全部作业报表</button>
 
                             </div>
 
@@ -157,7 +159,6 @@
                                                 <th>团队ID</th>
                                                 <th>团队名称</th>
                                                 <th>提交状态</th>
-                                                <th>提交时间</th>
                                                 <th>批改状态</th>
                                                 <th>分数</th>
                                                 <th>操作</th>
@@ -171,7 +172,6 @@
                                                   <td class="center">{{t.team_id.id}}</td>
                                                   <td>{{t.team_id.name}}</td>
                                                   <td class="center">已提交</td>
-                                                  <td>2017-6-26 12:00:00</td>
                                                   <td class="center">未批改</td>
                                                   <td>-</td>
                                                   <td class="center">
