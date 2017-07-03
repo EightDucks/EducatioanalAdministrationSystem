@@ -791,7 +791,7 @@ def uploadHomework(request,asn_id):
 				# asn_res.save()
 				t_a = Team_Assignment.objects.get(asn_id=asn, team_id=stu_team)
 				t_a.submit_times = t_a.submit_times + 1
-				if t_a.submit_times > cou.submit_limit:
+				if t_a.submit_times > asn.submit_limits:
 					messages.error(request, "提交次数超过上限")
 					return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
 
@@ -1374,26 +1374,28 @@ def applyTeam(request, cou_id):
 		return render(request, "apply_team.html", {'cou' : cou, 'sts':sts})
 	return HttpResponseRedirect("/EducationalSystem/")
 
-def teacherUpldAsn(request):
+def teacherUpldAsn(request,asn_id):
 	if request.method == 'POST':
-		strA = "assignment_attachment_"
-		i = 0
-		while True:
-			newStr = strA + str(i)
-			if newStr in request.FILES:
-				file_obj = request.FILES[newStr]
-
-				baseDir = os.path.dirname(os.path.abspath(__name__))
-				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
-				destination = open(filepath, 'wb+')
-				asn_res = Assignment_Resource.objects.get(path=filepath)
-				asn_res.iscorrected = True
-				asn_res.save()
-				for chunk in file_obj.chunks():
-					destination.write(chunk)
-				destination.close()
-				i = i + 1
-			else:
-				break
+		asn = Assignment.objects.get(id=asn_id)
+		cou = asn.course_id
+		couDir = "course" + str(cou.id)
+		myFiles = request.FILES.getlist("assignment_attachment_",None)
+		print(myFiles)
+		print('hello')
+		if not myFiles:
+			return
+		for f in myFiles:
+			baseDir = os.path.dirname(os.path.abspath(__name__))
+			filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), f.name)
+			print(filepath)
+			destination = open(filepath, 'wb+')
+			asn_res = Assignment_Resource.objects.get(path=filepath)
+			asn_res.is_corrected = True
+			asn_res.save()
+			print(asn_res.is_corrected)
+			for chunk in f.chunks():
+				destination.write(chunk)
+			destination.close()
 		return HttpResponseRedirect("/EducationalSystem/teacher/")
 	return HttpResponseRedirect("/EducationalSystem/teacher/")
+	
