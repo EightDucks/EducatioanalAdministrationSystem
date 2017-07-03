@@ -20,7 +20,7 @@ $(function(){
             function(){
                 txt+=$(this).attr("name")+',';               
             })
-        alert(txt);
+        layer.msg("开始下载",{time: 1000 });
         window.location.href='/EducationalSystem/resource/download/' + txt;
 		
 //        $.ajax({
