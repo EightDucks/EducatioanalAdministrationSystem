@@ -13,6 +13,7 @@ from wsgiref.util import FileWrapper
 from datetime import date, datetime
 
 from .models import *
+from .ZipUtilities import *
 
 from django.http import StreamingHttpResponse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -35,7 +36,9 @@ def student_left(request):
 
 # 主页
 def index(request):
-	return render_to_response('index.html')
+	from django.contrib.messages import get_messages
+	storage = get_messages(request)
+	return render(request, "index.html", {'msg': storage, 'len': len(storage)})
 
 
 # 头部
@@ -153,36 +156,42 @@ def login(request):
 		userKind = request.POST['type']
 
 		if userKind == 't':
-			tea = Teacher.objects.get(number = userName, password = userPassword)
-			if tea:
+			tea = Teacher.objects.filter(number = userName, password = userPassword)
+			if tea.count() == 1:
 				print('successT')
-				request.session["id"] = tea.id
+				request.session["id"] = tea[0].id
 				request.session["type"] = "t"
 				return HttpResponseRedirect("/EducationalSystem/teacher/")
-			return HttpResponseRedirect("/EducationalSystem/")
+			else:
+				messages.error(request,"密码错误、用户不存在或帐号不属于教师用户")
+				return HttpResponseRedirect("/EducationalSystem/")
 			# if tea:
 			# 	return render_to_response('index.html')
 			# else:
 			# 	return render_to_response('index.html')
 		elif userKind == 's':
-			stu = Student.objects.get(number = userName, password = userPassword)
-			if stu:
+			stu = Student.objects.filter(number = userName, password = userPassword)
+			if stu.count() == 1:
 				print('successS')
-				request.session["id"] = stu.id
+				request.session["id"] = stu[0].id
 				request.session["type"] = "s"
 				return HttpResponseRedirect("/EducationalSystem/student/")
-			return HttpResponseRedirect("/EducationalSystem/")
+			else:
+				messages.error(request,"密码错误、用户不存在或帐号不属于学生用户")
+				return HttpResponseRedirect("/EducationalSystem/")
 			# 	return render_to_response('index.html')
 			# else:
 			# 	return render_to_response('index.html')
 		elif userKind == "e":
-			ea = EduAdmin.objects.get(number = userName, password = userPassword)
-			if ea:
+			ea = EduAdmin.objects.filter(number = userName, password = userPassword)
+			if ea.count() == 1:
 				print('successE')
-				request.session["id"] = ea.id
+				request.session["id"] = ea[0].id
 				request.session["type"] = "e"
 				return HttpResponseRedirect("/EducationalSystem/jiaowu/")
-			return HttpResponseRedirect("/EducationalSystem/")
+			else:
+				messages.error(request,"密码错误、用户不存在或帐号不属于教务用户")
+				return HttpResponseRedirect("/EducationalSystem/")
 			# if ea:
 			# 	return render_to_response('index.html')
 			# else:
@@ -342,7 +351,7 @@ def displayAllResource(request, course_id):
 		else:
 			return HttpResponseRedirect("/EducationalSystem/")
 		return render(request, 'resources.html',
-				  	{'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': '/', 'sen_type': sen_type})
+					{'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': '/', 'sen_type': sen_type})
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
 
@@ -377,24 +386,24 @@ def displayAssignmentsForStudents(request):
 		stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved=True, team_id__course_id=ass_info.course_id)
 		ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id=stu_team.id)
 
-def downloadResource(request):
-	if 'fid' in request.GET and request.GET['fid']:
-		fid = request.GET['fid']
-		myFile = Resource.objects.GET(id = fid)
-		fname = myFile.name
-		fpath = myFile.path
-		def fileIterator(fname, chunk_size = 512):
-			with open(fname) as f:
-				while(True):
-					c = f.read(chunk_size)
-					if c:
-						yield c
-					else:
-						break
-		response = StreamingHttpResponse(fileIterator(fname))
-		response['Content-Type'] = 'application/octet-stream'
-		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(fname)
-		return response
+# def downloadResource(request):
+# 	if 'fid' in request.GET and request.GET['fid']:
+# 		fid = request.GET['fid']
+# 		myFile = Resource.objects.GET(id = fid)
+# 		fname = myFile.name
+# 		fpath = myFile.path
+# 		def fileIterator(fname, chunk_size = 512):
+# 			with open(fname) as f:
+# 				while(True):
+# 					c = f.read(chunk_size)
+# 					if c:
+# 						yield c
+# 					else:
+# 						break
+# 		response = StreamingHttpResponse(fileIterator(fname))
+# 		response['Content-Type'] = 'application/octet-stream'
+# 		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(fname)
+# 		return response
 
 
 
@@ -465,6 +474,12 @@ def addAssignment(request, cou_id):
 		cou = Course.objects.get(id=cou_id)
 		asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=duetime, submit_limits =submit_limits, weight=weight, course_id=cou )
 		asn.save()
+
+		tem = Team.objects.filter(course_id=cou)
+
+		for t in tem:
+			t_a = Team_Assignment(asn_id=asn, team_id=t, submit_times=0)
+			t_a.save()
 
 		dirname = "course" + str(cou_id)
 		asnname = asn.id
@@ -639,9 +654,12 @@ def uploadResource(request):
 		ret_str = ''
 		for f in myFiles:
 			baseDir = os.path.dirname(os.path.abspath(__name__))
-			filepath = os.path.join(baseDir, 'static', 'files', f.name)
-			destination = open(filepath, 'wb+')
+			filepath = os.path.join(baseDir, 'static', 'files', 'course'+str(course_id), 'rs')
+			for name in virpath.split('/'):
+				filepath = os.path.join(filepath, name)
+			filepath = os.path.join(filepath, f.name)
 			print(filepath)
+			destination = open(filepath, 'wb+')
 			res = Resource(name=f.name, path=filepath, course_id=cou, virtual_path=virpath, is_dir=False)
 			res.save()
 			for chunk in f.chunks():
@@ -670,6 +688,40 @@ def uploadResource(request):
 	# 	order_id = time.strftime("%Y%m%d%H%M%S", time.localtime())
 	# 	cache.set(order_id, upload_file)
 	# 	return HttpResponse(order_id)
+
+def downloadResource(request, down):
+	utilities = ZipUtilities()
+	# if 'down' in request.GET and request.GET['down']:
+	# unsplitted = request.GET['down']
+	unsplitted = down
+	splitted = unsplitted.split(',')
+	num = len(splitted) - 1
+	resource_id = splitted[0:num]
+	for r_id in resource_id:
+		res = Resource.objects.get(id=int(r_id))
+		tmp_dl_path = res.path
+		print('')
+		utilities.toZip(tmp_dl_path, res.name)
+	# utilities.close()
+	response = StreamingHttpResponse(utilities.zip_file, content_type='application/zip')
+	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")
+	print('download success')
+	# dlResource(response)
+	return response
+
+# def dlResource(response):
+# 	return response
+
+	# team_asn = Team_Assignment.objects.get(team_id=tid, asn_id__id=asn_id)
+	# asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
+	# utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
+	# for a_r in asn_res:
+	# 	tmp_dl_path = a_r.path
+	# 	utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
+	# # utilities.close()
+	# response = StreamingHttpResponse(utilities, content_type='application/zip')
+	# response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
+	# return response
 
 def deleteResource(request):
 	print('del' in request.GET)
@@ -719,14 +771,6 @@ def uploadHomework(request,asn_id):
 		sid = request.session['id']
 		stu = Student_Team.objects.get(student_id__id=sid)
 		stu_team =stu.team_id
-		# teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
-		# if not teamAsn:
-		# 	teamAsn.submit_times = 1
-		# 	teamAsn.save()
-		# else:
-		# 	teamAsn.submit_times = teamAsn.submit_times + 1
-		# 	teamAsn.save()
-
 
 		strA = "assignment_attachment_"
 		i = 0
@@ -745,7 +789,13 @@ def uploadHomework(request,asn_id):
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
 				# asn_res.save()
-				t_a = Team_Assignment.objects.get(asn_id__id=asn_id, team_id=stu_team)
+				t_a = Team_Assignment.objects.get(asn_id=asn, team_id=stu_team)
+				t_a.submit_times = t_a.submit_times + 1
+				if t_a.submit_times > cou.submit_limit:
+					messages.error(request, "提交次数超过上限")
+					return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+
+				t_a.save()
 				asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
 				asn_res.save()
 				for chunk in file_obj.chunks():
@@ -754,8 +804,10 @@ def uploadHomework(request,asn_id):
 				i = i + 1
 			else:
 				break
-		return HttpResponseRedirect("/EducationalSystem/student/")
-	return HttpResponseRedirect("/EducationalSystem/student/")
+		messages.success(request, "提交成功")
+		return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+	messages.error(request, "无文件提交")
+	return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
 
 # def downloadHomework(request, asn_id, tid):
 # 		# file_obj = request.FILES.getlist(asdfh)
@@ -806,17 +858,17 @@ def downloadAllHomework(request, asn_id):
 	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")  # 需要更改文件名
 	return response
 
-def downloadHomework(request, asn_id, tid):
-	team_asn = Team_Assignment.objects.get(team_id=tid, asn_id=asn_id)
-	asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
-	utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
-	for a_r in asn_res:
-		tmp_dl_path = a_r.path
-		utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
-	# utilities.close()
-	response = StreamingHttpResponse(utilities, content_type='application/zip')
-	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
-	return response
+# def downloadHomework(request, asn_id, tid):
+# 	team_asn = Team_Assignment.objects.get(team_id=tid, asn_id=asn_id)
+# 	asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
+# 	utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
+# 	for a_r in asn_res:
+# 		tmp_dl_path = a_r.path
+# 		utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
+# 	# utilities.close()
+# 	response = StreamingHttpResponse(utilities, content_type='application/zip')
+# 	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
+# 	return response
 
 #展示学生课程信息页面，单独页面
 def displayCouForStu(request, cou_id):
@@ -882,11 +934,15 @@ def doubleclick(request):
 		#			  {'resources': Resources, 'folders':Folders, 'course_id': course_id, 'virpath': virpath})
 
 def returnSuperiorMenu(request):
+	print('returnSuperiorMenu')
 	if 'id' in request.GET and request.GET['id'] and \
 		'path' in request.GET and request.GET['path']:
 
 		course_id = request.GET['id']
 		virpath = request.GET['path']
+
+		if virpath == '/':
+			return HttpResponse('root')
 
 		splitted = virpath.split('/')
 		num = len(splitted)
@@ -899,7 +955,9 @@ def returnSuperiorMenu(request):
 		Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True, virtual_path=new_virpath)
 		Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False, virtual_path=new_virpath)
 
-		ret_str = fileSystemResponse(Folders, Resources)
+		print([f.id for f in Folders], [res.id for res in Resources])
+
+		ret_str = fileSystemResponse(Resources, Folders)
 
 		return HttpResponse(ret_str)
 
@@ -934,6 +992,8 @@ def returnVirpath(request):
 				'path' in request.GET and request.GET['path']:
 
 				virpath = request.GET['path']
+				if virpath=='/':
+					return HttpResponse('/')
 				splitted = virpath.split('/')
 				num = len(splitted)
 				new_virpath = ''
@@ -950,9 +1010,17 @@ def createFolder(request):
 		folder_name = request.GET['foldername']
 		virpath = request.GET['path']
 
+		print('virpath=' + virpath)
+		baseDir = os.path.dirname(os.path.abspath(__name__))
+		filepath = os.path.join(baseDir, 'static', 'files', 'course'+str(course_id), 'rs')
+		for name in virpath.split('/'):
+			filepath = os.path.join(filepath, name)
+		print('baseDir=' + baseDir, 'filepath=' + filepath)
+		os.makedirs(os.path.join(filepath, folder_name))
+
 		print(folder_name, virpath+folder_name+'/', course_id)
 
-		res = Resource(name=folder_name, path=virpath+folder_name+'/', virtual_path=virpath, course_id_id=course_id, is_dir=True)
+		res = Resource(name=folder_name, path=os.path.join(filepath, folder_name), virtual_path=virpath, course_id_id=course_id, is_dir=True)
 		res.save()
 		ret_str = '<li class="myfolder"><input type="text" class="changename" name="1" value="' + \
 				res.name + '"/><input class="checkbox" name="' + str(res.id) + '" type="checkbox" value="" /></li>'
@@ -1136,6 +1204,10 @@ def submitApply(request, tem_id):
 	if cou.team_downlimit is not None:
 		if len(stu_tem) < cou.team_downlimit:
 			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#不允许审核
+	for member in stu_tem:
+		if member.is_approved == 0:
+			# 存在未通过申请的学生， 不允许审核
+			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")
 	tem.status = 1
 	tem.save()
 	return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#允许审核

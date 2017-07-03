@@ -21,15 +21,18 @@ $(function(){
                 txt+=$(this).attr("name")+',';               
             })
         alert(txt);
-        $.ajax({
-            url: '/EducationalSystem/resource/???/',
-            type: 'GET',
-            data: {down: txt,id:courseid, path:filepath},
-            success: function (response) {			
-                alert('下载成功');
-            },
-        });
-		alert(txt);
+        window.location.href='/EducationalSystem/resource/download/' + txt;
+		
+//        $.ajax({
+//            url: '/EducationalSystem/resource/download/',
+//            type: 'GET',
+//            data: {down: txt,id:courseid, path:filepath},
+//            success: function (response) {
+//                window.location.href='/EducationalSystem/'
+//                //console.log(response);
+//            },
+//        });
+//		alert(txt);
     })
 	
 	//上传
@@ -61,14 +64,15 @@ $(function(){
                 contentType: false, // tell jquery not to set contentType
                 success: function(callback) {
 					$('#divall').append(callback);
-					alert("上传成功");
+					//alert("上传成功");
+					layer.msg("上传成功",{time: 1000 });
                 }
             }); // end ajax
     })
     //新建
 
     $carry.click(function () {
-            layer.prompt({title: '请输入文件夹名称', formType: 2}, function(pass, index){
+            layer.prompt({title: '请输入文件夹名称', formType: 3}, function(pass, index){
                 layer.close(index);
                 if(typeof pass === 'string'){
                     // layer.msg(id)
@@ -127,7 +131,6 @@ $(function(){
 
     //返回
     $back.live('click' , function(){
-        alert('确定返回？')
         setTimeout(
             function(){			
 				/*$('#divall').html('<li class="myfolder"><input type="text" class="changename" name="1" value="{{res.name}}"disabled="disabled"/><input class="checkbox" name="{{res.3id}}" type="checkbox" value="" /></li>');
@@ -141,14 +144,22 @@ $(function(){
 							}
 						})
 					})	*/
-				alert('确定返回？')
 				var courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
 				$.ajax({
                     url: '/EducationalSystem/resource/returnSuperiorMenu/',
                     type: "GET",
                     data: {id:courseid, path:filepath},
                     success: function (response) {
-                                $('#divall').html(response);
+								if(response=='root')
+								{
+									//alert("已在根目录");
+									layer.msg("已在根目录",{time: 1000 });
+								}
+								else
+								{
+									$('#divall').html(response);									
+								}
+
 							    //为下次点击绑定事件
 								 $('#divall li ').each(function () {
 									$(this).dblclick(function () {
@@ -188,12 +199,12 @@ $(function(){
                     type: "GET",
                     data: {id:courseid, path:filepath,flag:'2'},
                     success: function (response) {
-                                alert(response);
+                                //alert(response);
 								$('.filepath').attr("name",response);
 							},
                     }
                 )
-				alter("返回结束")
+				//alter("返回结束")
 				
             },250);
     }); 
@@ -206,7 +217,7 @@ $(function(){
         $(this).attr("id",'remove');
         
         btns.onclick = function(){//js 调用
-            alert('确定删除文件夹？');
+            //alert('确定删除文件？');
             setTimeout(
                 function(){
 						var txt='',courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
@@ -221,7 +232,7 @@ $(function(){
 							type: 'GET',
 							data: {del: txt, path:filepath},
 							success: function (response) {
-								alert('删除成功');
+								layer.msg("删除成功",{time: 1000 });
 							},
 							});
                         //$('.msgtransfer').val(txt);
@@ -274,7 +285,7 @@ $(function(){
 						})
 					})
 					//
-							},
+					},
                     }
 				)
 				$.ajax({
@@ -316,7 +327,6 @@ $(function(){
         }
     });
 
-    //纯属娱乐耍耍，如需更多功能亲们自行开发...............
 
 
 });
