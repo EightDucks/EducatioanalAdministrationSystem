@@ -959,10 +959,10 @@ def displayInfo(request):
 			return render(request, "student_profile.html", {"stu":stu})
 		elif user_type == "t":
 			tea = Teacher.objects.get(id=user_id)
-			return render(request, "teacher_and_admin_profile.html", {"user":tea})
+			return render(request, "teacher_and_admin_profile.html", {"user":tea,"type":"t"})
 		elif user_type == "e":
 			ea = EduAdmin.objects.get(id=user_id)
-			return render(request, "teacher_and_admin_profile.html", {"user":ea})
+			return render(request, "teacher_and_admin_profile.html", {"user":ea,"type":"e"})
 
 def chat_index(request,cou_id):
 	if 'type' in request.session and request.session['type'] == 's':
