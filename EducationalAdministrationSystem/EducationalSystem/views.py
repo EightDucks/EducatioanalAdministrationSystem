@@ -473,6 +473,12 @@ def addAssignment(request, cou_id):
 		asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=duetime, submit_limits =submit_limits, weight=weight, course_id=cou )
 		asn.save()
 
+		tem = Team.objects.filter(course_id=cou)
+
+		for t in tem:
+			t_a = Team_Assignment(asn_id=asn, team_id=t, submit_times=0)
+			t_a.save()
+
 		dirname = "course" + str(cou_id)
 		asnname = asn.id
 		baseDir = os.path.dirname(os.path.abspath(__name__))
@@ -763,14 +769,6 @@ def uploadHomework(request,asn_id):
 		sid = request.session['id']
 		stu = Student_Team.objects.get(student_id__id=sid)
 		stu_team =stu.team_id
-		# teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
-		# if not teamAsn:
-		# 	teamAsn.submit_times = 1
-		# 	teamAsn.save()
-		# else:
-		# 	teamAsn.submit_times = teamAsn.submit_times + 1
-		# 	teamAsn.save()
-
 
 		strA = "assignment_attachment_"
 		i = 0
@@ -789,7 +787,13 @@ def uploadHomework(request,asn_id):
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
 				# asn_res.save()
-				t_a = Team_Assignment.objects.get(asn_id__id=asn_id, team_id=stu_team)
+				t_a = Team_Assignment.objects.get(asn_id=asn, team_id=stu_team)
+				t_a.submit_times = t_a.submit_times + 1
+				if t_a.submit_times > cou.submit_limit:
+					messages.error(request, "提交次数超过上限")
+					return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+
+				t_a.save()
 				asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
 				asn_res.save()
 				for chunk in file_obj.chunks():
@@ -798,8 +802,10 @@ def uploadHomework(request,asn_id):
 				i = i + 1
 			else:
 				break
-		return HttpResponseRedirect("/EducationalSystem/student/")
-	return HttpResponseRedirect("/EducationalSystem/student/")
+		messages.success(request, "提交成功")
+		return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+	messages.error(request, "无文件提交")
+	return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
 
 # def downloadHomework(request, asn_id, tid):
 # 		# file_obj = request.FILES.getlist(asdfh)
@@ -850,17 +856,17 @@ def downloadAllHomework(request, asn_id):
 	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")  # 需要更改文件名
 	return response
 
-def downloadHomework(request, asn_id, tid):
-	team_asn = Team_Assignment.objects.get(team_id=tid, asn_id=asn_id)
-	asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
-	utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
-	for a_r in asn_res:
-		tmp_dl_path = a_r.path
-		utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
-	# utilities.close()
-	response = StreamingHttpResponse(utilities, content_type='application/zip')
-	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
-	return response
+# def downloadHomework(request, asn_id, tid):
+# 	team_asn = Team_Assignment.objects.get(team_id=tid, asn_id=asn_id)
+# 	asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
+# 	utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
+# 	for a_r in asn_res:
+# 		tmp_dl_path = a_r.path
+# 		utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
+# 	# utilities.close()
+# 	response = StreamingHttpResponse(utilities, content_type='application/zip')
+# 	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
+# 	return response
 
 #展示学生课程信息页面，单独页面
 def displayCouForStu(request, cou_id):
