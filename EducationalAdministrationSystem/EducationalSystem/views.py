@@ -342,7 +342,7 @@ def displayAllResource(request, course_id):
 		else:
 			return HttpResponseRedirect("/EducationalSystem/")
 		return render(request, 'resources.html',
-				  	{'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': '/', 'sen_type': sen_type})
+					{'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': '/', 'sen_type': sen_type})
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
 
