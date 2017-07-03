@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from openpyxl import Workbook
 from openpyxl import workbook
 from openpyxl import load_workbook

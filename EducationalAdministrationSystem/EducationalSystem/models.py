@@ -86,6 +86,8 @@ class Team_Assignment(models.Model):
     mark = models.FloatField(null=True)
     comment = models.TextField(null=True)
     submit_times = models.IntegerField(default=0)
+    is_corrected = models.BooleanField(default=False)
+    is_graded = models.BooleanField(default=False)
 
 class Assignment_Resource(models.Model):
     team_asn_id = models.ForeignKey(Team_Assignment)

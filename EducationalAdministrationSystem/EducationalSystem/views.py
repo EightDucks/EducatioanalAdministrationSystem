@@ -503,6 +503,7 @@ def setTeamAssignmentCommentMark(request,TA_id):
         TA_tmp = Team_Assignment.objects.get(id=TA_id)
         TA_tmp.comment = comment
         TA_tmp.mark = mark
+        TA_tmp.is_corrected = True
         TA_tmp.save()
         return HttpResponseRedirect("/EducationalSystem/teacher/Asn/" + str(TA_tmp.asn_id.id) + "/")
 
@@ -606,6 +607,42 @@ def displayHw(request, asn_id):
     tem = Team.objects.filter(course_id=cou)
     tas = Team_Assignment.objects.filter(team_id__in = tem, asn_id = asn)
     return render(request, "teacher_course_homework_watchdetails.html", {'asn':asn, 'tem':tas, 'cou':cou, })
+
+def setStuGrade(request, t):
+
+    tem_asn = Team_Assignment.objects.get(id=t)
+    tem = tem_asn.team_id
+    stu_tem = Student_Team.objects.filter(team_id=tem)
+
+    strq = "rate_id_"
+    cn = 1
+    strA = strq + str(cn)
+    all = 0.0
+    while strA in request.GET and request.GET[strA]:
+        f = request.GET[strA]
+        all = all + float(f)
+        cn = cn + 1
+        strA = strq + str(cn)
+    if all != cn - 1:
+        messages.error(request, "所给系数不符合要求")
+        print("所给系数不符合要求")
+        return HttpResponseRedirect('/EducationalSystem/student/Asn/' + str(tem_asn.asn_id.id) + '/')
+    cn = 1
+    strA = strq + str(cn)
+    while strA in request.GET and request.GET[strA]:
+        f = request.GET[strA]
+        st = cn - 1
+        stu = stu_tem[st]
+        stu_gd = Student_Grade(student_id=stu.student_id, team_asn_id=tem_asn)
+        f = f * tem_asn.mark
+        stu_gd.weight = f
+        stu_gd.save()
+        cn = cn + 1
+        strA = strq + str(cn)
+    tem_asn.is_graded = True
+    tem_asn.save()
+    messages.success(request, "设置成功")
+    return HttpResponseRedirect('/EducationalSystem/student/Asn/' + str(tem_asn.asn_id.id) + '/')
 
 # 删除作业
 def deleteAssignment(request, asn_id):
@@ -822,48 +859,48 @@ def deleteResource(request):
 
 
 def uploadHomework(request,asn_id):
-	if request.method == 'POST' and 'id' in request.session and request.session['id']:
+    if request.method == 'POST' and 'id' in request.session and request.session['id']:
 
-		sid = request.session['id']
-		stu = Student_Team.objects.get(student_id__id=sid)
-		stu_team =stu.team_id
+        sid = request.session['id']
+        stu = Student_Team.objects.get(student_id__id=sid)
+        stu_team =stu.team_id
 
-		strA = "assignment_attachment_"
-		i = 0
+        strA = "assignment_attachment_"
+        i = 0
 
-		while True:
-			newStr = strA + str(i)
-			if newStr in request.FILES:
-				file_obj = request.FILES[newStr]
+        while True:
+            newStr = strA + str(i)
+            if newStr in request.FILES:
+                file_obj = request.FILES[newStr]
 
-				asn = Assignment.objects.get(id=asn_id)
-				cou = asn.course_id
-				couDir = "course" + str(cou.id)
-				baseDir = os.path.dirname(os.path.abspath(__name__))
-				filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), file_obj.name)
+                asn = Assignment.objects.get(id=asn_id)
+                cou = asn.course_id
+                couDir = "course" + str(cou.id)
+                baseDir = os.path.dirname(os.path.abspath(__name__))
+                filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), file_obj.name)
 
-				destination = open(filepath, 'wb+')
-				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
-				# asn_res.save()
-				t_a = Team_Assignment.objects.get(asn_id=asn, team_id=stu_team)
-				t_a.submit_times = t_a.submit_times + 1
-				if t_a.submit_times > asn.submit_limits:
-					messages.error(request, "提交次数超过上限")
-					return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+                destination = open(filepath, 'wb+')
+                # asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
+                # asn_res.save()
+                t_a = Team_Assignment.objects.get(asn_id=asn, team_id=stu_team)
+                t_a.submit_times = t_a.submit_times + 1
+                if t_a.submit_times > asn.submit_limits:
+                    messages.error(request, "提交次数超过上限")
+                    return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
 
-				t_a.save()
-				asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
-				asn_res.save()
-				for chunk in file_obj.chunks():
-					destination.write(chunk)
-				destination.close()
-				i = i + 1
-			else:
-				break
-		messages.success(request, "提交成功")
-		return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
-	messages.error(request, "无文件提交")
-	return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+                t_a.save()
+                asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
+                asn_res.save()
+                for chunk in file_obj.chunks():
+                    destination.write(chunk)
+                destination.close()
+                i = i + 1
+            else:
+                break
+        messages.success(request, "提交成功")
+        return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
+    messages.error(request, "无文件提交")
+    return HttpResponseRedirect("/EducationalSystem/student/Asn/" + asn_id +"/")
 
 
 # def downloadHomework(request, asn_id, tid):
@@ -941,25 +978,53 @@ def displayHwForStu(request, cou_id):
 
 #展示学生某一作业，单独页面
 def displayStuHw(request, asn_id):
-	if 'id' in request.GET and request.GET['id'] and \
-		'type' in request.GET and request.GET['type'] == 's':
+    if 'id' in request.session and request.session['id'] and \
+        'type' in request.session and request.session['type'] == 's':
 
-		stu_id = request.GET['id']
-		stu = Student.objects.get(id=stu_id)
-		asn = Assignment.objects.get(id=asn_id)
-		cou = asn.course_id
-		tem = Team.objects.filter(course_id=cou, manager_id=stu)
-		if not tem:
-			#not manager
-			stu_tem = Student_Team.objects.get(team_id__course_id=cou, asn_id=asn)
-			hisTem = stu_tem.team_id
-			tem_asn = Team_Assignment.objects.get(team_id=hisTem, asn_id=asn)
-			asn_res = Assignment_Resource.objects.filter(team_asn_id=tem_asn)
-			return render(request, "student_course_homework_watchdetails.html", {'cou': cou, 'asn': asn, "asn_res":asn_res})
-		else:
-			tem_asn = Team_Assignment.objects.get(team_id__in=tem, asn_id=asn)
+        stu_id = request.session['id']
+        stu = Student.objects.get(id=stu_id)
+        asn = Assignment.objects.get(id=asn_id)
+        cou = asn.course_id
+        tem = Team.objects.filter(course_id=cou, manager_id=stu)
+        stu_tem = Student_Team.objects.get(team_id__course_id=cou, student_id=stu)
+        hisTem = stu_tem.team_id
+        if not tem:
+            #not manager
 
-	return render(request, "student_course_homework_watchdetails.html", {'cou':cou, 'asn':asn})
+            tem_asn = Team_Assignment.objects.get(team_id=hisTem, asn_id=asn)
+            asn_res = Assignment_Resource.objects.filter(team_asn_id=tem_asn)
+            stu_gd = Student_Grade.objects.get(team_asn_id=tem_asn, student_id=stu)
+
+            #grade = stu_gd.weight * tem_asn
+            names = []
+            grade = 0
+            if tem_asn.is_graded == True:
+                stu_gd = Student_Grade.objects.get(team_asn_id=tem_asn, student_id=stu)
+                grade = stu_gd.weight
+            else:
+                grade = 0
+            for a_r in asn_res:
+                filename = a_r.path.split('/')
+                name = filename[-1]
+                names.append(name)
+            return render(request, "student_course_homework_watchdetails.html", {'cou': cou, 'asn': asn, "asn_res":asn_res, "tem_asn":tem_asn, "names":names, "grade":grade})
+        else:
+            tem_asn = Team_Assignment.objects.get(team_id__in=tem, asn_id=asn)
+            s_t = Student_Team.objects.filter(team_id=hisTem)
+            asn_res = Assignment_Resource.objects.filter(team_asn_id=tem_asn)
+            names = []
+            if tem_asn.is_graded == True:
+                stu_gd = Student_Grade.objects.get(team_asn_id=tem_asn, student_id=stu)
+                grade = stu_gd.weight
+            else:
+                grade = 0
+            for a_r in asn_res:
+                filename = a_r.path.split('/')
+                name = filename[-1]
+                names.append(name)
+            return render(request, "student_course_homework_watchdetails_manager.html", {'cou':cou, 'asn':asn, "asn_res":asn_res, "tem_asn":tem_asn, "stu_tem":s_t, "names":names, "grade":grade})
+
+    return HttpResponseRedirect('/EducationalSystem/')
 
 
 def doubleclick(request):
@@ -1239,26 +1304,26 @@ def teamApply(request, tem_id):
     return HttpResponseRedirect("/EducationalSystem/")
 
 def displayAllTeam(request, cou_id):
-	if "id" in request.session and request.session["id"] and \
-		"type" in request.session and request.session["type"] == "s":
-		tem = Team.objects.filter(course_id__id=cou_id, status__lt=3)
-		cou = Course.objects.get(id=cou_id)
-		stu_id = request.session["id"]
-		Stu_team = Student_Team.objects.filter(team_id__course_id__id=cou_id, student_id__id=stu_id)
-		psSts = False
-		if Stu_team.count() < 1:
-			psSts = True
-		else:
-			psSts = False
-		# if tem.status == 0:
-		# 	sts = "组建中"
-		# elif tem.status == 1:
-		# 	sts = "未审核"
-		# elif tem.status == 2:
-		# 	sts = "审核通过"
-		# elif tem.status == 3:
-		# 	sts = "审核未通过"
-	return render(request, "student_course_teamlist.html", {"tem":tem, "cou":cou, "psSts":psSts})
+    if "id" in request.session and request.session["id"] and \
+        "type" in request.session and request.session["type"] == "s":
+        tem = Team.objects.filter(course_id__id=cou_id, status__lt=3)
+        cou = Course.objects.get(id=cou_id)
+        stu_id = request.session["id"]
+        Stu_team = Student_Team.objects.filter(team_id__course_id__id=cou_id, student_id__id=stu_id)
+        psSts = False
+        if Stu_team.count() < 1:
+            psSts = True
+        else:
+            psSts = False
+        # if tem.status == 0:
+        # 	sts = "组建中"
+        # elif tem.status == 1:
+        # 	sts = "未审核"
+        # elif tem.status == 2:
+        # 	sts = "审核通过"
+        # elif tem.status == 3:
+        # 	sts = "审核未通过"
+    return render(request, "student_course_teamlist.html", {"tem":tem, "cou":cou, "psSts":psSts})
 
 def acceptApply(request, st_id):
     st = Student_Team.objects.get(id=st_id)
@@ -1274,20 +1339,20 @@ def refuseApply(request, st_id):
     return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou) + "/")
 
 def submitApply(request, tem_id):
-	tem = Team.objects.get(id=tem_id)
-	cou = tem.course_id
-	stu_tem = Student_Team.objects.filter(team_id=tem)
-	if cou.team_downlimit is not None:
-		if len(stu_tem) < cou.team_downlimit:
-			messages.error(request, "人数不足")
-			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#不允许审核
-	for member in stu_tem:
-		if member.is_approved == 0:
-			messages.error(request, "存在未通过申请的学生， 不允许审核")
-			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")
-	tem.status = 1
-	tem.save()
-	return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#允许审核
+    tem = Team.objects.get(id=tem_id)
+    cou = tem.course_id
+    stu_tem = Student_Team.objects.filter(team_id=tem)
+    if cou.team_downlimit is not None:
+        if len(stu_tem) < cou.team_downlimit:
+            messages.error(request, "人数不足")
+            return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#不允许审核
+    for member in stu_tem:
+        if member.is_approved == 0:
+            messages.error(request, "存在未通过申请的学生， 不允许审核")
+            return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")
+    tem.status = 1
+    tem.save()
+    return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#允许审核
 
 def displayTeamListForTeacher(request, cou_id):
     if 'id' in request.session and request.session['id'] \
@@ -1452,100 +1517,123 @@ def applyTeam(request, cou_id):
     return HttpResponseRedirect("/EducationalSystem/")
 
 def teacherUpldAsn(request,asn_id):
-	if request.method == 'POST':
-		asn = Assignment.objects.get(id=asn_id)
-		cou = asn.course_id
-		couDir = "course" + str(cou.id)
-		myFiles = request.FILES.getlist("assignment_attachment_",None)
-		print(myFiles)
-		print('hello')
-		if not myFiles:
-			return
-		for f in myFiles:
-			baseDir = os.path.dirname(os.path.abspath(__name__))
-			filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), f.name)
-			print(filepath)
-			destination = open(filepath, 'wb+')
-			asn_res = Assignment_Resource.objects.get(path=filepath)
-			asn_res.is_corrected = True
-			asn_res.save()
-			print(asn_res.is_corrected)
-			for chunk in f.chunks():
-				destination.write(chunk)
-			destination.close()
-		return HttpResponseRedirect("/EducationalSystem/teacher/upldAsn/" + str(asn.id) + "/")
-	return HttpResponseRedirect("/EducationalSystem/teacher/Asn/" + str(asn_id) + "/")
+    if request.method == 'POST':
+        asn = Assignment.objects.get(id=asn_id)
+        cou = asn.course_id
+        couDir = "course" + str(cou.id)
+        myFiles = request.FILES.getlist("assignment_attachment_",None)
+        print(myFiles)
+        print('hello')
+        if not myFiles:
+            return
+        for f in myFiles:
+            baseDir = os.path.dirname(os.path.abspath(__name__))
+            filepath = os.path.join(baseDir, 'static', 'files', couDir, 'hw', str(asn_id), f.name)
+            print(filepath)
+            destination = open(filepath, 'wb+')
+            asn_res = Assignment_Resource.objects.get(path=filepath)
+            asn_res.is_corrected = True
+            asn_res.save()
+            print(asn_res.is_corrected)
+            for chunk in f.chunks():
+                destination.write(chunk)
+            destination.close()
+        return HttpResponseRedirect("/EducationalSystem/teacher/upldAsn/" + str(asn.id) + "/")
+    return HttpResponseRedirect("/EducationalSystem/teacher/Asn/" + str(asn_id) + "/")
 
 def exportAssignment(request, asn_id):
-	Team_asns = Team_Assignment.objects.filter(asn_id__id=asn_id)
+    Team_asns = Team_Assignment.objects.filter(asn_id__id=asn_id)
 
-	Teams = []
-	for team_asn in Team_asns:
-		row = []
-		row.append(str(team_asn.team_id.id))
-		row.append(team_asn.team_id.name)
-		if team_asn.submit_times == 0:
-			row.append('未提交')
-			row.append('0')
-		else:
-			row.append('已提交')
-			row.append(str(team_asn.mark))
-		Teams.append(row)
+    Teams = []
+    for team_asn in Team_asns:
+        row = []
+        row.append(str(team_asn.team_id.id))
+        row.append(team_asn.team_id.name)
+        if team_asn.submit_times == 0:
+            row.append('未提交')
+            row.append('0')
+        else:
+            row.append('已提交')
+            row.append(str(team_asn.mark))
+        Teams.append(row)
 
-	xlsx = writeAssignment(Teams, Assignment.objects.get(id=asn_id).name)
-	print(xlsx)
+    xlsx = writeAssignment(Teams, Assignment.objects.get(id=asn_id).name)
+    baseDir = os.path.dirname(os.path.abspath(__name__))
+    filepath = os.path.join(baseDir, xlsx)
 
-	return HttpResponseRedirect("/EducationalSystem/teacher/")
+    response = HttpResponse()
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(xlsx)
+    content = open(filepath, 'rb').read()
+    response.write(content)
+
+    return response
 
 def exportAllAssignment(request, course_id):
-	Teams = Team.objects.filter(course_id__id=course_id)
-	form = []
-	for team in Teams:
-		team_id = team.id
-		team_name = team.name
-		TAs = Team_Assignment.objects.filter(team_id__id=team_id).order_by('asn_id__id')
-		rows = []
-		rows.append([str(team_id), team_name, '', ''])
-		rows.append(['作业ID', '作业名称', '作业提交情况', '作业分数'])
-		for ta in TAs:
-			row = []
-			row.append(str(ta.asn_id.id))
-			row.append(ta.asn_id.name)
-			if ta.submit_times == 0:
-				row.append('未提交')
-				row.append(0)
-			else:
-				row.append('已提交')
-				row.append(ta.mark)
-			rows.append(row)
-		form.append(rows)
+    Teams = Team.objects.filter(course_id__id=course_id)
+    form = []
+    for team in Teams:
+        team_id = team.id
+        team_name = team.name
+        TAs = Team_Assignment.objects.filter(team_id__id=team_id).order_by('asn_id__id')
+        rows = []
+        rows.append([str(team_id), team_name, '', ''])
+        rows.append(['作业ID', '作业名称', '作业提交情况', '作业分数'])
+        for ta in TAs:
+            row = []
+            row.append(str(ta.asn_id.id))
+            row.append(ta.asn_id.name)
+            if ta.submit_times == 0:
+                row.append('未提交')
+                row.append(0)
+            else:
+                row.append('已提交')
+                row.append(ta.mark)
+            rows.append(row)
+        form.append(rows)
 
-	xlsx = writeAllAssignment(form, Course.objects.get(id=course_id).name)
-	print(xlsx)
+    xlsx = writeAllAssignment(form, Course.objects.get(id=course_id).name)
+    baseDir = os.path.dirname(os.path.abspath(__name__))
+    filepath = os.path.join(baseDir, xlsx)
 
-	return HttpResponseRedirect("/EducationalSystem/teacher/")
+    response = HttpResponse()
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(xlsx)
+    content = open(filepath, 'rb').read()
+    response.write(content)
+
+    return response
+
 
 def exportTeams(request, course_id):
-	Teams = Team.objects.filter(course_id__id=course_id, status=2)
-	form = []
-	for team in Teams:
-		STs = Student_Team.objects.filter(team_id__id=team.id)
-		rows = []
-		for st in STs:
-			student = Student.objects.get(id=st.student_id.id)
-			row = []
-			row.append(str(team.id))
-			row.append(team.name)
-			row.append(str(student.id))
-			row.append(student.name)
-			if (student.id==team.manager_id.id):
-				row.append('组长')
-			else:
-				row.append('组员')
-			rows.append(row)
-		form.append(rows)
+    Teams = Team.objects.filter(course_id__id=course_id, status=2)
+    form = []
+    for team in Teams:
+        STs = Student_Team.objects.filter(team_id__id=team.id)
+        rows = []
+        for st in STs:
+            student = Student.objects.get(id=st.student_id.id)
+            row = []
+            row.append(str(team.id))
+            row.append(team.name)
+            row.append(str(student.id))
+            row.append(student.name)
+            if (student.id==team.manager_id.id):
+                row.append('组长')
+            else:
+                row.append('组员')
+            rows.append(row)
+        form.append(rows)
 
-	xlsx = writeTeam(form, Course.objects.get(id=course_id).name)
-	print(xlsx)
+    xlsx = writeTeam(form, Course.objects.get(id=course_id).name)
+    print(xlsx)
 
-	return HttpResponseRedirect("/EducationalSystem/teacher/")
+    baseDir = os.path.dirname(os.path.abspath(__name__))
+    filepath = os.path.join(baseDir, xlsx)
+
+    response = HttpResponse()
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(xlsx)
+    content = open(filepath, 'rb').read()
+    response.write(content)
+
+    return response
+
+
