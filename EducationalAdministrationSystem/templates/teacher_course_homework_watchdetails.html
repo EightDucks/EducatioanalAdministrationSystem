@@ -143,9 +143,11 @@
 
                             <div class="panel-body magry_hide" id="multi-assignment-upload">
                               <div class="form-horizontal">
-                                <label class="col-sm-3 control-label"><span class="glyphicon glyphicon-upload"></span>上传所有批改后作业</label>
-                                <input type="file" class="col-sm-3"/>
-                                <button type="button" class="btn btn-default btn-sm">提交</button>
+                                  <form method="POST" enctype="multipart/form-data" action="/EducationalSystem/teacher/upldAsn/">
+                                     <label class="col-sm-3 control-label"><span class="glyphicon glyphicon-upload"></span>上传所有批改后作业</label>
+                                     <input type="file" class="col-sm-3"/>
+                                     <input type="submit" class="btn btn-default btn-sm" value="提交"></input>
+                                  </form>
                               </div>
                             </div>
 
