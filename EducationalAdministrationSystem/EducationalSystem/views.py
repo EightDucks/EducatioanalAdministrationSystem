@@ -1165,7 +1165,7 @@ def teamApply(request, tem_id):
 def displayAllTeam(request, cou_id):
 	if "id" in request.session and request.session["id"] and \
 		"type" in request.session and request.session["type"] == "s":
-		tem = Team.objects.filter(course_id__id=cou_id)
+		tem = Team.objects.filter(course_id__id=cou_id, status__lt=3)
 		cou = Course.objects.get(id=cou_id)
 		stu_id = request.session["id"]
 		Stu_team = Student_Team.objects.filter(team_id__course_id__id=cou_id, student_id__id=stu_id)
@@ -1203,10 +1203,11 @@ def submitApply(request, tem_id):
 	stu_tem = Student_Team.objects.filter(team_id=tem)
 	if cou.team_downlimit is not None:
 		if len(stu_tem) < cou.team_downlimit:
+			messages.error(request, "人数不足")
 			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#不允许审核
 	for member in stu_tem:
 		if member.is_approved == 0:
-			# 存在未通过申请的学生， 不允许审核
+			messages.error(request, "存在未通过申请的学生， 不允许审核")
 			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")
 	tem.status = 1
 	tem.save()

@@ -41,7 +41,7 @@
     <div id="page-wrapper">
         <div class="header">
             <h1 class="page-header">
-                基本信息
+                课程资源
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
@@ -81,27 +81,30 @@
                     </ul>
                 </div>
             </div>
-            <div class="row">
-                <ul class="pagination">
-                    <li><a href="#"><</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">></a></li>
-                </ul>
-            </div>
+            <!--<div class="row">-->
+                <!--<ul class="pagination">-->
+                    <!--<li><a href="#"><</a></li>-->
+                    <!--<li><a href="#">1</a></li>-->
+                    <!--<li><a href="#">2</a></li>-->
+                    <!--<li><a href="#">3</a></li>-->
+                    <!--<li><a href="#">></a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
 
             <div class="operator_bar">
                 <button type="submit" id='downloadbutton' class="btn-default btn remove">下载文件</button>
+                {% if sen_type == 't' %}
                 <button type="submit"  class="btn-default btn carrynews">创建新文件夹</button>
                 <button type="submit" id='removebutton' class="btn-default btn remove">删除文件</button>
+                {% endif %}
                 <button type="submit"  class="btn-default btn back">返回上一级</button>
                 <form id="uploadForm" method="POST" enctype="multipart/form-data" action="">
-
+                    {% if sen_type == 't' %}
                     <button type="button" id='uploadbutton' class="btn-default btn ">上传文件</button>
 
 
                     <input type="file"  id="exampleInputFile" name="fileupload" multiple="">
+                    {% endif %}
                 </form>
             </div>
 
