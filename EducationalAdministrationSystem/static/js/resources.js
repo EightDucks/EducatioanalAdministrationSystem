@@ -22,11 +22,12 @@ $(function(){
             })
         alert(txt);
         $.ajax({
-            url: '/EducationalSystem/resource/???/',
+            url: '/EducationalSystem/resource/download/',
             type: 'GET',
             data: {down: txt,id:courseid, path:filepath},
             success: function (response) {			
-                alert('下载成功');
+               // alert(response);
+                console.log(response);
             },
         });
 		alert(txt);
@@ -75,6 +76,7 @@ $(function(){
                     var id = $('.msgtransfer').attr('name');
                     var filepath = $('.filepath').attr('name');
                     var name = pass
+                    alert('ajax ready')
                     $.ajax({
                         url:'/EducationalSystem/resource/createFolder/',
                         type:'GET',

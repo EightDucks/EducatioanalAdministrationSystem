@@ -13,6 +13,7 @@ from wsgiref.util import FileWrapper
 from datetime import date, datetime
 
 from .models import *
+from .ZipUtilities import *
 
 from django.http import StreamingHttpResponse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -377,24 +378,24 @@ def displayAssignmentsForStudents(request):
 		stu_team = Student_Team.objects.GET(student_id=stu_id, is_approved=True, team_id__course_id=ass_info.course_id)
 		ass_res = Assignment_Resource.objects.filter(team_asn_id__team_id=stu_team.id)
 
-def downloadResource(request):
-	if 'fid' in request.GET and request.GET['fid']:
-		fid = request.GET['fid']
-		myFile = Resource.objects.GET(id = fid)
-		fname = myFile.name
-		fpath = myFile.path
-		def fileIterator(fname, chunk_size = 512):
-			with open(fname) as f:
-				while(True):
-					c = f.read(chunk_size)
-					if c:
-						yield c
-					else:
-						break
-		response = StreamingHttpResponse(fileIterator(fname))
-		response['Content-Type'] = 'application/octet-stream'
-		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(fname)
-		return response
+# def downloadResource(request):
+# 	if 'fid' in request.GET and request.GET['fid']:
+# 		fid = request.GET['fid']
+# 		myFile = Resource.objects.GET(id = fid)
+# 		fname = myFile.name
+# 		fpath = myFile.path
+# 		def fileIterator(fname, chunk_size = 512):
+# 			with open(fname) as f:
+# 				while(True):
+# 					c = f.read(chunk_size)
+# 					if c:
+# 						yield c
+# 					else:
+# 						break
+# 		response = StreamingHttpResponse(fileIterator(fname))
+# 		response['Content-Type'] = 'application/octet-stream'
+# 		response['Content-Disposition'] = 'attachment;filename = "{0}"'.format(fname)
+# 		return response
 
 
 
@@ -671,6 +672,35 @@ def uploadResource(request):
 	# 	cache.set(order_id, upload_file)
 	# 	return HttpResponse(order_id)
 
+def downloadResource(request):
+	utilities = ZipUtilities()
+	if 'down' in request.GET and request.GET['down']:
+		unsplitted = request.GET['down']
+		splitted = unsplitted.split(',')
+		num = len(splitted) - 1
+		resource_id = splitted[0:num]
+		for r_id in resource_id:
+			res = Resource.objects.get(id=int(r_id))
+			tmp_dl_path = res.path
+			print('')
+			utilities.toZip(tmp_dl_path, res.name)
+		# utilities.close()
+		response = StreamingHttpResponse(utilities.zip_file, content_type='application/zip')
+		response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")
+		print('download success')
+		return response
+
+	# team_asn = Team_Assignment.objects.get(team_id=tid, asn_id__id=asn_id)
+	# asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
+	# utilities = zipstream.ZipFile(mode='w', compression=zipstream.ZIP_DEFLATED)
+	# for a_r in asn_res:
+	# 	tmp_dl_path = a_r.path
+	# 	utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
+	# # utilities.close()
+	# response = StreamingHttpResponse(utilities, content_type='application/zip')
+	# response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
+	# return response
+
 def deleteResource(request):
 	print('del' in request.GET)
 
@@ -881,6 +911,7 @@ def doubleclick(request):
 		#			  {'resources': Resources, 'folders':Folders, 'course_id': course_id, 'virpath': virpath})
 
 def returnSuperiorMenu(request):
+	print('returnSuperiorMenu')
 	if 'id' in request.GET and request.GET['id'] and \
 		'path' in request.GET and request.GET['path']:
 
@@ -898,7 +929,9 @@ def returnSuperiorMenu(request):
 		Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True, virtual_path=new_virpath)
 		Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False, virtual_path=new_virpath)
 
-		ret_str = fileSystemResponse(Folders, Resources)
+		print([f.id for f in Folders], [res.id for res in Resources])
+
+		ret_str = fileSystemResponse(Resources, Folders)
 
 		return HttpResponse(ret_str)
 
@@ -949,9 +982,17 @@ def createFolder(request):
 		folder_name = request.GET['foldername']
 		virpath = request.GET['path']
 
+		print('virpath=' + virpath)
+		baseDir = os.path.dirname(os.path.abspath(__name__))
+		filepath = os.path.join(baseDir, 'static', 'files')
+		for name in virpath.split('/'):
+			filepath = os.path.join(filepath, name)
+		print('baseDir=' + baseDir, 'filepath=' + filepath)
+		os.makedirs(os.path.join(filepath, folder_name))
+
 		print(folder_name, virpath+folder_name+'/', course_id)
 
-		res = Resource(name=folder_name, path=virpath+folder_name+'/', virtual_path=virpath, course_id_id=course_id, is_dir=True)
+		res = Resource(name=folder_name, path=os.path.join(filepath, folder_name), virtual_path=virpath, course_id_id=course_id, is_dir=True)
 		res.save()
 		ret_str = '<li class="myfolder"><input type="text" class="changename" name="1" value="' + \
 				res.name + '"/><input class="checkbox" name="' + str(res.id) + '" type="checkbox" value="" /></li>'
