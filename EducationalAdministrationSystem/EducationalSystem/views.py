@@ -1453,8 +1453,8 @@ def teacherUpldAsn(request,asn_id):
 			for chunk in f.chunks():
 				destination.write(chunk)
 			destination.close()
-		return HttpResponseRedirect("/EducationalSystem/teacher/")
-	return HttpResponseRedirect("/EducationalSystem/teacher/")
+		return HttpResponseRedirect("/EducationalSystem/teacher/upldAsn/" + str(asn.id) + "/")
+	return HttpResponseRedirect("/EducationalSystem/teacher/Asn/" + str(asn_id) + "/")
 
 def exportAssignment(request, asn_id):
     Team_asns = Team_Assignment.objects.filter(asn_id__id=asn_id)
