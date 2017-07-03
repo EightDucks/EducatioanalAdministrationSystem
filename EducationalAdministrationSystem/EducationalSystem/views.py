@@ -36,7 +36,9 @@ def student_left(request):
 
 # 主页
 def index(request):
-	return render_to_response('index.html')
+	from django.contrib.messages import get_messages
+	storage = get_messages(request)
+	return render(request, "index.html", {'msg': storage, 'len': len(storage)})
 
 
 # 头部
