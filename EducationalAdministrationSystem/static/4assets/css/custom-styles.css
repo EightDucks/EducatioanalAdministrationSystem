@@ -2,7 +2,7 @@
 
 
 /*----------------------------------------------
-    COMMON  STYLES    
+    COMMON  STYLES
 ------------------------------------------------*/
 body {
     font-family: 'Open Sans', sans-serif;
@@ -46,7 +46,7 @@ h4 {
     padding-top:10px;
 }
 .square-btn-adjust {
-    border: 0px solid transparent; 
+    border: 0px solid transparent;
    -webkit-border-radius: 0px;
 -moz-border-radius: 0px;
 border-radius: 0px;
@@ -58,7 +58,7 @@ p {
     padding-top:20px;
 }
 .navbar-side {
-    z-index: 0; 
+    z-index: 0;
 }
 .copyrights{
 	text-indent:-9999px;
@@ -93,7 +93,7 @@ position: fixed;
   -webkit-box-shadow: 0 0 10px #757575;
 }
 .top-navbar .nav > li > a:hover, .top-navbar .nav > li > a:focus {text-decoration: none;background-color: #4D4D4D;color: #fff;}
-.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {background-color: #656565;border-color: #F36A5A;color: #fff !important;}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {background-color: #656565;border-color: #54ABFF;color: #fff !important;}
 .breadcrumb {
 padding: 12px 10px 12px 20px;
 margin-bottom: 20px;
@@ -127,7 +127,7 @@ border-radius: 0;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  background-color: #F36A5A;
+  background-color: #54ABFF;
   border-radius: 10px;
 }
 .closed{
@@ -140,10 +140,10 @@ border-radius: 0;
 .closed i{color:#F09B22;
 }
 /*----------------------------------------------
-   DASHBOARD STYLES    
+   DASHBOARD STYLES
 ------------------------------------------------*/
 .page-header {margin: 0;border-bottom: 1px solid transparent;text-align: left;background-color: rgb(237, 237, 237);padding: 32px 22px 32px 0;color: #323232;}
-.panel-left{  
+.panel-left{
 width: 100px;
 height: 100px;background: #0866C6;/* border: 2px solid #4590DA; */
 /* border-radius: 100%; */
@@ -154,13 +154,13 @@ margin: 12px;}
 font-size: 3em;color: rgb(240, 155, 34);
 padding: 29px 0;
 margin-bottom:30px;}
-.panel-right{  
+.panel-right{
 height: 124px;
 background: transparent;
 margin-bottom: 0;color: #AFAFAF;
 
 float: left;text-align: left;padding-left: 20px;font-size: 16px;text-shadow: none;font-weight: normal;text-align: center;}
-.panel-right h3{  
+.panel-right h3{
 font-size: 40px;
 padding: 18px 10px 13px 0;color: #5D5D5D;}
 .panel-right strong{
@@ -205,7 +205,7 @@ h1.page-header small {
     margin: 12px 0 0;
 }
 i.fa.fa-bars:hover {
-	color: #F36A5A;
+	color: #54ABFF;
 }
 .board .panel {
     padding: 25px 15px;
@@ -246,7 +246,7 @@ i.fa.fa-bars:hover {
 	background:#FABE28 !important;
 }
 .red {
-    background: #f36a5a !important;
+    background: #54ABFF !important;
 }
 .jumbotron{
 padding:20px;
@@ -305,13 +305,13 @@ color:#fff;
   .brown {
 background-color: #F5B252;
 color:#fff;
-} 
+}
  .back-footer-red {
 background-color: #F0433D;
 color:#fff;
 border-top: 0px solid #fff;
 }
- 
+
  .icon-box-right {
 display: block;
 float: right;
@@ -399,7 +399,7 @@ line-height: 30px;
 #easypiechart-orange .percent { color: #ffb53e;}
 #easypiechart-red .percent { color: #ef4040;}
 
-	 
+
  .chat-panel .panel-body {
 height: 450px;
 overflow-y: scroll;
@@ -428,7 +428,7 @@ footer p{
 font-size: 14px;
 }
 /*----------------------------------------------
-    MENU STYLES    
+    MENU STYLES
 ------------------------------------------------*/
 div#sideNav:hover {
     color: #F09B22;
@@ -444,7 +444,7 @@ max-width:170px;
 .top-navbar{
 margin:0px;
 }
-.top-navbar .navbar-brand {color: #fff;width: 260px;text-align: left;height: 60px;font-size: 24px;font-weight: 700;/* text-transform: uppercase; */line-height: 30px;background: #F36A5A;}
+.top-navbar .navbar-brand {color: #fff;width: 260px;text-align: left;height: 60px;font-size: 24px;font-weight: 700;/* text-transform: uppercase; */line-height: 30px;background: #54ABFF;}
 .navbar-brand b{
 color: #4BD28C;
 }
@@ -482,7 +482,7 @@ overflow: hidden;
 background-color: #f5f5f5;
 border-radius: 0px;
 }
-.dropdown-tasks > li > a { 
+.dropdown-tasks > li > a {
 padding: 0px 15px;
 }
 .dropdown-tasks p {
@@ -492,9 +492,9 @@ padding-top: 4px;
 }
 .active-menu, .active-menu i {
     background-color: #EDEDED !important;
-    color: #F36A5A !important;
+    color: #54ABFF !important;
 }
-.active-menu i{color: #F36A5A !important;}
+.active-menu i{color: #54ABFF !important;}
 .arrow {
     float: right;
     margin-top: 8px;
@@ -542,14 +542,14 @@ padding-top: 4px;
 ul.nav.nav-second-level.collapse.in {background: #131212;}
 .sidebar-collapse .nav > li > a:hover,
 .sidebar-collapse .nav > li > a:focus {
-	 
+
 outline:0;
-	 
+
 background: #575757;
-	 
-color: #F36A5A;
+
+color: #54ABFF;
 }
- 
+
 .navbar-side {
 	border:none;
 	background: #3E3E3E;
@@ -561,7 +561,7 @@ color: #F36A5A;
 .top-navbar .nav > li > a > i {
 margin-right: 2px;
 }
-.top-navbar .navbar-brand:hover {color: #FFFFFF;background-color: #F36A5A;}
+.top-navbar .navbar-brand:hover {color: #FFFFFF;background-color: #54ABFF;}
 .dropdown-user li {
 margin: 8px 0;
 }
@@ -581,7 +581,7 @@ background-color: #FFF;
 }
 .nav > li > a > i {
     margin-right:10px;
-    color: rgb(243, 106, 90);
+    color: rgb(49, 148, 245);
 }
 .dropdown-menu>li>a>strong {
   color: #0866C6;
@@ -605,7 +605,7 @@ ul.dropdown-menu.dropdown-messages li a div {
   padding: 2px 0;
 }
 /*----------------------------------------------
-    UI ELEMENTS STYLES     
+    UI ELEMENTS STYLES
 ------------------------------------------------*/
 .btn-circle {
 width: 50px;
@@ -620,31 +620,31 @@ line-height: 1.428571429;
 }
 
 /*----------------------------------------------
-    MEDIA QUERIES     
+    MEDIA QUERIES
 ------------------------------------------------*/
- 
+
  @media(min-width:768px) {
      #page-wrapper{
                margin: 0 0 0 260px;
                padding: 0;
                min-height: 1200px;
     }
-	
-	
+
+
     .navbar-side {
         width: 260px;
         z-index: 1;
     }
 
    .navbar {
- border-radius: 0px; 
+ border-radius: 0px;
 }
-   
+
 }
  @media(max-width:768px) {
 	#sideNav{
 	display:none;
-} 
+}
  #page-wrapper {
 position: relative;
 top: 93px;
@@ -665,11 +665,9 @@ font-size: 19px;
 }
 .panel-left {
   width: 85px;
-  height: 85px; 
+  height: 85px;
   border-radius: 100%;
   overflow: hidden;
   margin: 14px;
 }
 }
-
-
