@@ -1282,7 +1282,10 @@ def applyCreateTeam(request, cou_id):
 		tm_chek = Team.objects.filter(name = nm, course_id = cou_id, status = 0 or 1 or 2)
 		if not tm_chek:
 			tm.save()
-		return HttpResponseRedirect("/EducationalSystem/student/")
+			st = Student_Team(team_id=tm, student_id=stu, is_approved=True)
+			st.save()
+			cou = tm.course_id.id
+			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou) +"/")
 
 def applyTeam(request, cou_id):
 	if 'id' in request.session and request.session['id'] \
