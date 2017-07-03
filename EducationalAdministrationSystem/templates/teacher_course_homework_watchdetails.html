@@ -157,7 +157,7 @@
                                                 <th>团队ID</th>
                                                 <th>团队名称</th>
                                                 <th>提交状态</th>
-                                                <th>提交时间</th>
+                                                <!--<th>提交时间</th>-->
                                                 <th>批改状态</th>
                                                 <th>分数</th>
                                                 <th>操作</th>
@@ -170,10 +170,18 @@
                                               <tr class="gradeA">
                                                   <td class="center">{{t.team_id.id}}</td>
                                                   <td>{{t.team_id.name}}</td>
-                                                  <td class="center">已提交</td>
-                                                  <td>2017-6-26 12:00:00</td>
+                                                  <td class="center">
+                                                  {% if t.submit_times == 0 %}
+                                                      未提交
+                                                  {% else %}
+                                                      已提交
+                                                  {% endif %}
+                                                  </td>
+                                                  <!--<td>2017-6-26 12:00:00</td>-->
                                                   <td class="center">未批改</td>
-                                                  <td>-</td>
+                                                  <td>
+                                                  成绩
+                                                  </td>
                                                   <td class="center">
                                                       <input type="text" style="display:none" name="team_id" value="{{t.team_id.id}}">
                                                       <!--<input type="submit" class="btn btn-info btn-xs" value="详细信息"> </input>-->
@@ -182,7 +190,7 @@
                                                   </td>
                                               </tr>
                                             </form>
-                                        {% endfor %}
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
