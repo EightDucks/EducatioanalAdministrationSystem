@@ -180,7 +180,7 @@
 }
 .user-name p{
   font-size:1em;
-  color:#DD6777;
+  color:#2984DD;
   line-height:1em;
   font-weight:700;
 }
@@ -289,7 +289,7 @@ position: fixed;
   /*-webkit-box-shadow: 0 0 10px #757575;*/
 /*}*/
 .top-navbar .nav > li > a:hover, .top-navbar .nav > li > a:focus {text-decoration: none;background-color: #4D4D4D;color: #fff;}
-.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {background-color: #656565;border-color: #F36A5A;color: #fff !important;}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {background-color: #656565;border-color: #54ABFF;color: #fff !important;}
 .breadcrumb {
 padding: 12px 10px 12px 20px;
 margin-bottom: 20px;
@@ -323,7 +323,7 @@ border-radius: 0;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  background-color: #F36A5A;
+  background-color: #54ABFF;
   border-radius: 10px;
 }
 .closed{
@@ -407,7 +407,7 @@ h1.page-header small {
     margin: 12px 0 0;
 }
 i.fa.fa-bars:hover {
-	color: #F36A5A;
+	color: #54ABFF;
 }
 .board .panel {
     padding: 25px 15px;
@@ -448,7 +448,7 @@ i.fa.fa-bars:hover {
 	background:#FABE28 !important;
 }
 .red {
-    background: #f36a5a !important;
+    background: #54ABFF !important;
 }
 .jumbotron{
 padding:20px;
@@ -646,7 +646,7 @@ max-width:170px;
 .top-navbar{
 margin:0px;
 }
-.top-navbar .navbar-brand {color: #fff;width: 260px;text-align: left;height: 60px;font-size: 24px;font-weight: 700;/* text-transform: uppercase; */line-height: 30px;background: #F36A5A;}
+.top-navbar .navbar-brand {color: #fff;width: 260px;text-align: left;height: 60px;font-size: 24px;font-weight: 700;/* text-transform: uppercase; */line-height: 30px;background: #54ABFF;}
 .navbar-brand b{
 color: #4BD28C;
 }
@@ -694,9 +694,9 @@ padding-top: 4px;
 }
 .active-menu, .active-menu i {
     background-color: #EDEDED !important;
-    color: #F36A5A !important;
+    color: #54ABFF !important;
 }
-.active-menu i{color: #F36A5A !important;}
+.active-menu i{color: #54ABFF !important;}
 .arrow {
     float: right;
     margin-top: 8px;
@@ -749,7 +749,7 @@ outline:0;
 
 background: #575757;
 
-color: #F36A5A;
+color: #54ABFF;
 }
 
 .navbar-side {
@@ -763,7 +763,7 @@ color: #F36A5A;
 .top-navbar .nav > li > a > i {
 margin-right: 2px;
 }
-.top-navbar .navbar-brand:hover {color: #FFFFFF;background-color: #F36A5A;}
+.top-navbar .navbar-brand:hover {color: #FFFFFF;background-color: #54ABFF;}
 .dropdown-user li {
 margin: 8px 0;
 }

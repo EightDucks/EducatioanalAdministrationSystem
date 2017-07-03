@@ -61,6 +61,9 @@
 
                     <div class="list-group-item">
                     <div class="scoll" data-spy="scroll" data-target="#navbar-example" data-offset="10" style="height: 300px;overflow: auto;">
+                        {% for l in last_chat %}
+                            <input type="hidden" class="chat_id" value="{{l.id}}" style="display: none"/>
+                        {% endfor %}
                         {% for chat in chats %}
                             <p class="list-group-item-heading" style="">{{ chat.type}}:{{chat.sender}}--{{chat.time}}</p>
                             <div class="col-xs-4">
@@ -200,7 +203,7 @@ function updateMsg() {
     	   //$('.scoll').scrollTop= $('.scoll').scrollHeight;
 
     });
-    setTimeout("updateMsg()", 1000);
+    setTimeout("updateMsg()", 1500);
     // 每秒更新一次
 
 }
