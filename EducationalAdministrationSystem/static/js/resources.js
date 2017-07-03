@@ -21,16 +21,17 @@ $(function(){
                 txt+=$(this).attr("name")+',';               
             })
         alert(txt);
-        $.ajax({
-            url: '/EducationalSystem/resource/download/',
-            type: 'GET',
-            data: {down: txt,id:courseid, path:filepath},
-            success: function (response) {			
-               // alert(response);
-                console.log(response);
-            },
-        });
-		alert(txt);
+        window.location.href='/EducationalSystem/resource/download/' + txt;
+//        $.ajax({
+//            url: '/EducationalSystem/resource/download/',
+//            type: 'GET',
+//            data: {down: txt,id:courseid, path:filepath},
+//            success: function (response) {
+//                window.location.href='/EducationalSystem/'
+//                //console.log(response);
+//            },
+//        });
+//		alert(txt);
     })
 	
 	//上传

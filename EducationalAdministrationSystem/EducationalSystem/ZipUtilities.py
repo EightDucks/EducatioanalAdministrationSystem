@@ -12,6 +12,7 @@ class ZipUtilities:
         if os.path.isfile(file):
             self.zip_file.write(file, arcname=os.path.basename(file))
         else:
+            print ('it is a dir')
             self.addFolderToZip(file, name)
 
     def addFolderToZip(self, folder, name):

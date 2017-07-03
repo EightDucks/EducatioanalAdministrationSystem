@@ -646,9 +646,12 @@ def uploadResource(request):
 		ret_str = ''
 		for f in myFiles:
 			baseDir = os.path.dirname(os.path.abspath(__name__))
-			filepath = os.path.join(baseDir, 'static', 'files', f.name)
-			destination = open(filepath, 'wb+')
+			filepath = os.path.join(baseDir, 'static', 'files', 'course'+str(course_id), 'rs')
+			for name in virpath.split('/'):
+				filepath = os.path.join(filepath, name)
+			filepath = os.path.join(filepath, f.name)
 			print(filepath)
+			destination = open(filepath, 'wb+')
 			res = Resource(name=f.name, path=filepath, course_id=cou, virtual_path=virpath, is_dir=False)
 			res.save()
 			for chunk in f.chunks():
@@ -678,23 +681,28 @@ def uploadResource(request):
 	# 	cache.set(order_id, upload_file)
 	# 	return HttpResponse(order_id)
 
-def downloadResource(request):
+def downloadResource(request, down):
 	utilities = ZipUtilities()
-	if 'down' in request.GET and request.GET['down']:
-		unsplitted = request.GET['down']
-		splitted = unsplitted.split(',')
-		num = len(splitted) - 1
-		resource_id = splitted[0:num]
-		for r_id in resource_id:
-			res = Resource.objects.get(id=int(r_id))
-			tmp_dl_path = res.path
-			print('')
-			utilities.toZip(tmp_dl_path, res.name)
-		# utilities.close()
-		response = StreamingHttpResponse(utilities.zip_file, content_type='application/zip')
-		response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")
-		print('download success')
-		return response
+	# if 'down' in request.GET and request.GET['down']:
+	# unsplitted = request.GET['down']
+	unsplitted = down
+	splitted = unsplitted.split(',')
+	num = len(splitted) - 1
+	resource_id = splitted[0:num]
+	for r_id in resource_id:
+		res = Resource.objects.get(id=int(r_id))
+		tmp_dl_path = res.path
+		print('')
+		utilities.toZip(tmp_dl_path, res.name)
+	# utilities.close()
+	response = StreamingHttpResponse(utilities.zip_file, content_type='application/zip')
+	response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")
+	print('download success')
+	# dlResource(response)
+	return response
+
+# def dlResource(response):
+# 	return response
 
 	# team_asn = Team_Assignment.objects.get(team_id=tid, asn_id__id=asn_id)
 	# asn_res = Assignment_Resource.objects.filter(team_asn_id=team_asn)
@@ -991,7 +999,7 @@ def createFolder(request):
 
 		print('virpath=' + virpath)
 		baseDir = os.path.dirname(os.path.abspath(__name__))
-		filepath = os.path.join(baseDir, 'static', 'files')
+		filepath = os.path.join(baseDir, 'static', 'files', 'course'+str(course_id), 'rs')
 		for name in virpath.split('/'):
 			filepath = os.path.join(filepath, name)
 		print('baseDir=' + baseDir, 'filepath=' + filepath)
