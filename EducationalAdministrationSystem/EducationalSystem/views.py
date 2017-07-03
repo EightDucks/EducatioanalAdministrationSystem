@@ -343,7 +343,7 @@ def displayAllResource(request, course_id):
 		else:
 			return HttpResponseRedirect("/EducationalSystem/")
 		return render(request, 'resources.html',
-				  	{'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': '/', 'sen_type': sen_type})
+					{'resources': Resources, 'folders': Folders, 'course_id': course_id, 'virpath': '/', 'sen_type': sen_type})
 	else:
 		return HttpResponseRedirect("/EducationalSystem/")
 
@@ -747,7 +747,8 @@ def uploadHomework(request,asn_id):
 	if request.method == 'POST' and 'id' in request.session and request.session['id']:
 
 		sid = request.session['id']
-
+		stu = Student_Team.objects.get(student_id__id=sid)
+		stu_team =stu.team_id
 		# teamAsn = Team_Assignment.objects.get(team_id = stu_team.id, asn_id = asn_id)
 		# if not teamAsn:
 		# 	teamAsn.submit_times = 1
@@ -774,7 +775,7 @@ def uploadHomework(request,asn_id):
 				destination = open(filepath, 'wb+')
 				# asn_res = Assignment_Resource(team_asn_id = teamAsn.id, path = destination, is_corrected = False)
 				# asn_res.save()
-				t_a = Team_Assignment.objects.get(id=1)
+				t_a = Team_Assignment.objects.get(asn_id__id=asn_id, team_id=stu_team)
 				asn_res = Assignment_Resource(team_asn_id=t_a, path=filepath)
 				asn_res.save()
 				for chunk in file_obj.chunks():
@@ -1007,10 +1008,10 @@ def displayInfo(request):
 			return render(request, "student_profile.html", {"stu":stu})
 		elif user_type == "t":
 			tea = Teacher.objects.get(id=user_id)
-			return render(request, "teacher_and_admin_profile.html", {"user":tea})
+			return render(request, "teacher_and_admin_profile.html", {"user":tea,"type":"t"})
 		elif user_type == "e":
 			ea = EduAdmin.objects.get(id=user_id)
-			return render(request, "teacher_and_admin_profile.html", {"user":ea})
+			return render(request, "teacher_and_admin_profile.html", {"user":ea,"type":"e"})
 
 def chat_index(request,cou_id):
 	if 'type' in request.session and request.session['type'] == 's':
@@ -1058,16 +1059,16 @@ def displayMyTeam(request, cid):
 		"type" in request.session and request.session["type"] == "s":
 		stu_id = request.session["id"]
 		cou = Course.objects.get(id=cid)
-		stu_tem = Student_Team.objects.get(team_id__course_id__id=cid, student_id=stu_id)
-		if not stu_tem:
-			tem = Team.objects.get(manager_id__id=stu_id, course_id=cou)
-			if not tem:
+		stu_tem = Student_Team.objects.filter(team_id__course_id__id=cid, student_id=stu_id)
+		if stu_tem.count() < 1:
+			tem = Team.objects.filter(manager_id__id=stu_id, course_id=cou)
+			if tem.count() < 1:
 				return render(request, "student_course_myteam_noteam.html", {"cou":cou})
 			else:
 				stus = None
 				sts = "审核未通过"
-				return render(request, "student_course_myteam_manager.html", {"tem": tem, "stus": stus, "status": sts, "cou": cou})
-		tem = stu_tem.team_id
+				return render(request, "student_course_myteam_manager.html", {"tem": tem[0], "stus": stus, "status": sts, "cou": cou})
+		tem = stu_tem[0].team_id
 
 
 		#is_manager = Team.object.fliter(id=tem, manager_id=stu_id)
@@ -1101,9 +1102,9 @@ def displayTeamDt(request, tem_id):
 		stu_id = request.session["id"]
 		tem = Team.objects.get(id=tem_id)
 		cou = tem.course_id
-		stu_team = Student_Team.objects.get(team_id__course_id=cou, student_id__id=stu_id)
+		stu_team = Student_Team.objects.filter(team_id__course_id=cou, student_id__id=stu_id)
 		psSts = False
-		if not stu_team:
+		if stu_team.count() < 1:
 			psSts = True
 		else:
 			psSts = False
@@ -1140,9 +1141,9 @@ def displayAllTeam(request, cou_id):
 		tem = Team.objects.filter(course_id__id=cou_id)
 		cou = Course.objects.get(id=cou_id)
 		stu_id = request.session["id"]
-		Stu_team = Student_Team.objects.get(team_id__course_id__id=cou_id, student_id__id=stu_id)
+		Stu_team = Student_Team.objects.filter(team_id__course_id__id=cou_id, student_id__id=stu_id)
 		psSts = False
-		if not Stu_team:
+		if Stu_team.count() < 1:
 			psSts = True
 		else:
 			psSts = False
@@ -1176,6 +1177,10 @@ def submitApply(request, tem_id):
 	if cou.team_downlimit is not None:
 		if len(stu_tem) < cou.team_downlimit:
 			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#不允许审核
+	for member in stu_tem:
+		if member.is_approved == 0:
+			# 存在未通过申请的学生， 不允许审核
+			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")
 	tem.status = 1
 	tem.save()
 	return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#允许审核
@@ -1323,7 +1328,10 @@ def applyCreateTeam(request, cou_id):
 		tm_chek = Team.objects.filter(name = nm, course_id = cou_id, status = 0 or 1 or 2)
 		if not tm_chek:
 			tm.save()
-		return HttpResponseRedirect("/EducationalSystem/student/")
+			st = Student_Team(team_id=tm, student_id=stu, is_approved=True)
+			st.save()
+			cou = tm.course_id.id
+			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou) +"/")
 
 def applyTeam(request, cou_id):
 	if 'id' in request.session and request.session['id'] \
@@ -1339,3 +1347,26 @@ def applyTeam(request, cou_id):
 		return render(request, "apply_team.html", {'cou' : cou, 'sts':sts})
 	return HttpResponseRedirect("/EducationalSystem/")
 
+def teacherUpldAsn(request):
+	if request.method == 'POST':
+		strA = "assignment_attachment_"
+		i = 0
+		while True:
+			newStr = strA + str(i)
+			if newStr in request.FILES:
+				file_obj = request.FILES[newStr]
+
+				baseDir = os.path.dirname(os.path.abspath(__name__))
+				filepath = os.path.join(baseDir, 'static', 'files', file_obj.name)
+				destination = open(filepath, 'wb+')
+				asn_res = Assignment_Resource.objects.get(path=filepath)
+				asn_res.iscorrected = True
+				asn_res.save()
+				for chunk in file_obj.chunks():
+					destination.write(chunk)
+				destination.close()
+				i = i + 1
+			else:
+				break
+		return HttpResponseRedirect("/EducationalSystem/teacher/")
+	return HttpResponseRedirect("/EducationalSystem/teacher/")

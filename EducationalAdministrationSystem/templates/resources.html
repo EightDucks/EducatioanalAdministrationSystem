@@ -29,9 +29,9 @@
 
     <!--这个nav是左边的东西-->
     {% if sen_type == 't' %}
-    <div class="teacher_left"></div>
+        <div class="teacher_left"></div>
     {% elif sen_type == 's' %}
-    <div class="student_left"></div>
+        <div class="student_left"></div>
     {% endif %}
     <div style="display:none;">
         <input id="cou_id_holder" value="{{course_id}}" >
@@ -45,7 +45,12 @@
             </h1>
             <!--可选择返回的不知道叫什么的东西-->
             <ol class="breadcrumb">
-                <li><a href="../">课程信息</a></li>
+                {% if sen_type == 't' %}
+                    <li><a href="../../teacher/course/{{course_id}}">课程信息</a></li>
+                {% elif sen_type == 's' %}
+                    <li><a href="../../student/course/{{course_id}}">课程信息</a></li>
+                {% endif %}
+
                 <li class="active">资源</li>
             </ol>
         </div>

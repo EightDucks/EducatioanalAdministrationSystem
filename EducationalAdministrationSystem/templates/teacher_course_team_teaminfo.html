@@ -51,6 +51,20 @@
 
         <!--这是我们操作的主题框-->
         <div id="page-inner">
+          <!--消息提示-->
+          {% if messages %}
+          <div class="row">
+            <div class="col-xs-12">
+              {% for message in messages %}
+                <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  {{message}}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+          <!--./消息提示-->
             <div class="row">
                 <div class="col-xs-12" >
                   <div class="panel panel-default">
@@ -286,6 +300,5 @@
       $('#dataTables-studentWhoHaveNoTeam').dataTable();
   });
 </script>
-
 </body>
 </html>

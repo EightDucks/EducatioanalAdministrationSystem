@@ -28,7 +28,31 @@
 
 
     <!--这个nav是左边的东西-->
-    <div class="teacher_left"></div>
+    {% ifequal type "t" %}
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <!--左边栏的内容-->
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a href="/EducationalSystem/teacher/"><i class="fa fa-fw fa-file"></i> 课程列表</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    {% else %}
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+              <!--左边栏的内容-->
+              <ul class="nav" id="main-menu">
+                  <li>
+                      <a href="/EducationalSystem/jiaowu/"><i class="fa fa-fw fa-file"></i> 教务管理</a>
+                  </li>
+              </ul>
+            </div>
+
+        </nav>
+    {% endifequal  %}
+
     <div style="display:none;">
         <input id="cou_id_holder" value="{{cou.id}}" >
     </div>
