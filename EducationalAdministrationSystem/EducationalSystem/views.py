@@ -1010,16 +1010,16 @@ def displayMyTeam(request, cid):
 		"type" in request.session and request.session["type"] == "s":
 		stu_id = request.session["id"]
 		cou = Course.objects.get(id=cid)
-		stu_tem = Student_Team.objects.get(team_id__course_id__id=cid, student_id=stu_id)
-		if not stu_tem:
-			tem = Team.objects.get(manager_id__id=stu_id, course_id=cou)
-			if not tem:
+		stu_tem = Student_Team.objects.filter(team_id__course_id__id=cid, student_id=stu_id)
+		if stu_tem.count() < 1:
+			tem = Team.objects.filter(manager_id__id=stu_id, course_id=cou)
+			if tem.count() < 1:
 				return render(request, "student_course_myteam_noteam.html", {"cou":cou})
 			else:
 				stus = None
 				sts = "审核未通过"
-				return render(request, "student_course_myteam_manager.html", {"tem": tem, "stus": stus, "status": sts, "cou": cou})
-		tem = stu_tem.team_id
+				return render(request, "student_course_myteam_manager.html", {"tem": tem[0], "stus": stus, "status": sts, "cou": cou})
+		tem = stu_tem[0].team_id
 
 
 		#is_manager = Team.object.fliter(id=tem, manager_id=stu_id)
@@ -1053,9 +1053,9 @@ def displayTeamDt(request, tem_id):
 		stu_id = request.session["id"]
 		tem = Team.objects.get(id=tem_id)
 		cou = tem.course_id
-		stu_team = Student_Team.objects.get(team_id__course_id=cou, student_id__id=stu_id)
+		stu_team = Student_Team.objects.filter(team_id__course_id=cou, student_id__id=stu_id)
 		psSts = False
-		if not stu_team:
+		if stu_team.count() < 1:
 			psSts = True
 		else:
 			psSts = False
@@ -1092,9 +1092,9 @@ def displayAllTeam(request, cou_id):
 		tem = Team.objects.filter(course_id__id=cou_id)
 		cou = Course.objects.get(id=cou_id)
 		stu_id = request.session["id"]
-		Stu_team = Student_Team.objects.get(team_id__course_id__id=cou_id, student_id__id=stu_id)
+		Stu_team = Student_Team.objects.filter(team_id__course_id__id=cou_id, student_id__id=stu_id)
 		psSts = False
-		if not Stu_team:
+		if Stu_team.count() < 1:
 			psSts = True
 		else:
 			psSts = False
