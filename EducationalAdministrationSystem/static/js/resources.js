@@ -18,27 +18,18 @@ $(function(){
         var txt='',courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
         $('input[type="checkbox"]:checked').each(
             function(){
-				if($(this).parent().find('input[type="text"]').hasClass('myfolder'))
-				{
-					alert("包括了文件夹");
-					return false
-				}
-                txt+=$(this).attr("name")+',';
-                
+                txt+=$(this).attr("name")+',';               
             })
-        txt+=courseid;
         alert(txt);
-        //发起ajax删除请求
         $.ajax({
             url: '/EducationalSystem/resource/???/',
             type: 'GET',
-            data: {down: txt, path:filepath},
-            success: function (response) {
-				
+            data: {down: txt,id:courseid, path:filepath},
+            success: function (response) {			
                 alert('下载成功');
             },
         });
-        $('.msgtransfer').val(txt);
+		alert(txt);
     })
 	
 	//上传
@@ -55,14 +46,12 @@ $(function(){
             //form_data.append('file',file_info);
             form_data.append('path',filepath);
             form_data.append('courseid',courseid);
-            alert($('#exampleInputFile')[0].files[0]);
             //if(file_info==undefined)暂且不许要判断是否有附件
                 //alert('你没有选择任何文件');
                 //return false
             //}
 
             // 提交ajax的请求
-            //alert('ajax ready .');
             $.ajax({
                 url:'/EducationalSystem/resource/upload/',
                 type:'POST',
@@ -72,10 +61,9 @@ $(function(){
                 contentType: false, // tell jquery not to set contentType
                 success: function(callback) {
 					$('#divall').append(callback);
-					alert('上传成功');
+					alert("上传成功");
                 }
             }); // end ajax
-            //alert('ajax end.');
     })
     //新建
 
@@ -139,6 +127,7 @@ $(function(){
 
     //返回
     $back.live('click' , function(){
+        alert('确定返回？')
         setTimeout(
             function(){			
 				/*$('#divall').html('<li class="myfolder"><input type="text" class="changename" name="1" value="{{res.name}}"disabled="disabled"/><input class="checkbox" name="{{res.3id}}" type="checkbox" value="" /></li>');
@@ -199,14 +188,15 @@ $(function(){
                     type: "GET",
                     data: {id:courseid, path:filepath,flag:'2'},
                     success: function (response) {
+                                alert(response);
 								$('.filepath').attr("name",response);
 							},
                     }
                 )
-
+				alter("返回结束")
 				
             },250);
-    }); //新文件夹不起作用！！
+    }); 
 
     //复选框删除
     $bgcolor.live('click' , function(){
@@ -234,7 +224,7 @@ $(function(){
 								alert('删除成功');
 							},
 							});
-                        $('.msgtransfer').val(txt);
+                        //$('.msgtransfer').val(txt);
                         //$removenews.fadeOut(250);
                 },250)
         }//
