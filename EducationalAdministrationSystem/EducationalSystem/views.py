@@ -1136,6 +1136,10 @@ def submitApply(request, tem_id):
 	if cou.team_downlimit is not None:
 		if len(stu_tem) < cou.team_downlimit:
 			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#不允许审核
+	for member in stu_tem:
+		if member.is_approved == 0:
+			# 存在未通过申请的学生， 不允许审核
+			return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")
 	tem.status = 1
 	tem.save()
 	return HttpResponseRedirect("/EducationalSystem/student/team/" + str(cou.id) + "/")#允许审核
