@@ -14,11 +14,15 @@ urlpatterns = {
     url(r'^jiaowu_change/$', views.changeTerm, name='changeTerm'),
     url(r'^jiaowu_addcourse/$', views.jiaowu_addcourse, name='jiaowu_addcourse'),
     url(r'^jiaowu_addsemester/$', views.jiaowu_addsemester, name='jiaowu_addsemester'),
+    url(r'^jiaowu_rewritecourse/(\d+)?',views.jiaowu_rewriteCourse,name='jiaowu_rewritecourse'),
+
 
     # 教务、学生、教师页头部
     url(r'^header.html$', views.header, name = 'header'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^addCourse/$', views.addCourse, name='addCourse'),
+    url(r'^rewriteCourse/$', views.rewriteCourse, name='rewriteCourse'),
+
 
     # 教师页左半部
     url(r'^teacher_left.html$', views.teacher_left, name='teacher_left'),
@@ -46,6 +50,7 @@ urlpatterns = {
     url(r'^student/upldAsn/(\d+)/$', views.uploadHomework, name='uploadAssignment'),
     url(r'^teacher/dldAsn/asn_id(\d+)tid(\d+)/$', views.downloadHomework, name='downloadAssignment'),
     url(r'^teacher/dldAsn/a_id(\d+)/$', views.downloadAllHomework, name='downloadAllHomework'),
+    url(r'^teacher/upldAsn/(\d+)/$', views.teacherUpldAsn, name='uploadCorrectedHomework'),
 
     url(r'^teacher/setGd/TA_id(\d+)/$', views.displaySetGrade, name='displaySetGrade'),
     url(r'^teacher/setGd/TA_id(\d+)/save/$', views.setTeamAssignmentCommentMark, name='setTeamAssignmentCommentMark'),
@@ -86,6 +91,10 @@ urlpatterns = {
 
     url(r'^chat_index/(\d+)/$',views.chat_index, name='chat_index'),
     url(r'^chat/$',views.chat, name='chat'),
+
+    url(r'^exportAssignment/(\d+)/$', views.exportAssignment, name='exportAssignment'),
+    url(r'^exportAllAssignment/(\d+)/$', views.exportAllAssignment, name='exportAllAssignment'),
+    url(r'^exportTeams/(\d+)/$', views.exportTeams, name='exportTeams'),
 
 
 }

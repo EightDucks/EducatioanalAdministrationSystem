@@ -138,14 +138,18 @@
                                 </label>
                                 <button type="button" class="btn btn-success btn-sm" onclick="location.href='/EducationalSystem/teacher/dldAsn/a_id{{asn.id}}/'"><span class="glyphicon glyphicon-download"></span>下载所有作业</button>
                                 <button type="button" class="btn btn-default btn-sm" id="btn-multi-assignment-upload"><span class="glyphicon glyphicon-upload"></span>上传所有批改后作业</button>
+                                <!--<button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span>查看全部作业报表</button>-->
+                                <button type="button" class="btn btn-warning btn-sm" onclick="location.href='/EducationalSystem/exportAssignment/{{asn.id}}/'"><span class="glyphicon glyphicon-download-alt"></span>下载作业报表</button>
 
                             </div>
 
                             <div class="panel-body magry_hide" id="multi-assignment-upload">
                               <div class="form-horizontal">
-                                <label class="col-sm-3 control-label"><span class="glyphicon glyphicon-upload"></span>上传所有批改后作业</label>
-                                <input type="file" class="col-sm-3"/>
-                                <button type="button" class="btn btn-default btn-sm">提交</button>
+                                  <form method="POST" enctype="multipart/form-data" action="/EducationalSystem/teacher/upldAsn/{{asn.id}}/">
+                                     <label class="col-sm-3 control-label"><span class="glyphicon glyphicon-upload"></span>上传所有批改后作业</label>
+                                     <input type="file" class="col-sm-3" name="assignment_attachment_"/>
+                                     <input type="submit" class="btn btn-default btn-sm" value="提交"></input>
+                                  </form>
                               </div>
                             </div>
 
@@ -157,7 +161,7 @@
                                                 <th>团队ID</th>
                                                 <th>团队名称</th>
                                                 <th>提交状态</th>
-                                                <!--<th>提交时间</th>-->
+
                                                 <th>批改状态</th>
                                                 <th>分数</th>
                                                 <th>操作</th>
@@ -178,6 +182,7 @@
                                                   {% endif %}
                                                   </td>
                                                   <!--<td>2017-6-26 12:00:00</td>-->
+
                                                   <td class="center">未批改</td>
                                                   <td>
                                                   成绩
