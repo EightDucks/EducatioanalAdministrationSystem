@@ -153,36 +153,42 @@ def login(request):
 		userKind = request.POST['type']
 
 		if userKind == 't':
-			tea = Teacher.objects.get(number = userName, password = userPassword)
-			if tea:
+			tea = Teacher.objects.filter(number = userName, password = userPassword)
+			if tea.count() == 1:
 				print('successT')
-				request.session["id"] = tea.id
+				request.session["id"] = tea[0].id
 				request.session["type"] = "t"
 				return HttpResponseRedirect("/EducationalSystem/teacher/")
-			return HttpResponseRedirect("/EducationalSystem/")
+			else:
+				messages.error(request,"密码错误、用户不存在或帐号不属于教师用户")
+				return HttpResponseRedirect("/EducationalSystem/")
 			# if tea:
 			# 	return render_to_response('index.html')
 			# else:
 			# 	return render_to_response('index.html')
 		elif userKind == 's':
-			stu = Student.objects.get(number = userName, password = userPassword)
-			if stu:
+			stu = Student.objects.filter(number = userName, password = userPassword)
+			if stu.count() == 1:
 				print('successS')
-				request.session["id"] = stu.id
+				request.session["id"] = stu[0].id
 				request.session["type"] = "s"
 				return HttpResponseRedirect("/EducationalSystem/student/")
-			return HttpResponseRedirect("/EducationalSystem/")
+			else:
+				messages.error(request,"密码错误、用户不存在或帐号不属于学生用户")
+				return HttpResponseRedirect("/EducationalSystem/")
 			# 	return render_to_response('index.html')
 			# else:
 			# 	return render_to_response('index.html')
 		elif userKind == "e":
-			ea = EduAdmin.objects.get(number = userName, password = userPassword)
-			if ea:
+			ea = EduAdmin.objects.filter(number = userName, password = userPassword)
+			if ea.count() == 1:
 				print('successE')
-				request.session["id"] = ea.id
+				request.session["id"] = ea[0].id
 				request.session["type"] = "e"
 				return HttpResponseRedirect("/EducationalSystem/jiaowu/")
-			return HttpResponseRedirect("/EducationalSystem/")
+			else:
+				messages.error(request,"密码错误、用户不存在或帐号不属于教务用户")
+				return HttpResponseRedirect("/EducationalSystem/")
 			# if ea:
 			# 	return render_to_response('index.html')
 			# else:

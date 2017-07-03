@@ -25,6 +25,16 @@
 </head>
 
 <body style="background-color:#FFFFFF;">
+    <!--隐藏值，是否获取message-->
+    <div style="display:none">
+      <input type="text" id="index_if_msg" value="{% if massages %}1{% else %}0{% endif%}">
+      {% if massages %}
+      {% for i in messages %}
+      <input type="text" class="index_msg" value="{{i}}">
+      {% endfor %}
+      {% endif %}
+    </div>
+    <!--./隐藏值内容结束-->
     <div id="wrapper">
         <nav class="navbar navbar-default top-navbar" role="navigation">
             <div class="navbar-header">
@@ -236,6 +246,16 @@
     <!-- Chart Js -->
     <script type="text/javascript" src="/static/4assets/js/Chart.min.js"></script>
     <script type="text/javascript" src="/static/4assets/js/chartjs.js"></script>
+
+    <script>
+      var msg_status = $('#index_if_msg').val();
+      if (msg_status == "1"){
+        //还有问题
+        $('.index_msg').each(function(){
+          alert($(this).val());
+        })
+      }
+    </script>
 
 </body>
 
