@@ -150,7 +150,15 @@ $(function(){
                     type: "GET",
                     data: {id:courseid, path:filepath},
                     success: function (response) {
-                                $('#divall').html(response);
+								if(response=='root')
+								{
+									alert("已在根目录");
+								}
+								else
+								{
+									$('#divall').html(response);									
+								}
+
 							    //为下次点击绑定事件
 								 $('#divall li ').each(function () {
 									$(this).dblclick(function () {
