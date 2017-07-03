@@ -14,11 +14,15 @@ urlpatterns = {
     url(r'^jiaowu_change/$', views.changeTerm, name='changeTerm'),
     url(r'^jiaowu_addcourse/$', views.jiaowu_addcourse, name='jiaowu_addcourse'),
     url(r'^jiaowu_addsemester/$', views.jiaowu_addsemester, name='jiaowu_addsemester'),
+    url(r'^jiaowu_rewritecourse/(\d+)?',views.jiaowu_rewriteCourse,name='jiaowu_rewritecourse'),
+
 
     # 教务、学生、教师页头部
     url(r'^header.html$', views.header, name = 'header'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^addCourse/$', views.addCourse, name='addCourse'),
+    url(r'^rewriteCourse/$', views.rewriteCourse, name='rewriteCourse'),
+
 
     # 教师页左半部
     url(r'^teacher_left.html$', views.teacher_left, name='teacher_left'),
