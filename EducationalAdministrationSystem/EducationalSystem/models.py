@@ -58,9 +58,10 @@ class Course_Student(models.Model):
 
 class Resource(models.Model):
     name = models.CharField(max_length=50)
-    path = models.CharField(max_length=100, null=True)
+    path = models.CharField(max_length=300)
     course_id = models.ForeignKey(Course)
     virtual_path = models.CharField(max_length=100)
+    is_dir = models.BooleanField()
 
 class Assignment(models.Model):
     name = models.CharField(max_length=50)
