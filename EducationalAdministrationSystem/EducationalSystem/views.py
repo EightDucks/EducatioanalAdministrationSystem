@@ -1457,20 +1457,75 @@ def teacherUpldAsn(request,asn_id):
 	return HttpResponseRedirect("/EducationalSystem/teacher/Asn/" + str(asn_id) + "/")
 
 def exportAssignment(request, asn_id):
-    Team_asns = Team_Assignment.objects.filter(asn_id__id=asn_id)
+	Team_asns = Team_Assignment.objects.filter(asn_id__id=asn_id)
 
-    Teams = []
-    for team_asn in Team_asns:
-        row = []
-        row.append(team_asn.team_id.id)
-        row.append(team_asn.team_id.name)
-        if team_asn.submit_times == 0:
-            row.append('未提交')
-            row.append(0)
-        else:
-            row.append('已提交')
-            row.append(team_asn.mark)
-        Teams.append(row)
+	Teams = []
+	for team_asn in Team_asns:
+		row = []
+		row.append(team_asn.team_id.id)
+		row.append(team_asn.team_id.name)
+		if team_asn.submit_times == 0:
+			row.append('未提交')
+			row.append(0)
+		else:
+			row.append('已提交')
+			row.append(team_asn.mark)
+		Teams.append(row)
 
-    writeAssignment(Teams, asn_id)
+	xlsx = writeAssignment(Teams, Assignment.objects.get(id=asn_id).get)
+	print(xlsx)
 
+	return HttpResponseRedirect("/EducationalSystem/teacher/")
+
+def exportAllAssignment(request, course_id):
+	Teams = Team.objects.filter(course_id__id=course_id)
+	form = []
+	for team in Teams:
+		team_id = team.id
+		team_name = team.name
+		TAs = Team_Assignment.objects.filter(team_id__id=team_id).order_by('asn_id__id')
+		rows = []
+		rows.append([team_id, team_name, '', ''])
+		rows.append(['作业ID', '作业名称', '作业提交情况', '作业分数'])
+		for ta in TAs:
+			row = []
+			row.append(ta.asn_id.id)
+			row.append(ta.asn_id.name)
+			if ta.submit_times == 0:
+				row.append('未提交')
+				row.append(0)
+			else:
+				row.append('已提交')
+				row.append(ta.mark)
+			rows.append(row)
+		form.append(rows)
+
+	xlsx = writeAllAssignment(form, Course.objects.get(id=course_id).name)
+	print(xlsx)
+
+	return HttpResponseRedirect("/EducationalSystem/teacher/")
+
+def exportTeams(request, course_id):
+	Teams = Team.objects.filter(course_id__id=course_id, status=2)
+	form = []
+	for team in Teams:
+		STs = Student_Team.objects.filter(team_id__id=team.id)
+		rows = []
+		for st in STs:
+			student = Student.objects.get(id=st.student_id.id)
+			row = []
+			row.append(team.id)
+			row.append(team.name)
+			row.append(student.id)
+			row.append(student.name)
+			if (student.id==team.manager_id.id):
+				row.append('组长')
+			else:
+				row.append('组员')
+			rows.append(row)
+		form.append(rows)
+
+	xlsx = writeTeam(form, Course.objects.get(id=course_id).name)
+	print(xlsx)
+
+	return HttpResponseRedirect("/EducationalSystem/teacher/")

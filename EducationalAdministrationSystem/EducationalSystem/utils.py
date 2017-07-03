@@ -1,3 +1,4 @@
+from openpyxl import Workbook
 from openpyxl import workbook
 from openpyxl import load_workbook
 from openpyxl import worksheet
@@ -11,11 +12,11 @@ def readFromXLSX(path):
 
     return rows_len-1, ws_rows[1:rows_len]
 
-def writeAssignment(teams, asn_id):
-    wb = workbook()
+def writeAssignment(form, asn_name):
+    wb = Workbook()
     ws = wb.active
 
-    row_num = len(teams)
+    row_num = len(form)
 
     ws['A1'] = '团队ID'
     ws['B1'] = '团队名称'
@@ -23,14 +24,62 @@ def writeAssignment(teams, asn_id):
     ws['D1'] = '作业分数'
 
     for i in range(row_num):
-        ws['A'+str(i+2)] = teams[i][0]
-        ws['B'+str(i+2)] = teams[i][1]
-        ws['C'+str(i+2)] = teams[i][2]
-        ws['D'+str(i+2)] = teams[i][3]
+        ws['A'+str(i+2)] = form[i][0]
+        ws['B'+str(i+2)] = form[i][1]
+        ws['C'+str(i+2)] = form[i][2]
+        ws['D'+str(i+2)] = form[i][3]
 
-    save_path = '作业' + str(asn_id) +'.xlsx'
+    save_path = '作业' + asn_name +'报表.xlsx'
     wb.save(save_path)
 
+    return save_path
+
+def writeAllAssignment(form, course_name):
+    wb = Workbook()
+    ws = wb.active
+
+    row_num = len(form)
+    now = 0
+
+    for i in range(row_num):
+        if form[i][2]=='':
+            if i>0:
+                ws = wb.create_sheet()
+                now = 0
+            ws.title = form[i][1]
+
+        ws['A'+str(now+1)] = form[i][0]
+        ws['B'+str(now+1)] = form[i][1]
+        ws['C'+str(now+1)] = form[i][2]
+        ws['D'+str(now+1)] = form[i][3]
+
+        now = now + 1
+
+    save_path = '课程' + course_name +'作业报表.xlsx'
+    wb.save(save_path)
+
+    return save_path
+
+def writeTeam(form, course_name):
+    wb = Workbook()
+    ws = wb.active
+
+    row_num = len(form)
+
+    ws['A1'] = '团队ID'
+    ws['B1'] = '团队名称'
+    ws['C1'] = '学生学号'
+    ws['D1'] = '学生姓名'
+    ws['E1'] = '担任角色'
+
+    for i in range(row_num):
+        ws['A'+str(i+2)] = form[i][0]
+        ws['B'+str(i+2)] = form[i][1]
+        ws['C'+str(i+2)] = form[i][2]
+        ws['D'+str(i+2)] = form[i][3]
+        ws['E'+str(i+2)] = form[i][4]
+
+    save_path = '课程' + course_name +'团队报表.xlsx'
     return save_path
 
 def fileSystemResponse(Resources, Folders):
@@ -62,11 +111,20 @@ def deleteResource(path):
 
 
 if __name__ == '__main__':
-    r_len, r = readFromXLSX(path='test.xlsx')
+    form1 = [[1, 'storm', '已提交', 100],
+             [2, 'aaa', '未提交', 0]]
+    xlsx1 = writeAssignment(form1, '测试')
+    print(xlsx1)
 
-    print(r_len)
-
-    print(r[0], r[1])
-
-    print(r[0][0].value, r[0][1].value, r[0][2].value)
-    print(r[1][0].value, r[1][1].value, r[1][2].value)
+    form2 = [[1, 'storm', '', ''],
+             ['作业ID', '作业名称', '作业提交情况', '作业分数'],
+             [1, '分析', '已提交', 98],
+             [2, '开发', '已提交', 99],
+             [3, '测试', '已提交', 100],
+             [2, 'aaa', '', ''],
+             ['作业ID', '作业名称', '作业提交情况', '作业分数'],
+             [1, '分析', '未提交', 0],
+             [2, '开发', '未提交', 0],
+             [3, '测试', '未提交', 0]]
+    xlsx2 = writeAllAssignment(form2, '软工过程')
+    print(xlsx2)

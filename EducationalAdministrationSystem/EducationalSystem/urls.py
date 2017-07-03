@@ -92,5 +92,9 @@ urlpatterns = {
     url(r'^chat_index/(\d+)/$',views.chat_index, name='chat_index'),
     url(r'^chat/$',views.chat, name='chat'),
 
+    url(r'^exportAssignment/(\d+)/$', views.exportAssignment, name='exportAssignment'),
+    url(r'^exportAllAssignment/(\d+)/$', views.exportAllAssignment, name='exportAllAssignment'),
+    url(r'^exportTeams/(\d+)/$', views.exportTeams, name='exportTeams'),
+
 
 }
