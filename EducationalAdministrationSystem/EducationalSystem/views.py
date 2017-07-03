@@ -935,6 +935,9 @@ def returnSuperiorMenu(request):
 		course_id = request.GET['id']
 		virpath = request.GET['path']
 
+		if virpath == '/':
+			return HttpResponse('root')
+
 		splitted = virpath.split('/')
 		num = len(splitted)
 

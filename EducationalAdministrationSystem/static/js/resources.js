@@ -130,7 +130,6 @@ $(function(){
 
     //返回
     $back.live('click' , function(){
-        alert('确定返回？')
         setTimeout(
             function(){			
 				/*$('#divall').html('<li class="myfolder"><input type="text" class="changename" name="1" value="{{res.name}}"disabled="disabled"/><input class="checkbox" name="{{res.3id}}" type="checkbox" value="" /></li>');
@@ -151,7 +150,15 @@ $(function(){
                     type: "GET",
                     data: {id:courseid, path:filepath},
                     success: function (response) {
-                                $('#divall').html(response);
+								if(response=='root')
+								{
+									alert("已在根目录");
+								}
+								else
+								{
+									$('#divall').html(response);									
+								}
+
 							    //为下次点击绑定事件
 								 $('#divall li ').each(function () {
 									$(this).dblclick(function () {
@@ -191,12 +198,12 @@ $(function(){
                     type: "GET",
                     data: {id:courseid, path:filepath,flag:'2'},
                     success: function (response) {
-                                alert(response);
+                                //alert(response);
 								$('.filepath').attr("name",response);
 							},
                     }
                 )
-				alter("返回结束")
+				//alter("返回结束")
 				
             },250);
     }); 
@@ -209,7 +216,7 @@ $(function(){
         $(this).attr("id",'remove');
         
         btns.onclick = function(){//js 调用
-            alert('确定删除文件夹？');
+            alert('确定删除文件？');
             setTimeout(
                 function(){
 						var txt='',courseid=$('.msgtransfer').attr("name"),filepath=$('.filepath').attr("name");
@@ -277,7 +284,7 @@ $(function(){
 						})
 					})
 					//
-							},
+					},
                     }
 				)
 				$.ajax({
@@ -319,7 +326,6 @@ $(function(){
         }
     });
 
-    //纯属娱乐耍耍，如需更多功能亲们自行开发...............
 
 
 });
