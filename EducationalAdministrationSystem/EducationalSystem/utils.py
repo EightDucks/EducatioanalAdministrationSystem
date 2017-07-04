@@ -17,7 +17,7 @@ def readFromXLSX(path):
 
 def writeAssignment(form, asn_name):
     save_path = '作业' + asn_name +'报表.xlsx'
-    if os.path.exist(save_path):
+    if os.path.exists(save_path):
         os.remove(save_path)
 
     wb = Workbook()
@@ -42,7 +42,7 @@ def writeAssignment(form, asn_name):
 
 def writeAllAssignment(form, course_name):
     save_path = '课程' + course_name +'作业报表.xlsx'
-    if os.path.exist(save_path):
+    if os.path.exists(save_path):
         os.remove(save_path)
 
     wb = Workbook()
@@ -69,7 +69,7 @@ def writeAllAssignment(form, course_name):
 
 def writeTeam(form, course_name):
     save_path = '课程' + course_name +'团队报表.xlsx'
-    if os.path.exist(save_path):
+    if os.path.exists(save_path):
         os.remove(save_path)
 
     wb = Workbook()
@@ -100,7 +100,7 @@ def writeTeam(form, course_name):
 
 def writeGrade(form, course_name):
     save_path = '课程' + course_name + '成绩报表.xlsx'
-    if os.path.exist(save_path):
+    if os.path.exists(save_path):
         os.remove(save_path)
 
     wb = Workbook()

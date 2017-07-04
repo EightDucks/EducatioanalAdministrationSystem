@@ -836,7 +836,27 @@ def deleteResource(request):
         virpath = request.GET['path']
 
         for i in range(num):
-            Resource.objects.get(id=int(splitted[i])).delete()
+            res_id = int(splitted[i])
+            res = Resource.objects.get(id=res_id)
+            is_dir = res.is_dir
+            path = res.path
+            if is_dir:
+                resources = Resource.objects.filter(path__startswith=path, is_dir=False).order_by('is_dir')
+                folders = Resource.objects.filter(path__startswith=path, is_dir=True).order_by('-path')
+                for resource in resources:
+                    os.remove(resource.path)
+                    resource.delete()
+                for folder in folders:
+                    print(folder.id, folder.name, folder.path)
+                    os.rmdir(folder.path)
+                    folder.delete()
+
+
+                #resources.delete()
+                #os.removedirs(path)
+            else:
+                res.delete()
+                os.remove(path)
 
         Folders = Resource.objects.filter(course_id__id=course_id, is_dir=True)
         Resources = Resource.objects.filter(course_id__id=course_id, is_dir=False)
