@@ -1566,7 +1566,7 @@ def exportAssignment(request, asn_id):
             row.append(str(team_asn.mark))
         Teams.append(row)
 
-    xlsx = writeAssignment(Teams, Assignment.objects.get(id=asn_id).name)
+    xlsx = writeAssignment(Teams, asn_id)
     baseDir = os.path.dirname(os.path.abspath(__name__))
     filepath = os.path.join(baseDir, xlsx)
 
@@ -1579,6 +1579,7 @@ def exportAssignment(request, asn_id):
 
 def exportAllAssignment(request, course_id):
     Teams = Team.objects.filter(course_id__id=course_id)
+    cou = Course.objects.get(id=course_id)
     form = []
     for team in Teams:
         team_id = team.id
@@ -1600,9 +1601,24 @@ def exportAllAssignment(request, course_id):
             rows.append(row)
         form.append(rows)
 
-    xlsx = writeAllAssignment(form, Course.objects.get(id=course_id).name)
+    xlsx = writeAllAssignment(form, course_id)
     baseDir = os.path.dirname(os.path.abspath(__name__))
     filepath = os.path.join(baseDir, xlsx)
+
+    # def file_iterator(file_name, chunk_size=262144):
+    #     f = open(file_name, "rb")
+    #     while True:
+    #         c = f.read(chunk_size)
+    #         if c:
+    #             yield c
+    #         else:
+    #             break
+    #     f.close()
+    #
+    # response = HttpResponse(file_iterator(xlsx))
+    # response['Content-Type'] = 'application/vnd.ms-excel'
+    # response['Content-Disposition'] = 'attachment;filename="{0}"'.format(xlsx)
+
 
     response = HttpResponse()
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(xlsx)
@@ -1632,7 +1648,7 @@ def exportTeams(request, course_id):
             rows.append(row)
         form.append(rows)
 
-    xlsx = writeTeam(form, Course.objects.get(id=course_id).name)
+    xlsx = writeTeam(form, course_id)
     print(xlsx)
 
     baseDir = os.path.dirname(os.path.abspath(__name__))
@@ -1665,7 +1681,7 @@ def exportGrade(request, course_id):
             grade = grade + sg.weight
         form.append([stu_id, stu_name, grade])
 
-    xlsx = writeGrade(form, Course.objects.get(id=course_id).name)
+    xlsx = writeGrade(form, course_id)
     print(xlsx)
 
     baseDir = os.path.dirname(os.path.abspath(__name__))
