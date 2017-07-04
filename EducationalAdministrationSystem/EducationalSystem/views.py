@@ -628,11 +628,13 @@ def displayHwForTea(request, cou_id):
 def displayCourseInfo(request, course_id):
     course = Course.objects.get(id=course_id)
     term = course.term_id
+    cou_tea = Course_Teacher.objects.filter(course_id=course).values("teacher_id")
+    tea = Teacher.objects.filter(id__in=cou_tea)
     return render(request, 'teacher_set_course_basicinfo.html',
                   {'course_id':course.id, 'term_name':term.name,
                    'course_name':course.name, 'time':course.time,
                    'location':course.location, 'credit':course.credit,
-                   'hour':course.hour, "cou":course})
+                   'hour':course.hour, "cou":course, 'tea':tea})
 
 #展示单个作业，单独页面
 def displayHw(request, asn_id):
@@ -1002,7 +1004,9 @@ def downloadAllHomework(request, asn_id):
 def displayCouForStu(request, cou_id):
     cou = Course.objects.get(id=cou_id)
     term = cou.term_id
-    return render(request, "student_course_basicinfo.html", {'cou':cou, 'term':term})
+    cou_tea = Course_Teacher.objects.filter(course_id_id=cou_id).values("teacher_id")
+    tea = Teacher.objects.filter(id__in=cou_tea)
+    return render(request, "student_course_basicinfo.html", {'cou':cou, 'term':term, 'tea':tea})
 
 #展示学生所有作业页面，单独页面
 def displayHwForStu(request, cou_id):
