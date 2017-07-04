@@ -818,7 +818,7 @@ def downloadResource(request, down):
         utilities.toZip(tmp_dl_path, res.name)
     # utilities.close()
     response = StreamingHttpResponse(utilities.zip_file, content_type='application/zip')
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format("download.zip")
     print('download success')
     # dlResource(response)
     return response
@@ -903,7 +903,8 @@ def uploadHomework(request,asn_id):
     if request.method == 'POST' and 'id' in request.session and request.session['id']:
 
         sid = request.session['id']
-        stu = Student_Team.objects.get(student_id__id=sid)
+        asne = Assignment.objects.get(id=asn_id)
+        stu = Student_Team.objects.get(student_id__id=sid, team_id__course_id=asne.course_id)
         stu_team =stu.team_id
 
         strA = "assignment_attachment_"
@@ -978,7 +979,7 @@ def downloadHomework(request, asn_id, tid):
         utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
     # utilities.close()
     response = StreamingHttpResponse(utilities, content_type='application/zip')
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")#需要更改文件名
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format("download.zip")#需要更改文件名
     return response
 
 def downloadAllHomework(request, asn_id):
@@ -990,7 +991,7 @@ def downloadAllHomework(request, asn_id):
         utilities.write(tmp_dl_path, arcname=os.path.basename(tmp_dl_path))
     # utilities.close()
     response = StreamingHttpResponse(utilities, content_type='application/zip')
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format("下载.zip")  # 需要更改文件名
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format("download.zip")  # 需要更改文件名
     return response
 
 # def downloadHomework(request, asn_id, tid):
@@ -1049,7 +1050,7 @@ def displayStuHw(request, asn_id):
             for a_r in asn_res:
                 filename = a_r.path.split('/')
                 name = filename[-1]
-                names.append(name)
+                names.append((a_r.path,name))
             return render(request, "student_course_homework_watchdetails.html", {'cou': cou, 'asn': asn, "asn_res":asn_res, "tem_asn":tem_asn, "names":names, "grade":grade})
         else:
             tem_asn = Team_Assignment.objects.get(team_id__in=tem, asn_id=asn)
@@ -1064,7 +1065,7 @@ def displayStuHw(request, asn_id):
             for a_r in asn_res:
                 filename = a_r.path.split('/')
                 name = filename[-1]
-                names.append(name)
+                names.append((a_r.path,name))
             return render(request, "student_course_homework_watchdetails_manager.html", {'cou':cou, 'asn':asn, "asn_res":asn_res, "tem_asn":tem_asn, "stu_tem":s_t, "names":names, "grade":grade})
 
     return HttpResponseRedirect('/EducationalSystem/')
@@ -1726,4 +1727,13 @@ def exportGrade(request, course_id):
     content = open(filepath, 'rb').read()
     response.write(content)
 
+    return response
+
+def downloadOwnHw(request, path):
+    everypath = path.split('/')
+    filename = everypath[-1]
+    response = HttpResponse()
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename)
+    content = open(path, 'rb').read()
+    response.write(content)
     return response
