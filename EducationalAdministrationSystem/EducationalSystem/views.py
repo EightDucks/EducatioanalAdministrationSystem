@@ -677,6 +677,9 @@ def deleteAssignment(request, asn_id):
 #从excel中添加课程学生表条目
 def addCourseStudent(request, cid):
     if request.method == 'POST' :
+        if "fileupload" not in request.FILES or not request.FILES["fileupload"]:
+            messages.error(request, "上传失败")
+            return HttpResponseRedirect("/EducationalSystem/jiaowu_course/" + str(cid) + "/")
         myFiles = request.FILES["fileupload"]
 
 
@@ -693,7 +696,8 @@ def addCourseStudent(request, cid):
         if type == "xlsx":
             num, recs = readFromXLSX(filepath)
         else:
-            return
+            messages.error(request, "上传失败")
+            return HttpResponseRedirect("/EducationalSystem/jiaowu_course/" + str(cid) + "/")
 
         for i in range(num):
             #c_id = recs[i][0].value
@@ -711,6 +715,7 @@ def addCourseStudent(request, cid):
                     cour_stu.save()
                 else:
                     continue
+        messages.success(request,"上传成功")
         return HttpResponseRedirect("/EducationalSystem/jiaowu_course/" + str(cid) +"/")
     else:
         return HttpResponseRedirect("/EducationalSystem/jiaowu_course/" + str(cid) +"/")
