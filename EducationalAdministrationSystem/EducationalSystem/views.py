@@ -137,18 +137,7 @@ def displayCourseForStudent(request):
         student_course = Course_Student.objects.filter(student_id__id=sid)
         cou_id = student_course.values("course_id")
         cou = Course.objects.filter(term_id__id__in=thisTerm, id__in=cou_id)
-        if len(cou) < 3:
-            cou1 = cou[0:len(cou)]
-            cou2 = None
-            return render(request, "student.html", {'cou1': cou1, 'cou2': cou2})
-        elif len(cou) < 6:
-            cou1 = cou[0:3]
-            cou2 = cou[3:len(cou)]
-            return render(request, "student.html", {'cou1': cou1, 'cou2': cou2})
-        else:
-            cou1 = cou[0:3]
-            cou2 = cou[3:6]
-            return render(request, "student.html", {'cou1': cou1, 'cou2': cou2})
+        return render(request, "student.html", {'cou': cou})
     else:
         return HttpResponseRedirect("/EducationalSystem/")
     # if 'id' in request.GET and request.GET['id']:
@@ -168,16 +157,7 @@ def displayCourseForTeacher(request):
         teacher_course = Course_Teacher.objects.filter(teacher_id__id=tid)
         cou_id = teacher_course.values("course_id")
         cou = Course.objects.filter(term_id__id__in=thisTerm, id__in=cou_id)
-        if len(cou) < 3:
-            cou1 = cou[0:len(cou)]
-            cou2 = None
-        elif len(cou) < 6:
-            cou1 = cou[0:3]
-            cou2 = cou[3:len(cou)]
-        else:
-            cou1 = cou[0:3]
-            cou2 = cou[3:6]
-        return render(request, "teacher.html", {'cou1': cou1, 'cou2': cou2})
+        return render(request, "teacher.html", {'cou': cou})
     else:
         return HttpResponseRedirect("/EducationalSystem/")
 
@@ -265,16 +245,7 @@ def displayCourseForEA(request, t_id):
             t = Term.objects.get(id=t_id)
             thisTerm = t
         cou = Course.objects.filter(term_id__id=thisTerm.id)
-        if len(cou) < 3:
-            cou1 = cou[0:len(cou)]
-            cou2 = None
-        elif len(cou) < 6:
-            cou1 = cou[0:3]
-            cou2 = cou[3:len(cou)]
-        else:
-            cou1 = cou[0:3]
-            cou2 = cou[3:6]
-        return render(request, "jiaowu.html", {'terms': terms, 'cou1': cou1, 'cou2': cou2, 't_id': t_id, 'thisTerm': thisTerm})
+        return render(request, "jiaowu.html", {'terms': terms, 'cou': cou, 't_id': t_id, 'thisTerm': thisTerm})
     else:
         return HttpResponseRedirect("/EducationalSystem/")
 
