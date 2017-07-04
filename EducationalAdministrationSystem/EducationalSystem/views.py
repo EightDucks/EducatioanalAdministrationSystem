@@ -291,12 +291,29 @@ def changeTerm(request):
         return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
 #关闭学期
-def closeTerm(request):
-    if 'id' in request.GET and request.GET['id']:
-        name = request.GET['id']
-        term = Term.objects.get(id=id)
+def closeTerm(request, term_id):
+    try:
+        term = Term.objects.get(id=term_id)
         term.is_over = True
         term.save()
+        messages.success(request, "操作成功")
+        return HttpResponseRedirect("/EducationalSystem/jiaowu/"+term_id)
+    except:
+        messages.error(request, "操作失败")
+        return HttpResponseRedirect("/EducationalSystem/jiaowu/"+term_id)
+
+#解除学期
+def decloseTerm(request, term_id):
+    try:
+        term = Term.objects.get(id=term_id)
+        term.is_over = False
+        term.save()
+        messages.success(request, "操作成功")
+        return HttpResponseRedirect("/EducationalSystem/jiaowu/"+term_id)
+    except:
+        messages.error(request, "操作失败")
+        return HttpResponseRedirect("/EducationalSystem/jiaowu/"+term_id)
+
 
 
 # 添加课程，处理函数

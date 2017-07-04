@@ -54,6 +54,19 @@
                   该学期已经是当前学期
                 </button>
                 {% endif %}
+                <b class="dropdown">
+                  <button id="dLabel" class="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    更多操作
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dLabel">
+                    {% if thisTerm.is_over == False %}
+                    <li><a href="/EducationalSystem/jiaowu_closeterm/{{thisTerm.id}}">关闭当前学期</a></li>
+                    {% else %}
+                    <li><a href="/EducationalSystem/jiaowu_decloseterm/{{thisTerm.id}}">解除关闭当前学期</a></li>
+                    {% endif %}
+                  </ul>
+                </b>
             </h1>
           </div>
 
