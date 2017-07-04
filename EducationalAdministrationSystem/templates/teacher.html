@@ -59,20 +59,15 @@
               </div>
               {% endif %}
 
-                <!--</div>-->
-                <div class="row">
-                    {% for c in cou1 %}
+              <div>
+                <div class="row" id="course_row_0">
+                    {% for c in cou %}
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <a href="/EducationalSystem/teacher/course/{{c.id}}/">{{c.name}}</a>
                             </div>
                             <div class="panel-body">
-                                <!--<P>hello</P>-->
-                                <!--<p>学分: 2</p>-->
-                                <!--<p>课时: 32</p>-->
-                                <!--<p>上课时间： 周一，23节</p>-->
-                                <!--<p>上课地点： 工程训练中心317</p>-->
                                 <div class="myfont">
                                   开课学期：{{c.term_id.name}}
                                   {% if c.term_id.is_current == True %}
@@ -86,40 +81,19 @@
                             </div>
                         </div>
                     </div>
+                    {% if forloop.counter|divisibleby:3 %}
+                  </div>
+                  <div class="row" id="course_row_{% widthratio forloop.counter 3 1 %}">
+                    {% endif %}
                     {% endfor %}
 
                 </div>
+              </div>
+              <div style="display:none">
+                <input type="text" id="course_cnt" value="{{cou.count}}" />
+              </div>
                 <div class="row">
-                    {% for c in cou2 %}
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <a href="/EducationalSystem/teacher/course/{{c.id}}/">{{c.name}}</a>
-                            </div>
-                            <div class="panel-body">
-                                <!--<P>hello</P>-->
-                                <!--<p>学分: 2</p>-->
-                                <!--<p>课时: 32</p>-->
-                                <!--<p>上课时间： 周一，23节</p>-->
-                                <!--<p>上课地点： 工程训练中心317</p>-->
-                                <div class="myfont">
-                                  开课学期：{{c.term_id.name}}
-                                  {% if c.term_id.is_current == True %}
-                                  <strong>（当前学期）</strong>
-                                  {% endif %}
-                                </div>
-                                <div class="myfont">学分: {{c.credit}}</div>
-                                <div class="myfont">课时: {{c.hour}}</div>
-                                <div class="myfont">上课时间： {{c.time}}</div>
-                                <div class="myfont" >上课地点： {{c.location}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-                </div>
-                <div class="row">
-                    <ul class="pagination">
+                    <ul class="pagination" id="course_page_holder">
                         <li><a href="#"><</a></li>
                         <li><a href="#">1</a></li>
                         <li><a href="#">2</a></li>
@@ -151,6 +125,8 @@
     <script src="/static/js/addheader.js"></script>
     <!--添加教师页nav左边js-->
     <script src="/static/js/add_teacher_left.js"></script>
+    <!--课程列表切页js-->
+    <script src="/static/js/course_list.js"></script>
 
 </body>
 </html>

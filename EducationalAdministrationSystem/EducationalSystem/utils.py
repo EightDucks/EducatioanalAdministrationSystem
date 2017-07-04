@@ -16,7 +16,9 @@ def readFromXLSX(path):
     return rows_len-1, ws_rows[1:rows_len]
 
 def writeAssignment(form, asn_name):
+
     save_path = 'Assignment_' + asn_name +'_Form.xlsx'
+
     if os.path.exists(save_path):
         os.remove(save_path)
 
@@ -41,7 +43,9 @@ def writeAssignment(form, asn_name):
     return save_path
 
 def writeAllAssignment(form, course_name):
+
     save_path ='Course_' + course_name + '_Assignment_Form.xlsx'
+
     if os.path.exists(save_path):
         os.remove(save_path)
 
@@ -68,7 +72,9 @@ def writeAllAssignment(form, course_name):
     return save_path
 
 def writeTeam(form, course_name):
+
     save_path = 'Course_' + course_name +'_Team_Form.xlsx'
+
     if os.path.exists(save_path):
         os.remove(save_path)
 
@@ -99,7 +105,9 @@ def writeTeam(form, course_name):
     return save_path
 
 def writeGrade(form, course_name):
+
     save_path = 'Course_' + course_name + '_Student_Grade_Form.xlsx'
+
     if os.path.exists(save_path):
         os.remove(save_path)
 
