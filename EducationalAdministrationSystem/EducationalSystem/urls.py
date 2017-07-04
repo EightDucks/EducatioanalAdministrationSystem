@@ -97,6 +97,6 @@ urlpatterns = {
     url(r'^exportAssignment/(\d+)/$', views.exportAssignment, name='exportAssignment'),
     url(r'^exportAllAssignment/(\d+)/$', views.exportAllAssignment, name='exportAllAssignment'),
     url(r'^exportTeams/(\d+)/$', views.exportTeams, name='exportTeams'),
-
+    url(r'^exportGrade/(\d+)/$', views.exportGrade, name='exportGrade'),
 
 }
