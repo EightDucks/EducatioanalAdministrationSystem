@@ -13,7 +13,7 @@
         <!-- Custom Styles-->
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
-   
+
    <!--本页引用css-->
    <link href="/static/css/homework_watchdetails.css" rel="stylesheet" />
 
@@ -137,8 +137,9 @@
                                     提交作业管理
                                 </label>
                                 <button type="button" class="btn btn-success btn-sm" onclick="location.href='/EducationalSystem/teacher/dldAsn/a_id{{asn.id}}/'"><span class="glyphicon glyphicon-download"></span>下载所有作业</button>
+                                {% if cou.term_id.is_over == False %}
                                 <button type="button" class="btn btn-info btn-sm" id="btn-multi-assignment-upload"><span class="glyphicon glyphicon-upload"></span>上传所有批改后作业</button>
-                                <!--<button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-search"></span>查看全部作业报表</button>-->
+                                {% endif %}
                                 <button type="button" class="btn btn-warning btn-sm" onclick="location.href='/EducationalSystem/exportAssignment/{{asn.id}}/'"><span class="glyphicon glyphicon-download-alt"></span>下载作业报表</button>
 
                             </div>
@@ -196,7 +197,7 @@
                                                   <td class="center">
                                                       <input type="text" style="display:none" name="team_id" value="{{t.team_id.id}}">
                                                       <!--<input type="submit" class="btn btn-info btn-xs" value="详细信息"> </input>-->
-                                                      {%if t.is_corrected == 0　%}
+                                                      {%if t.is_corrected == 0　and  cou.term_id.is_over == False %}
                                                       <button type="submit" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/setGd/TA_id{{t.id}}/'">设置分数与评价</button>
                                                       {% endif %}
                                                       <button type="submit" class="btn btn-success btn-xs" onclick="location.href='/EducationalSystem/teacher/dldAsn/asn_id{{asn.id}}tid{{t.team_id.id}}/'">下载作业附件</button>

@@ -61,9 +61,9 @@
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="dLabel">
                     {% if thisTerm.is_over == False %}
-                    <li><a href="/EducationalSystem/jiaowu_closeterm/{{thisTerm.id}}">关闭当前学期</a></li>
+                    <li><a href="/EducationalSystem/jiaowu_closeterm/{{thisTerm.id}}">关闭该学期</a></li>
                     {% else %}
-                    <li><a href="/EducationalSystem/jiaowu_decloseterm/{{thisTerm.id}}">解除关闭当前学期</a></li>
+                    <li><a href="/EducationalSystem/jiaowu_decloseterm/{{thisTerm.id}}">解除关闭该学期</a></li>
                     {% endif %}
                   </ul>
                 </b>

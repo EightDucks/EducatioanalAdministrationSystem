@@ -13,7 +13,7 @@
     <!-- Custom Styles-->
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
     <!-- Google Fonts-->
-    
+
 
 
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
@@ -186,11 +186,13 @@
                                         <textarea id="description" class="form-control" name="description" rows="7" >{{cou.description}}</textarea>
                                     </div>
                                 </div>
+                                {% if cou.term_id.is_over == False %}
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <button id="submit_button" class="btn btn-default">提交</button>
                                     </div>
                                 </div>
+                                {% endif %}
 
                         </div>
                         <!--<div class="panel-body">-->
