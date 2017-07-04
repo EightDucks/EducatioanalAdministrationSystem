@@ -574,7 +574,7 @@ def addAssignment(request, cou_id):
             asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=dt_str, submit_limits =submit_limits, weight=weight, course_id=cou )
             asn.save()
 
-            tem = Team.objects.filter(course_id=cou)
+            tem = Team.objects.filter(course_id=cou, status=2)
 
             for t in tem:
                 t_a = Team_Assignment(asn_id=asn, team_id=t, submit_times=0)
@@ -1664,7 +1664,7 @@ def exportAssignment(request, asn_id):
     return response
 
 def exportAllAssignment(request, course_id):
-    Teams = Team.objects.filter(course_id__id=course_id)
+    Teams = Team.objects.filter(course_id__id=course_id, status=2)
     cou = Course.objects.get(id=course_id)
     form = []
     for team in Teams:
@@ -1750,23 +1750,42 @@ def exportTeams(request, course_id):
 def exportGrade(request, course_id):
     asn_list = Assignment.objects.filter(course_id__id=course_id)
     TA_list = Team_Assignment.objects.filter(asn_id__id__in=asn_list)
-    SGs = Student_Grade.objects.filter(team_asn_id__id__in=TA_list).order_by('student_id__id')
+    #SGs = Student_Grade.objects.filter(team_asn_id__id__in=TA_list).order_by('student_id__id')
 
-    num = len(SGs)
-    num_list = [0]
-    for i in range(num-1):
-        if SGs[i].student_id.id!=SGs[i+1].student_id.id:
-            num_list.append(i+1)
+    sc = Student_Grade.objects.filter(team_asn_id__id__in=TA_list).order_by('student_id__id').values('student_id').distinct()
 
-    form = []
-    for i in range(len(num_list)-1):
-        stu_id = SGs[num_list[i]].student_id.id
-        stu_name = Student.objects.get(id=stu_id).name
-        grade = 0
-        for sg in SGs[num_list[i]:num_list[i+1]]:
-            grade = grade + sg.weight
-        form.append([stu_id, stu_name, grade])
+    # num = len(SGs)
+    # num_list = [0]
+    # for i in range(num-1):
+    #     if SGs[i].student_id.id!=SGs[i+1].student_id.id:
+    #         num_list.append(i+1)
+    #     print(i)
 
+    num_list=[]
+    for s in sc:
+        num_list.append(s.get('student_id'))
+
+    print(num_list)
+
+    form =[]
+    for sid in num_list:
+        grade = 0.0
+        stu = Student.objects.get(id=sid)
+        sg = Student_Grade.objects.filter(team_asn_id__id__in=TA_list, student_id=stu)
+        for esg in sg:
+            asn_w = esg.team_asn_id.asn_id.weight
+            grade = grade + asn_w * esg.weight
+        grade = grade / 100
+        form.append([stu.id, stu.name, grade])
+    # form = []
+    # for i in range(len(num_list)-1):
+    #     stu_id = SGs[num_list[i]].student_id.id
+    #     stu_name = Student.objects.get(id=stu_id).name
+    #     grade = 0
+    #     for sg in SGs[num_list[i]:num_list[i+1]]:
+    #         grade = grade + sg.weight
+    #     form.append([stu_id, stu_name, grade])
+    #
     xlsx = writeGrade(form, course_id)
     print(xlsx)
 

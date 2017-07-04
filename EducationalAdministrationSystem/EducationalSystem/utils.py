@@ -100,6 +100,7 @@ def writeTeam(form, course_name):
             ws['C'+str(i+2)] = team[i][2]
             ws['D'+str(i+2)] = team[i][3]
             ws['E'+str(i+2)] = team[i][4]
+        now = now + 1
 
     wb.save(save_path)
     return save_path
