@@ -13,7 +13,7 @@
     <!-- Custom Styles-->
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
     <!-- Google Fonts-->
-    
+
 
 
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
@@ -150,19 +150,19 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">最大人数</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">8</label>
+                                      <label class="control-label" style="font-weight:normal;">{{cou.team_uplimit}}</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">最少人数</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">6</label>
+                                      <label class="control-label" style="font-weight:normal;">{{cou.team_downlimit}}</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">其他限制</label>
                                     <div class="col-sm-10">
-                                      <label class="control-label" style="font-weight:normal;">每组至少一位女生</label>
+                                      <label class="control-label" style="font-weight:normal;">{{cou.other_limit}}</label>
                                     </div>
                                 </div>
                             </form>
@@ -176,7 +176,7 @@
                                     <label class="col-sm-2 control-label">描述内容</label>
                                     <div class="col-sm-10">
                                         <!--仅可输入数字-->
-                                        <label class="control-label" style="font-weight:normal;">233
+                                        <label class="control-label" style="font-weight:normal;">{{cou.description}}
                                         </label>
                                     </div>
                                 </div>
