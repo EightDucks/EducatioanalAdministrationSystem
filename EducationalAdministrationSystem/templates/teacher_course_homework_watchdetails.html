@@ -170,6 +170,7 @@
                                         </thead>
                                         <tbody>
                                             {% for t in tem %}
+                                            {% if t.team_id.status == 2 %}
                                             <!--内容都在tbody里加-->
                                             <form>
                                               <tr class="gradeA">
@@ -197,13 +198,14 @@
                                                   <td class="center">
                                                       <input type="text" style="display:none" name="team_id" value="{{t.team_id.id}}">
                                                       <!--<input type="submit" class="btn btn-info btn-xs" value="详细信息"> </input>-->
-                                                      {%if t.is_corrected == 0　and  cou.term_id.is_over == False %}
+                                                      {%if t.is_corrected == 0　and cou.term_id.is_over == False %}
                                                       <button type="submit" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/setGd/TA_id{{t.id}}/'">设置分数与评价</button>
                                                       {% endif %}
                                                       <button type="submit" class="btn btn-success btn-xs" onclick="location.href='/EducationalSystem/teacher/dldAsn/asn_id{{asn.id}}tid{{t.team_id.id}}/'">下载作业附件</button>
                                                   </td>
                                               </tr>
                                             </form>
+                                            {% endif %}
                                             {% endfor %}
                                         </tbody>
                                     </table>

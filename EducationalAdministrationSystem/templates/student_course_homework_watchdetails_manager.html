@@ -128,7 +128,7 @@
                                         </div>
                                       </div>
                                   </div>
-                                  {% if ddl_status == 0 %}
+                                  {% if ddl_status == 0 and tem_asn.team_id.status == 2 and tem_asn.is_graded == False %}
                                   <div class="form-group">
                                       <label class="col-sm-2 control-label">上传作业</label>
                                       <div class="col-sm-10">
