@@ -1789,10 +1789,10 @@ def downloadOwnHw(request, asn_id):
                     yield c
                 else:
                     break
-    response = StreamingHttpResponse(file_iterator(filename))
+    response = StreamingHttpResponse(file_iterator(path))
     # response = HttpResponse()
     response['Content-Type'] = 'application/octet-stream'
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename)
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(path)
     # content = open(path, 'rb').read()
     # response.write(content)
     return response
