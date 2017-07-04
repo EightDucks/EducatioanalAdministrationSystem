@@ -13,7 +13,7 @@
         <!-- Custom Styles-->
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
-
+    <link href="/static/css/homework_watchdetails.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -60,7 +60,7 @@
               {% endif %}
 
               <div>
-                <div class="row" id="course_row_0">
+                <div class="row course_row" id="course_row_0">
                     {% for c in cou %}
                     <div class="col-md-4 col-sm-4">
                         <div class="panel panel-default">
@@ -83,7 +83,7 @@
                     </div>
                     {% if forloop.counter|divisibleby:3 %}
                   </div>
-                  <div class="row" id="course_row_{% widthratio forloop.counter 3 1 %}">
+                  <div class="row course_row" id="course_row_{% widthratio forloop.counter 3 1 %}">
                     {% endif %}
                     {% endfor %}
 
@@ -91,14 +91,12 @@
               </div>
               <div style="display:none">
                 <input type="text" id="course_cnt" value="{{cou.count}}" />
+                <input type="text" id="course_page" value="1" />
               </div>
                 <div class="row">
                     <ul class="pagination" id="course_page_holder">
-                        <li><a href="#"><</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">></a></li>
+                        <li id="course_page_previous"><a><</a></li>
+                        <li id="course_page_next"><a>></a></li>
                     </ul>
                 </div>
             </div>
