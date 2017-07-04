@@ -1075,7 +1075,7 @@ def displayStuHw(request, asn_id):
 
             tem_asn = Team_Assignment.objects.get(team_id=hisTem, asn_id=asn)
             asn_res = Assignment_Resource.objects.filter(team_asn_id=tem_asn)
-            stu_gd = Student_Grade.objects.get(team_asn_id=tem_asn, student_id=stu)
+            #stu_gd = Student_Grade.objects.get(team_asn_id=tem_asn, student_id=stu)
 
             #grade = stu_gd.weight * tem_asn
             names = []
