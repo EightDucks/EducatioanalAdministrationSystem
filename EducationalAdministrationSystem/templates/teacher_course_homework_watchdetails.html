@@ -182,15 +182,23 @@
                                                   {% endif %}
                                                   </td>
                                                   <!--<td>2017-6-26 12:00:00</td>-->
-
+                                                  {% if t.is_graded == 0 %}
                                                   <td class="center">未批改</td>
                                                   <td>
-                                                  成绩
+                                                  -
                                                   </td>
+                                                  {% else %}
+                                                  <td class="center">已批改</td>
+                                                  <td>
+                                                  {{t.mark}}
+                                                  </td>
+                                                  {% endif %}
                                                   <td class="center">
                                                       <input type="text" style="display:none" name="team_id" value="{{t.team_id.id}}">
                                                       <!--<input type="submit" class="btn btn-info btn-xs" value="详细信息"> </input>-->
+                                                      {%if t.is_graded == 0　%}
                                                       <button type="submit" class="btn btn-primary btn-xs" onclick="location.href='/EducationalSystem/teacher/setGd/TA_id{{t.id}}/'">设置分数与评价</button>
+                                                      {% endif %}
                                                       <button type="submit" class="btn btn-success btn-xs" onclick="location.href='/EducationalSystem/teacher/dldAsn/asn_id{{asn.id}}tid{{t.team_id.id}}/'">下载原始作业附件</button>
                                                   </td>
                                               </tr>

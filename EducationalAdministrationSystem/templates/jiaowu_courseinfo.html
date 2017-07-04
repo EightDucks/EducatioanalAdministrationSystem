@@ -113,11 +113,13 @@
                                       </div>
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label">授课教师</label>
-                                          {% for t in tea %}
+
                                           <div class="col-sm-3">
+                                          {% for t in tea %}
                                               <input type="text" value="{{ t.name }}" class="form-control" id="course_teacher" name="course_teacher" disabled>
-                                          </div>
                                           {% endfor %}
+                                          </div>
+
                                       </div>
                                       <div class="form-group">
                                           <label class="col-sm-2 control-label">上课地点</label>
