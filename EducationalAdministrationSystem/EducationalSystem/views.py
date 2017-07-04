@@ -383,15 +383,17 @@ def rewriteCourse(request):
             if strq not in request.GET:
                 break
             tea_num = request.GET[strq]
-            Tea = Teacher.objects.get(number=tea_num)
-            if not Tea:
-                return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+            Tea = Teacher.objects.filter(number=tea_num)
+            if Tea.count() < 1:
+                messages.error(request, "工号为 "+tea_num+" 的老师不存在")
+                return HttpResponseRedirect("/EducationalSystem/jiaowu_course/"+course_id)
             count = count + 1
             cou_tea = Course_Teacher(course_id=cou, teacher_id=Tea)
             cou_tea.save()
-
-        return HttpResponseRedirect("/EducationalSystem/jiaowu/")
+        messages.success(request, "操作成功")
+        return HttpResponseRedirect("/EducationalSystem/jiaowu_course/"+course_id)
     else:
+        messages.error(request, "操作失败")
         return HttpResponseRedirect("/EducationalSystem/jiaowu/")
 
 
