@@ -494,6 +494,7 @@ def setTeamAssignmentMark(request):
 #给作业成绩页面：教师
 def displaySetGrade(request, TA_id):
     ta = Team_Assignment.objects.get(id = TA_id)
+    messages.success(request,"设置作业成绩及评论-提交成功")
     return render(request, "teacher_setgrade.html", {'ta':ta})
     #return render_to_response("teacher_setgrade.html")
 
@@ -520,6 +521,7 @@ def displayAddAsn(request, cou_id):
 #添加作业，处理函数
 def addAssignment(request, cou_id):
 
+    url = ""
     if 	'assignment_name' in request.GET and request.GET['assignment_name'] and \
         'assignment_requirement' in request.GET and request.GET['assignment_requirement'] and \
         'assignment_starttime' in request.GET and request.GET['assignment_starttime'] and \
@@ -548,9 +550,11 @@ def addAssignment(request, cou_id):
         baseDir = os.path.dirname(os.path.abspath(__name__))
         filepath = os.path.join(baseDir, 'static', 'files', dirname, 'hw', str(asnname))
         os.makedirs(filepath)
+        messages.success(request,"新增作业-设置成功")
+        url = "/EducationalSystem/teacher/CouAsn/"+str(asn.course_id.id)+"/"
 
-
-    return HttpResponseRedirect("/EducationalSystem/teacher/")
+    return  HttpResponseRedirect(url)
+    # return HttpResponseRedirect("/EducationalSystem/teacher/")
 
 
 #展示修改作业页面，单独页面
@@ -584,9 +588,11 @@ def modifyAssignment(request, asn_id):
         asn.submit_limits = submit_limits
         asn.weight = weight
         asn.save()
+        messages.success(request, "修改作业-设置成功")
         return_url="/EducationalSystem/teacher/CouAsn/"+str(asn.course_id.id)
         return HttpResponseRedirect(return_url)
     else:
+        messages.warning(request,"修改作业失败-请重新填写")
         return HttpResponseRedirect("/EducationalSystem/teacher/")
 
 
