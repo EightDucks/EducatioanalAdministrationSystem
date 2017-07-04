@@ -20,6 +20,11 @@ $(function(){
             function(){
                 txt+=$(this).attr("name")+',';               
             })
+        if(txt==='')
+        {
+            layer.msg("请至少选择一个文件",{time: 2000 });
+            return false;
+        }
         layer.msg("开始下载",{time: 1000 });
         window.location.href='/EducationalSystem/resource/download/' + txt;
 		
