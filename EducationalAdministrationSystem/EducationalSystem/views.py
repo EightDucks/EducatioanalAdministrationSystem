@@ -1098,7 +1098,13 @@ def displayStuHw(request, asn_id):
                 filename = a_r.path.split('/')
                 name = filename[-1]
                 names.append((a_r.path,name))
-            return render(request, "student_course_homework_watchdetails_manager.html", {'cou':cou, 'asn':asn, "asn_res":asn_res, "tem_asn":tem_asn, "stu_tem":s_t, "names":names, "grade":grade})
+
+            # 判断是否已到DDL
+            if float(time.mktime(time.localtime())) >= float(time.mktime(time.strptime(asn.duetime,"%Y-%m-%d %H:%M:%S"))):
+                ddl_status = 1
+            else:
+                ddl_status = 0
+            return render(request, "student_course_homework_watchdetails_manager.html", {'cou':cou, 'asn':asn, "asn_res":asn_res, "tem_asn":tem_asn, "stu_tem":s_t, "names":names, "grade":grade, 'ddl_status':ddl_status})
 
     return HttpResponseRedirect('/EducationalSystem/')
 

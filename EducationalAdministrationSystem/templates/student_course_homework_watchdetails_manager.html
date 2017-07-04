@@ -13,7 +13,7 @@
         <!-- Custom Styles-->
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
-   
+
    <!--本页引用css-->
    <link href="/static/css/homework_watchdetails.css" rel="stylesheet" />
 
@@ -128,7 +128,7 @@
                                         </div>
                                       </div>
                                   </div>
-
+                                  {% if ddl_status == 0 %}
                                   <div class="form-group">
                                       <label class="col-sm-2 control-label">上传作业</label>
                                       <div class="col-sm-10">
@@ -149,6 +149,7 @@
                                           <input type="submit" class="btn btn-default" value="上传并提交"> </input>
                                       </div>
                                   </div>
+                                  {% endif %}
                                     {% if tem_asn.is_corrected == True %}
                                   <div class="form-group">
                                       <label class="col-sm-2 control-label">团队得分</label>
