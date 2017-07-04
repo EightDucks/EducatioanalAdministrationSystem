@@ -1748,7 +1748,7 @@ def exportGrade(request, course_id):
     num = len(SGs)
     num_list = [0]
     for i in range(num-1):
-        if SGs[i].student_id__id!=SGs[i+1].student_id__id:
+        if SGs[i].student_id.id!=SGs[i+1].student_id.id:
             num_list.append(i+1)
 
     form = []
