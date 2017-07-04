@@ -30,6 +30,7 @@ from django.shortcuts import render_to_response
 from django.contrib import messages
 
 from urllib.parse import quote
+import sys
 
 # 学生页左半部
 def student_left(request):
@@ -1109,7 +1110,7 @@ def displayStuHw(request, asn_id):
                 name = filename[-1]
                 # names.append((a_r.path,name))
                 names.append((quote(a_r.path),name))
-                print((quote(a_r.path))
+                print(quote(a_r.path))
 
             # 判断是否已到DDL
             if float(time.mktime(time.localtime())) >= float(time.mktime(time.strptime(asn.duetime,"%Y-%m-%d %H:%M:%S"))):
