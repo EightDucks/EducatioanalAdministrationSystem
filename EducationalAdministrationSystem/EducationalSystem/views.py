@@ -544,19 +544,25 @@ def addAssignment(request, cou_id):
     url = ""
     if 	'assignment_name' in request.GET and request.GET['assignment_name'] and \
         'assignment_requirement' in request.GET and request.GET['assignment_requirement'] and \
-        'assignment_starttime' in request.GET and request.GET['assignment_starttime'] and \
         'assignment_duetime' in request.GET and request.GET['assignment_duetime'] and \
         'maximum_submit' in request.GET and request.GET['maximum_submit'] and \
         'grade_ratio' in request.GET and request.GET['grade_ratio']:
 
         name = request.GET['assignment_name']
         requirement = request.GET['assignment_requirement']
-        starttime = request.GET['assignment_starttime']
+
+        import time
+        starttime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         duetime = request.GET['assignment_duetime']
         submit_limits = request.GET['maximum_submit']
         weight = request.GET['grade_ratio']
+
+        dt_buf = duetime.split('T')
+        dt_str = dt_buf[0]+' '+dt_buf[1]
+        print(dt_str)
+
         cou = Course.objects.get(id=cou_id)
-        asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=duetime, submit_limits =submit_limits, weight=weight, course_id=cou )
+        asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=st_str, submit_limits =submit_limits, weight=weight, course_id=cou )
         asn.save()
 
         tem = Team.objects.filter(course_id=cou)
@@ -588,23 +594,24 @@ def modifyAssignment(request, asn_id):
 
     if 'assignment_name' in request.GET and request.GET['assignment_name'] and \
         'assignment_requirement' in request.GET and request.GET['assignment_requirement'] and \
-        'assignment_starttime' in request.GET and request.GET['assignment_starttime'] and \
         'assignment_duetime' in request.GET and request.GET['assignment_duetime'] and \
         'maximum_submit' in request.GET and request.GET['maximum_submit'] and \
         'grade_ratio' in request.GET and request.GET['grade_ratio']:
 
         name = request.GET['assignment_name']
         requirement = request.GET['assignment_requirement']
-        starttime = request.GET['assignment_starttime']
         duetime = request.GET['assignment_duetime']
         submit_limits = request.GET['maximum_submit']
         weight = request.GET['grade_ratio']
 
+        dt_buf = duetime.split('T')
+        dt_str = dt_buf[0]+' '+dt_buf[1]
+        print(dt_str)
+
         asn = Assignment.objects.get(id=asn_id)
         asn.name = name
         asn.requirement = requirement
-        asn.starttime = starttime
-        asn.duetime = duetime
+        asn.duetime = dt_str
         asn.submit_limits = submit_limits
         asn.weight = weight
         asn.save()
