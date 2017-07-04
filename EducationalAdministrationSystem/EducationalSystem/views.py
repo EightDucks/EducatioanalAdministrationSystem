@@ -1753,7 +1753,7 @@ def exportGrade(request, course_id):
 
     form = []
     for i in range(len(num_list)-1):
-        stu_id = SGs[num_list[i]].student_id__id
+        stu_id = SGs[num_list[i]].student_id.id
         stu_name = Student.objects.get(id=stu_id).name
         grade = 0
         for sg in SGs[num_list[i]:num_list[i+1]]:
