@@ -13,7 +13,7 @@
         <!-- Custom Styles-->
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
-   
+
     <!--本页引用css-->
    <link href="/static/css/jiaowu_addcourse.css" rel="stylesheet" />
 </head>
@@ -81,7 +81,11 @@
                                           <div class="col-sm-10">
                                             <select id="selectterm" class="selectpicker" name="selectterm">
                                                 {% for t in tm %}
+                                                {% if t.id == course.term_id.id %}
+                                                <option value="{{t.id}}" selected="selected">{{t.name}}</option>
+                                                {% else %}
                                                 <option value="{{t.id}}">{{t.name}}</option>
+                                                {% endif %}
                                                 {% endfor %}
                                             </select>
                                           </div>
