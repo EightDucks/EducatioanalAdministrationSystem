@@ -4,6 +4,7 @@ from openpyxl import Workbook
 from openpyxl import workbook
 from openpyxl import load_workbook
 from openpyxl import worksheet
+import os
 
 def readFromXLSX(path):
     wb = load_workbook(path)
@@ -15,6 +16,10 @@ def readFromXLSX(path):
     return rows_len-1, ws_rows[1:rows_len]
 
 def writeAssignment(form, asn_name):
+    save_path = '作业' + asn_name +'报表.xlsx'
+    if os.path.exist(save_path):
+        os.remove(save_path)
+
     wb = Workbook()
     ws = wb.active
 
@@ -31,12 +36,15 @@ def writeAssignment(form, asn_name):
         ws['C'+str(i+2)] = form[i][2]
         ws['D'+str(i+2)] = form[i][3]
 
-    save_path = '作业' + asn_name +'报表.xlsx'
     wb.save(save_path)
 
     return save_path
 
 def writeAllAssignment(form, course_name):
+    save_path = '课程' + course_name +'作业报表.xlsx'
+    if os.path.exist(save_path):
+        os.remove(save_path)
+
     wb = Workbook()
     ws = wb.active
     now = 0
@@ -55,12 +63,15 @@ def writeAllAssignment(form, course_name):
 
         now = now + 1
 
-    save_path = '课程' + course_name +'作业报表.xlsx'
     wb.save(save_path)
 
     return save_path
 
 def writeTeam(form, course_name):
+    save_path = '课程' + course_name +'团队报表.xlsx'
+    if os.path.exist(save_path):
+        os.remove(save_path)
+
     wb = Workbook()
     ws = wb.active
     now = 0
@@ -84,7 +95,27 @@ def writeTeam(form, course_name):
             ws['D'+str(i+2)] = team[i][3]
             ws['E'+str(i+2)] = team[i][4]
 
-    save_path = '课程' + course_name +'团队报表.xlsx'
+    wb.save(save_path)
+    return save_path
+
+def writeGrade(form, course_name):
+    save_path = '课程' + course_name + '成绩报表.xlsx'
+    if os.path.exist(save_path):
+        os.remove(save_path)
+
+    wb = Workbook()
+    ws = wb.active
+    num = len(form)
+
+    ws['A1'] = '学生学号'
+    ws['B1'] = '学生姓名'
+    ws['C1'] = '总成绩'
+
+    for i in range(num):
+        ws['A'+str(i+1)] = form[i][0]
+        ws['B'+str(i+1)] = form[i][1]
+        ws['C'+str(i+1)] = form[i][2]
+
     wb.save(save_path)
     return save_path
 

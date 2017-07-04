@@ -1673,3 +1673,36 @@ def exportTeams(request, course_id):
     response.write(content)
 
     return response
+
+def exportGrade(request, course_id):
+    asn_list = Assignment.objects.filter(course_id__id=course_id)
+    TA_list = Team_Assignment.objects.filter(asn_id__id__in=asn_list)
+    SGs = Student_Grade.objects.filter(team_asn_id__id__in=TA_list).order_by('student_id__id')
+
+    num = len(SGs)
+    num_list = [0]
+    for i in range(num-1):
+        if SGs[i].student_id__id!=SGs[i+1].student_id__id:
+            num_list.append(i+1)
+
+    form = []
+    for i in range(len(num_list)-1):
+        stu_id = SGs[num_list[i]].student_id__id
+        stu_name = Student.objects.get(id=stu_id).name
+        grade = 0
+        for sg in SGs[num_list[i]:num_list[i+1]]:
+            grade = grade + sg.weight
+        form.append([stu_id, stu_name, grade])
+
+    xlsx = writeGrade(form, Course.objects.get(id=course_id).name)
+    print(xlsx)
+
+    baseDir = os.path.dirname(os.path.abspath(__name__))
+    filepath = os.path.join(baseDir, xlsx)
+
+    response = HttpResponse()
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(xlsx)
+    content = open(filepath, 'rb').read()
+    response.write(content)
+
+    return response
