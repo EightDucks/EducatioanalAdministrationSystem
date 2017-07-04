@@ -63,7 +63,7 @@ urlpatterns = {
     url(r'^student/Asn/(\d+)/$', views.displayStuHw, name='displayStuHw'),
     url(r'^student/setGd/(\d+)/$', views.setStuGrade, name='setStuGrade'),
 
-    url(r'^student/download/(.*)/$', views.downloadOwnHw, name='downloadOwnHw'),
+    url(r'^student/download/(\d+)/$', views.downloadOwnHw, name='downloadOwnHw'),
 
     url(r'resource/(\d+)/$', views.displayAllResource, name='displayAllResource'),
     url(r'resource/delete/$', views.deleteResource, name='deleteResource'),

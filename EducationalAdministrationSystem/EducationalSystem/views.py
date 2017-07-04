@@ -1091,9 +1091,7 @@ def displayStuHw(request, asn_id):
             for a_r in asn_res:
                 filename = a_r.path.split('/')
                 name = filename[-1]
-                # names.append((a_r.path,name))
-                names.append((quote(a_r.path.encode('utf-8')),name))
-                print(quote(a_r.path.encode('utf-8')))
+                names.append((a_r.path,name,a_r.id))
             return render(request, "student_course_homework_watchdetails.html", {'cou': cou, 'asn': asn, "asn_res":asn_res, "tem_asn":tem_asn, "names":names, "grade":grade})
         else:
             tem_asn = Team_Assignment.objects.get(team_id__in=tem, asn_id=asn)
@@ -1108,9 +1106,7 @@ def displayStuHw(request, asn_id):
             for a_r in asn_res:
                 filename = a_r.path.split('/')
                 name = filename[-1]
-                # names.append((a_r.path,name))
-                names.append((quote(a_r.path.encode('utf-8')),name))
-                print(quote(a_r.path.encode('utf-8')))
+                names.append((a_r.path,name,a_r.id))
 
             # 判断是否已到DDL
             if float(time.mktime(time.localtime())) >= float(time.mktime(time.strptime(asn.duetime,"%Y-%m-%d %H:%M:%S"))):
@@ -1799,10 +1795,13 @@ def exportGrade(request, course_id):
 
     return response
 
-def downloadOwnHw(request, path):
+def downloadOwnHw(request, asn_id):
+    asn_res = Assignment_Resource.objects.filter(id=asn_id)
+    path = asn_res[0].path
     everypath = path.split('/')
     filename = everypath[-1]
     response = HttpResponse()
+    response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename)
     content = open(path, 'rb').read()
     response.write(content)
