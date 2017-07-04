@@ -1783,7 +1783,7 @@ def downloadOwnHw(request, asn_id):
     filename = everypath[-1]
     response = HttpResponse()
     response['Content-Type'] = 'application/octet-stream'
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename)
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename.encode('utf8'))
     content = open(path, 'rb').read()
     response.write(content)
     return response
