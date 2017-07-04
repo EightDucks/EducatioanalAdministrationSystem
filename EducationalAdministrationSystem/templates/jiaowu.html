@@ -105,100 +105,44 @@
                 <!--<div class="myHeaderContainer">-->
                     <!--hello world-->
                 <!--</div>-->
-                <div class="row">
-                    {% for c in cou1 %}
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <a href="/EducationalSystem/jiaowu_course/{{c.id}}">{{c.name}}</a>
-                            </div>
-                            <div class="panel-body">
-                                <div class="myfont">学分: {{c.credit}}</div>
-                                <div class="myfont">课时: {{c.hour}}</div>
-                                <div class="myfont">上课时间： {{c.time}}</div>
-                                <div class="myfont" >上课地点： {{c.location}}</div>
-                            </div>
-                        </div>
+
+                <div>
+                  <div class="row" id="course_row_0">
+                      {% for c in cou %}
+                      <div class="col-md-4 col-sm-4">
+                          <div class="panel panel-default">
+                              <div class="panel-heading">
+                                  <a href="/EducationalSystem/teacher/course/{{c.id}}/">{{c.name}}</a>
+                              </div>
+                              <div class="panel-body">
+                                  <div class="myfont">学分: {{c.credit}}</div>
+                                  <div class="myfont">课时: {{c.hour}}</div>
+                                  <div class="myfont">上课时间： {{c.time}}</div>
+                                  <div class="myfont" >上课地点： {{c.location}}</div>
+                              </div>
+                          </div>
+                      </div>
+                      {% if forloop.counter|divisibleby:3 %}
                     </div>
-                    {% endfor %}
-                    <!--<div class="col-md-4 col-sm-4">-->
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading">-->
-                                <!--Default Panel-->
-                            <!--</div>-->
-                            <!--<div class="panel-body">-->
-                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-4 col-sm-4">-->
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading">-->
-                                <!--Default Panel-->
-                            <!--</div>-->
-                            <!--<div class="panel-body">-->
-                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                    <div class="row" id="course_row_{% widthratio forloop.counter 3 1 %}">
+                      {% endif %}
+                      {% endfor %}
+
+                  </div>
                 </div>
-                <div class="row">
-                    {% for c in cou2 %}
-                    <div class="col-md-4 col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <a href="/EducationalSystem/jiaowu_course/{{c.id}}">{{c.name}}</a>
-                            </div>
-                            <div class="panel-body">
-                                <div class="myfont">学分: {{c.credit}}</div>
-                                <div class="myfont">课时: {{c.hour}}</div>
-                                <div class="myfont">上课时间： {{c.time}}</div>
-                                <div class="myfont" >上课地点： {{c.location}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    <!--<div class="col-md-4 col-sm-4">-->
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading">-->
-                                <!--Default Panel-->
-                            <!--</div>-->
-                            <!--<div class="panel-body">-->
-                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-4 col-sm-4">-->
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading">-->
-                                <!--Default Panel-->
-                            <!--</div>-->
-                            <!--<div class="panel-body">-->
-                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-4 col-sm-4">-->
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading">-->
-                                <!--Default Panel-->
-                            <!--</div>-->
-                            <!--<div class="panel-body">-->
-                                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                <div style="display:none">
+                  <input type="text" id="course_cnt" value="{{cou.count}}" />
                 </div>
-                <div class="row">
-                    <ul class="pagination">
-                        <li><a href="#"><</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">></a></li>
-                    </ul>
-                </div>
-            </div>
+                  <div class="row">
+                      <ul class="pagination" id="course_page_holder">
+                          <li><a href="#"><</a></li>
+                          <li><a href="#">1</a></li>
+                          <li><a href="#">2</a></li>
+                          <li><a href="#">3</a></li>
+                          <li><a href="#">></a></li>
+                      </ul>
+                  </div>
+              </div>
              <!-- /. PAGE INNER  -->
         </div>
         </div>
@@ -220,6 +164,7 @@
     <!--<script src="assets/js/custom-scripts.js"></script>-->
     <!--添加教务、学生、教师页头部js-->
     <script src="/static/js/addheader.js"></script>
+    <script src="/static/js/course_list.js"></script>
 
 
 </body>
