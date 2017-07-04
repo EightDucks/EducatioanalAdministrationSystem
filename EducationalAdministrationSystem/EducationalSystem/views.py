@@ -688,8 +688,8 @@ def setStuGrade(request, t):
         st = cn - 1
         stu = stu_tem[st]
         stu_gd = Student_Grade(student_id=stu.student_id, team_asn_id=tem_asn)
-        f = f * float(tem_asn.mark)
-        stu_gd.weight = f
+        gd = float(f) * float(tem_asn.mark)
+        stu_gd.weight = gd
         stu_gd.save()
         cn = cn + 1
         strA = strq + str(cn)
