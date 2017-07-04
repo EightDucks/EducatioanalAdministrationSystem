@@ -511,6 +511,7 @@ def setTeamAssignmentCommentMark(request,TA_id):
         TA_tmp.mark = mark
         TA_tmp.is_corrected = True
         TA_tmp.save()
+        messages.success(request, "批改成功")
         return HttpResponseRedirect("/EducationalSystem/teacher/Asn/" + str(TA_tmp.asn_id.id) + "/")
 
 #展示添加作业页面，单独页面
