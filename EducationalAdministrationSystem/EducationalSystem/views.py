@@ -551,32 +551,35 @@ def addAssignment(request, cou_id):
         name = request.GET['assignment_name']
         requirement = request.GET['assignment_requirement']
 
-        import time
         starttime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         duetime = request.GET['assignment_duetime']
         submit_limits = request.GET['maximum_submit']
         weight = request.GET['grade_ratio']
 
         dt_buf = duetime.split('T')
-        dt_str = dt_buf[0]+' '+dt_buf[1]
+        dt_str = dt_buf[0]+' '+dt_buf[1]+":00"
         print(dt_str)
 
-        cou = Course.objects.get(id=cou_id)
-        asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=st_str, submit_limits =submit_limits, weight=weight, course_id=cou )
-        asn.save()
+        # 判断起始截止时间先后
+        if float(time.mktime(time.strptime(starttime,"%Y-%m-%d %H:%M:%S"))) >= float(time.mktime(time.strptime(dt_str,"%Y-%m-%d %H:%M:%S"))):
+            messages.error(request,"操作失败：起始时间在截止时间同时或之前")
+        else:
+            cou = Course.objects.get(id=cou_id)
+            asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=dt_str, submit_limits =submit_limits, weight=weight, course_id=cou )
+            asn.save()
 
-        tem = Team.objects.filter(course_id=cou)
+            tem = Team.objects.filter(course_id=cou)
 
-        for t in tem:
-            t_a = Team_Assignment(asn_id=asn, team_id=t, submit_times=0)
-            t_a.save()
+            for t in tem:
+                t_a = Team_Assignment(asn_id=asn, team_id=t, submit_times=0)
+                t_a.save()
 
-        dirname = "course" + str(cou_id)
-        asnname = asn.id
-        baseDir = os.path.dirname(os.path.abspath(__name__))
-        filepath = os.path.join(baseDir, 'static', 'files', dirname, 'hw', str(asnname))
-        os.makedirs(filepath)
-        messages.success(request,"新增作业-设置成功")
+            dirname = "course" + str(cou_id)
+            asnname = asn.id
+            baseDir = os.path.dirname(os.path.abspath(__name__))
+            filepath = os.path.join(baseDir, 'static', 'files', dirname, 'hw', str(asnname))
+            os.makedirs(filepath)
+            messages.success(request,"新增作业-设置成功")
         url = "/EducationalSystem/teacher/CouAsn/"+str(asn.course_id.id)+"/"
 
     return  HttpResponseRedirect(url)
@@ -605,7 +608,7 @@ def modifyAssignment(request, asn_id):
         weight = request.GET['grade_ratio']
 
         dt_buf = duetime.split('T')
-        dt_str = dt_buf[0]+' '+dt_buf[1]
+        dt_str = dt_buf[0]+' '+dt_buf[1]+":00"
         print(dt_str)
 
         asn = Assignment.objects.get(id=asn_id)
@@ -614,8 +617,13 @@ def modifyAssignment(request, asn_id):
         asn.duetime = dt_str
         asn.submit_limits = submit_limits
         asn.weight = weight
-        asn.save()
-        messages.success(request, "修改作业-设置成功")
+
+        # 判断起始截止时间先后
+        if float(time.mktime(time.strptime(asn.starttime,"%Y-%m-%d %H:%M:%S"))) >= float(time.mktime(time.strptime(dt_str,"%Y-%m-%d %H:%M:%S"))):
+            messages.error(request,"操作失败：起始时间在截止时间同时或之前")
+        else:
+            asn.save()
+            messages.success(request, "修改作业-设置成功")
         return_url="/EducationalSystem/teacher/CouAsn/"+str(asn.course_id.id)
         return HttpResponseRedirect(return_url)
     else:
