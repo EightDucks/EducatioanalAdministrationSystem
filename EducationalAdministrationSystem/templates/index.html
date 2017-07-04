@@ -65,7 +65,11 @@
             <div class="profile_details" style="padding-right: 20px;">
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown profile_details_drop"  style="margin-top:-15px;">
+                        {% if per %}
                         <a href="/EducationalSystem/profile/" class="dropdown-toggle" style="padding-bottom:5px;">
+                        {% %}
+                        <a href="#" class="dropdown-toggle" style="padding-bottom:5px;">
+                        {% endif %}
                             <div class="profile_img">
                                 <span class="prfil-img"><img src="/static/imgs/user.png" alt="" style="height:50px; width:50px; margin-right:30px;"> </span>
                                 <div class="user-name">
