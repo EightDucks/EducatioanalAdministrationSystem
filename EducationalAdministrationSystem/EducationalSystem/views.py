@@ -557,7 +557,10 @@ def addAssignment(request, cou_id):
         weight = request.GET['grade_ratio']
 
         dt_buf = duetime.split('T')
-        dt_str = dt_buf[0]+' '+dt_buf[1]+":00"
+        try:
+            dt_str = dt_buf[0]+' '+dt_buf[1]+":00"
+        except:
+            dt_str = duetime
         print(dt_str)
 
         # 判断起始截止时间先后
@@ -608,7 +611,10 @@ def modifyAssignment(request, asn_id):
         weight = request.GET['grade_ratio']
 
         dt_buf = duetime.split('T')
-        dt_str = dt_buf[0]+' '+dt_buf[1]+":00"
+        try:
+            dt_str = dt_buf[0]+' '+dt_buf[1]+":00"
+        except:
+            dt_str = duetime
         print(dt_str)
 
         asn = Assignment.objects.get(id=asn_id)
