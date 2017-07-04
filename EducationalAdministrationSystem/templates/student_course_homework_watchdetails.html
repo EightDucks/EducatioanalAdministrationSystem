@@ -13,7 +13,7 @@
         <!-- Custom Styles-->
     <link href="/static/css/jiaowu.css" rel="stylesheet" />
      <!-- Google Fonts-->
-   
+
    <!--本页引用css-->
    <link href="/static/css/homework_watchdetails.css" rel="stylesheet" />
 
@@ -122,7 +122,7 @@
                                           <label class="control-label" style="font-weight: normal; text-align: left;">目前无作业提交</label><br>
                                             {% else %}
                                             {% for n in names %}
-                                            <a href="/EducationalSystem/student/download/{{n.0}}/">{{n.1}}</a><br>
+                                            <a class="m_download_course" href="/EducationalSystem/student/download/{{n.0}}/">{{n.1}}</a><br>
                                             {% endfor %}
                                             {% endif %}
                                             <br>
@@ -182,6 +182,15 @@
     <script src="/static/js/addheader.js"></script>
     <!--添加学生页nav左边js-->
     <script src="/static/js/add_student_left.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.m_download_course').each(function(){
+          var href_val = $(this).attr("href");
+          var enurl_href_val = encodeURI(href_val);
+          $(this).attr("href",enurl_href_val);
+        })
+      })
+    </script>
 
 </body>
 </html>
