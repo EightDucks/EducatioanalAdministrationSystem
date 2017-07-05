@@ -574,7 +574,7 @@ def addAssignment(request, cou_id):
             asn = Assignment(name=name, requirement=requirement, starttime=starttime, duetime=dt_str, submit_limits =submit_limits, weight=weight, course_id=cou )
             asn.save()
 
-            tem = Team.objects.filter(course_id=cou, status=2)
+            tem = Team.objects.filter(course_id=cou)
 
             for t in tem:
                 t_a = Team_Assignment(asn_id=asn, team_id=t, submit_times=0)
